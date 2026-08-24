@@ -22,7 +22,7 @@ export function References() {
         {logos.map((client) => (
           <div
             key={client.name}
-            className="client-tile relative flex aspect-[5/2] items-center justify-center border border-[rgba(25,41,36,0.16)] bg-bone"
+            className="client-tile relative flex aspect-[5/2] items-center justify-center overflow-hidden rounded-[12px] border border-[rgba(25,41,36,0.16)] bg-bone"
           >
             {client.src ? (
               <Image

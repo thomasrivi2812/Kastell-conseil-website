@@ -100,15 +100,15 @@ repos et reprennent du corps au survol. Ils sont servis en `unoptimized` —
 l'optimiseur de Next refuse le SVG sans `dangerouslyAllowSVG`, et un vecteur
 n'a de toute façon rien à y gagner.
 
-**Deux fichiers sources sont à reprendre :**
+`google.svg` est arrivé avec **un « o » manquant** — le jaune, le plus clair,
+perdu au seuillage de la vectorisation : le logo se lisait « Go gle ». Réparé
+en dupliquant le « o » restant, un cercle identique, recentré dans l'espace
+laissé libre (écarts o→o et o→g mesurés à 11 px chacun).
 
-- `google.svg` — la vectorisation a **perdu les deux « o »** : le logo se lit
-  « Go gle ». Le rouge et le jaune de l'original sont passés du mauvais côté du
-  seuil de tracé. Il faut repartir d'un logo Google monochrome propre.
-- `region-bretagne.svg` — c'est la version **en négatif** : un carré noir avec
-  le logo détouré en blanc. Elle fonctionne, mais pèse visuellement bien plus
-  que les quatre autres, qui sont sur fond transparent. Préférer une version à
-  fond transparent.
+`region-bretagne.svg` reste la version **en négatif** : un carré noir avec le
+logo détouré en blanc. Elle fonctionne, mais pèse visuellement plus que les
+quatre autres, qui sont sur fond transparent. Une version à fond transparent
+l'alignerait sur le reste de la ligne.
 
 ### Retombées presse
 
