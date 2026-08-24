@@ -47,8 +47,7 @@ export const missions = [
 ] as const;
 
 export const founder = {
-  /** TODO: remplacer par le nom de la présidente fondatrice. */
-  name: "[ Prénom Nom ]",
+  name: "Léa de Lamotte",
   role: "Conseil en affaires publiques · Rennes",
   bio: [
     "Formée aux institutions et passée par les cabinets d'élus comme par la direction des affaires publiques d'un grand groupe, elle a fondé Kastell Conseil pour porter les enjeux des entreprises bretonnes engagées dans la transition écologique.",

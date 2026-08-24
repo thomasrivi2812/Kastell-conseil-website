@@ -47,8 +47,6 @@ attendent le contenu réel :
 
 | Élément | Où |
 | --- | --- |
-| Photo de la présidente fondatrice | déposer `public/brand/fondatrice.png` (format 4:5) — le placeholder de la maquette disparaît automatiquement |
-| Nom de la présidente fondatrice | `founder.name` dans `src/content/site.ts` |
 | URL LinkedIn | `site.linkedin` dans `src/content/site.ts` |
 | Logos clients (6) | `src/components/sections/References.tsx` |
 | Témoignages | `testimonials` dans `src/content/site.ts` |
