@@ -1,4 +1,9 @@
+import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
+import { findPublicAsset } from "@/lib/asset";
+
+/** Déposer le visuel dans public/brand/manifeste.(jpg|png|webp…) pour l'activer. */
+const backdrop = findPublicAsset("brand/manifeste");
 
 const stats = [
   { value: "15 ans", label: "d'expérience institutionnelle" },
@@ -9,9 +14,21 @@ export function Manifeste() {
   return (
     <section
       id="manifeste"
-      className="border-t border-[rgba(25,41,36,0.12)] bg-sand"
+      className="relative overflow-hidden border-t border-[rgba(25,41,36,0.12)] bg-sand"
     >
-      <div className="shell band-lg">
+      {backdrop ? (
+        <div aria-hidden className="manifeste-bg">
+          <Image
+            src={backdrop}
+            alt=""
+            fill
+            sizes="(max-width: 899px) 100vw, 62vw"
+            className="object-cover"
+          />
+        </div>
+      ) : null}
+
+      <div className="shell band-lg relative">
         <div className="grid-auto gap-[clamp(32px,6vw,90px)]">
           <Reveal>
             <p className="eyebrow mb-[22px]">Manifeste</p>

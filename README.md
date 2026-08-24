@@ -63,6 +63,25 @@ vérifications manuelles). État après corrections :
   en 64 px (3 Ko).
 - `robots.txt` et `sitemap.xml` générés depuis `site.url`.
 
+### Visuel de fond du manifeste
+
+Déposer une image dans `public/brand/manifeste.*` (jpg, png, webp, avif — le
+composant résout l'extension tout seul). Elle se place derrière le titre et
+s'efface en dégradé vers la colonne de texte ; sans fichier, la section reste
+telle que dans la maquette.
+
+L'opacité se règle via `--manifeste-opacity` dans `globals.css` (0.14 en
+desktop, 0.10 en mobile où le dégradé est resserré sur la zone du titre).
+Plus l'image est contrastée, plus il faut descendre pour préserver la
+lisibilité du texte.
+
+### Retombées presse
+
+Les trois articles sont dans `press` (`src/content/site.ts`). Les titres ont été
+repris des URL sources : les trois domaines sont inaccessibles depuis
+l'environnement de build, donc **les dates n'ont pas pu être relevées et ne sont
+pas affichées** — les ajouter manuellement si besoin.
+
 ### Header collant
 
 Le header est en `position: sticky`. Attention au conteneur qui l'entoure :
@@ -90,6 +109,8 @@ attendent le contenu réel :
 
 | Élément | Où |
 | --- | --- |
+| Visuel de fond du manifeste | déposer `public/brand/manifeste.jpg` (ou .png/.webp) — voir ci-dessous |
+| Dates des articles de presse | `press` dans `src/content/site.ts` |
 | URL LinkedIn | `site.linkedin` dans `src/content/site.ts` |
 | Logos clients (6) | `src/components/sections/References.tsx` |
 | Témoignages | `testimonials` dans `src/content/site.ts` |

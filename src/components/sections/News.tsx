@@ -76,10 +76,6 @@ export function News() {
             </a>
           ))}
         </Reveal>
-
-        <p className="placeholder-note mt-[22px] text-[11px]">
-          flux alimenté dynamiquement (widget / API LinkedIn)
-        </p>
       </div>
     </section>
   );

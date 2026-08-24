@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { founder } from "@/content/site";
+import { founder, press } from "@/content/site";
 
 /**
  * The canvas ships a hatched placeholder for the portrait. Drop the real 4:5
@@ -65,6 +65,34 @@ export function APropos() {
                 {founder.quote}
               </p>
             </blockquote>
+
+            <div className="mt-[clamp(30px,4vw,44px)] border-t border-[rgba(226,240,248,0.2)] pt-[22px]">
+              <p className="m-0 mb-[14px] font-sans text-[12px] font-medium uppercase tracking-[0.22em] text-mist">
+                Dans la presse
+              </p>
+              <ul className="m-0 flex list-none flex-col gap-[10px] p-0">
+                {press.map((article) => (
+                  <li key={article.href}>
+                    <a
+                      href={article.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="press-link block max-w-[58ch] text-[15px] leading-[1.6] text-[rgba(226,240,248,0.82)] hover:text-white"
+                    >
+                      <span className="font-sans text-[12px] uppercase tracking-[0.14em] text-frost">
+                        {article.outlet}
+                      </span>
+                      <span className="mx-2 text-[rgba(184,207,206,0.5)]">·</span>
+                      {article.title}
+                      <span className="ml-1.5 inline-block" aria-hidden>
+                        ↗
+                      </span>
+                      <span className="sr-only"> (nouvelle fenêtre)</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </Reveal>
         </div>
       </div>

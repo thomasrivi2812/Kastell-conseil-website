@@ -61,6 +61,32 @@ export const founder = {
   photo: "/brand/fondatrice.png",
 } as const;
 
+/**
+ * Retombées presse. Titres repris des URL sources ; les dates ne sont pas
+ * renseignées faute d'avoir pu ouvrir les articles — ajouter `date` ici si
+ * besoin, l'affichage la reprend automatiquement.
+ */
+export const press = [
+  {
+    outlet: "Ouest-France",
+    title:
+      "Elle crée le premier cabinet d'affaires publiques dans le pays de Lamballe",
+    href: "https://www.ouest-france.fr/economie/entreprises/elle-cree-le-premier-cabinet-daffaires-publiques-dans-le-pays-de-lamballe-841a2d3a-a91d-11f0-a84e-0a4f72002724",
+  },
+  {
+    outlet: "Bretagne Économique",
+    title:
+      "Léa de Lamotte crée Kastell Conseil, spécialisé dans le lobbying engagé et les affaires publiques",
+    href: "https://www.bretagne-economique.com/actualites/lea-de-lamotte-cree-kastell-conseil-specialise-dans-le-lobbying-engage-et-les-affaires-publiques/",
+  },
+  {
+    outlet: "Femmes de Bretagne",
+    title:
+      "Léa de Lamotte, entrepreneure engagée au service des territoires bretons",
+    href: "https://www.femmesdebretagne.fr/articles/197488-lea-de-lamotte-entrepreneure-engagee-au-service-des-territoires-bretons",
+  },
+] as const;
+
 export const testimonials = [
   {
     quote:
