@@ -11,6 +11,14 @@ export const site = {
   showNews: true,
 } as const;
 
+export const manifeste = {
+  /**
+   * Visuel de fond, chemin sous public/ SANS extension : findPublicAsset
+   * résout le format réel du fichier. Laisser vide pour retirer le fond.
+   */
+  backdrop: "brand/photoorga",
+} as const;
+
 export const nav = [
   { label: "Manifeste", href: "/#manifeste" },
   { label: "Missions", href: "/missions" },

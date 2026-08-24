@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
+import { manifeste } from "@/content/site";
 import { findPublicAsset } from "@/lib/asset";
 
-/** Déposer le visuel dans public/brand/manifeste.(jpg|png|webp…) pour l'activer. */
-const backdrop = findPublicAsset("brand/manifeste");
+const backdrop = manifeste.backdrop
+  ? findPublicAsset(manifeste.backdrop)
+  : null;
 
 const stats = [
   { value: "15 ans", label: "d'expérience institutionnelle" },
@@ -23,6 +25,7 @@ export function Manifeste() {
             alt=""
             fill
             sizes="(max-width: 899px) 100vw, 62vw"
+            quality={55}
             className="object-cover"
           />
         </div>

@@ -318,11 +318,13 @@
 
   /* ---- fond du manifeste ----
    * Le visuel se tient derrière le titre et s'efface vers la colonne de texte.
-   * Ajuster --manifeste-opacity selon l'image livrée : plus l'image est
-   * contrastée, plus il faut descendre pour préserver la lisibilité.
+   * Le dégradé vertical ne démarre qu'APRÈS l'accroche « Manifeste » : ce petit
+   * texte sage ne dispose que de 4,54:1 sur le fond sable, donc le moindre
+   * assombrissement le fait passer sous le seuil AA. Le grand titre, lui, garde
+   * une marge confortable. Ajuster --manifeste-opacity selon l'image livrée.
    */
   .manifeste-bg {
-    --manifeste-opacity: 0.14;
+    --manifeste-opacity: 0.2;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -338,8 +340,9 @@
       ),
       linear-gradient(
         to bottom,
-        transparent 0%,
-        #000 20%,
+        transparent 0px,
+        transparent 150px,
+        #000 225px,
         #000 78%,
         transparent 100%
       );
@@ -347,8 +350,9 @@
     mask-image: linear-gradient(to right, #000 0%, #000 38%, transparent 96%),
       linear-gradient(
         to bottom,
-        transparent 0%,
-        #000 20%,
+        transparent 0px,
+        transparent 150px,
+        #000 225px,
         #000 78%,
         transparent 100%
       );
@@ -358,21 +362,25 @@
   /* En une seule colonne, le titre occupe toute la largeur : le fondu descend. */
   @media (max-width: 899px) {
     .manifeste-bg {
-      --manifeste-opacity: 0.1;
+      --manifeste-opacity: 0.16;
       width: 100%;
       /* Resserré sur la zone du titre : au-delà, le visuel concurrence le texte. */
       -webkit-mask-image: linear-gradient(
         to bottom,
-        #000 0%,
-        #000 16%,
-        transparent 44%
+        transparent 0px,
+        transparent 95px,
+        #000 155px,
+        #000 34%,
+        transparent 56%
       );
       -webkit-mask-composite: source-over;
       mask-image: linear-gradient(
         to bottom,
-        #000 0%,
-        #000 16%,
-        transparent 44%
+        transparent 0px,
+        transparent 95px,
+        #000 155px,
+        #000 34%,
+        transparent 56%
       );
       mask-composite: add;
     }

@@ -58,9 +58,9 @@ vérifications manuelles). État après corrections :
 - **Cibles tactiles ≥ 24 px** (WCAG 2.2) sur les liens de navigation et de pied
   de page, élargies via `.hit-area` — un pseudo-élément, donc sans décaler la
   mise en page.
-- **Poids de la page divisé par deux** (210 → 116 Ko) : le favicon pointait sur
-  le PNG de la marque en pleine résolution (94 Ko), remplacé par `app/icon.png`
-  en 64 px (3 Ko).
+- **Poids des images et polices divisé par deux** (210 → 116 Ko) : le favicon
+  pointait sur le PNG de la marque en pleine résolution (94 Ko), remplacé par
+  `app/icon.png` en 64 px (3 Ko). La mesure ne couvre pas les bundles JS.
 - `robots.txt` et `sitemap.xml` générés depuis `site.url`.
 
 ### Visuel de fond du manifeste
@@ -70,10 +70,21 @@ composant résout l'extension tout seul). Elle se place derrière le titre et
 s'efface en dégradé vers la colonne de texte ; sans fichier, la section reste
 telle que dans la maquette.
 
-L'opacité se règle via `--manifeste-opacity` dans `globals.css` (0.14 en
-desktop, 0.10 en mobile où le dégradé est resserré sur la zone du titre).
-Plus l'image est contrastée, plus il faut descendre pour préserver la
-lisibilité du texte.
+Le visuel actuel est `photoorga.png`, désigné par `manifeste.backdrop` dans
+`src/content/site.ts` (chemin **sans extension** : le helper résout le format
+réel). Vider la valeur retire le fond.
+
+L'opacité se règle via `--manifeste-opacity` dans `globals.css` (0.20 en
+desktop, 0.16 en mobile). **Attention au contraste** : l'accroche « Manifeste »
+ne dispose que de 4,54:1 sur le fond sable, donc le moindre assombrissement la
+fait passer sous le seuil AA — le dégradé vertical ne démarre volontairement
+qu'en dessous d'elle (150 px en desktop, 95 px en mobile). Le grand titre, lui,
+garde plus de 8:1. Vérifier ces deux valeurs si l'image ou les paddings changent.
+
+La qualité JPEG/WebP est forcée à 55 pour ce visuel (invisible à 20 % d'opacité
+derrière un masque, 144 → 112 Ko). Next 16 refusant toute qualité non déclarée,
+elle est listée dans `images.qualities` de `next.config.mjs` ; sans cela le
+`quality` est ignoré en silence.
 
 ### Retombées presse
 
