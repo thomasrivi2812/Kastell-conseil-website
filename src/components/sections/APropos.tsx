@@ -16,7 +16,7 @@ export function APropos() {
   return (
     <section id="apropos" className="band-dark">
       <div className="shell band-lg">
-        <div className="grid items-start gap-[clamp(32px,5vw,80px)] [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+        <div className="grid gap-[clamp(32px,5vw,80px)] [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
           <Reveal
             as="figure"
             className="relative m-0 flex min-h-[clamp(320px,38vw,520px)] items-end overflow-hidden border border-[rgba(226,240,248,0.14)] bg-[rgba(226,240,248,0.06)] p-6 [background-image:repeating-linear-gradient(135deg,rgba(226,240,248,0.06)_0_2px,transparent_2px_12px)]"
@@ -84,7 +84,9 @@ export function APropos() {
                       </span>
                       <span className="mx-2 text-[rgba(184,207,206,0.5)]">·</span>
                       {article.title}
-                      <span className="ml-1.5 inline-block" aria-hidden>
+                      {/* Insécable : sans elle la flèche s'isole en fin de ligne. */}
+                      {"\u00A0"}
+                      <span className="inline-block" aria-hidden>
                         ↗
                       </span>
                       <span className="sr-only"> (nouvelle fenêtre)</span>
