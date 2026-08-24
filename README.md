@@ -63,6 +63,21 @@ vérifications manuelles). État après corrections :
   en 64 px (3 Ko).
 - `robots.txt` et `sitemap.xml` générés depuis `site.url`.
 
+### Header collant
+
+Le header est en `position: sticky`. Attention au conteneur qui l'entoure :
+la maquette l'enveloppe dans un `overflow-x: hidden`, ce qui force
+`overflow-y` à `auto` et en fait une zone de défilement — `sticky` s'y accroche
+alors au lieu de s'accrocher à la fenêtre, et le header repart avec le contenu.
+Le wrapper utilise donc `overflow-x: clip`, qui découpe sans créer de zone de
+défilement. Ne pas le repasser à `hidden`.
+
+Sa hauteur varie (75 px, 132 px quand la navigation passe sur deux lignes en
+mobile) : le composant publie la valeur mesurée dans `--header-h` via un
+`ResizeObserver`, et `globals.css` s'en sert pour le `scroll-margin-top` des
+sections ancrées. La valeur en dur dans le CSS ne sert que d'amorce avant
+hydratation.
+
 Les animations sont exclusivement en `transform` / `opacity` — aucune ne décale
 la mise en page, et la hauteur de chaque section reste identique à l'artboard.
 `prefers-reduced-motion: reduce` les neutralise toutes, y compris la dérive du

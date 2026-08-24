@@ -11,7 +11,7 @@ import { site } from "@/content/site";
 
 export default function Home() {
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className="w-full overflow-x-clip">
       <Header />
       <main id="contenu">
         <Hero />

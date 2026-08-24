@@ -2,11 +2,33 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { nav } from "@/content/site";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  /**
+   * Publish the real header height so anchored sections can clear it. It is
+   * not a constant: the nav wraps on narrow viewports (75px -> 132px), so a
+   * hardcoded breakpoint would drift. globals.css ships 75px as the pre-hydration
+   * default.
+   */
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const publish = () =>
+      document.documentElement.style.setProperty(
+        "--header-h",
+        `${Math.round(node.getBoundingClientRect().height)}px`,
+      );
+    publish();
+    if (typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(publish);
+    ro.observe(node);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     let frame = 0;
@@ -27,6 +49,7 @@ export function Header() {
 
   return (
     <header
+      ref={ref}
       data-scrolled={scrolled}
       className="site-header sticky top-0 z-50 border-b border-[rgba(25,41,36,0.10)] bg-[rgba(250,249,246,0.92)] backdrop-blur-[10px]"
     >

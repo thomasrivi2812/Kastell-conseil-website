@@ -8,8 +8,20 @@
  */
 
 @layer base {
+  :root {
+    /* Header collant : logo 38px + 2 x 18px de padding + 1px de filet. */
+    --header-h: 75px;
+  }
+
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Sans cela, les ancres se rangent sous le header collant. */
+  :target,
+  section[id],
+  main[id] {
+    scroll-margin-top: calc(var(--header-h) + 8px);
   }
 
   body {

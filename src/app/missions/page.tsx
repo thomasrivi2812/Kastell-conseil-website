@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function MissionsPage() {
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className="w-full overflow-x-clip">
       <Header />
       <main id="contenu">
         <section className="shell pb-[clamp(40px,6vw,72px)] pt-[clamp(56px,9vw,120px)]">
@@ -33,7 +33,7 @@ export default function MissionsPage() {
           <section
             key={mission.slug}
             id={mission.slug}
-            className={`hairline-top scroll-mt-[88px] ${
+            className={`hairline-top ${
               i % 2 === 1 ? "bg-sand" : ""
             }`}
           >
