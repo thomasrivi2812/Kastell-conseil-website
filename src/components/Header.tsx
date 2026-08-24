@@ -15,7 +15,8 @@ export function Header() {
             width={2500}
             height={737}
             priority
-            className="block h-[38px] w-auto"
+            sizes="129px"
+            className="block aspect-[2500/737] h-[38px] w-auto"
           />
         </Link>
 

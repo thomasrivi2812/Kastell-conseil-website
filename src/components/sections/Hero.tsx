@@ -15,7 +15,8 @@ export function Hero() {
         width={2500}
         height={2407}
         priority
-        className="pointer-events-none absolute right-[-8%] top-1/2 w-[min(46vw,620px)] -translate-y-1/2 opacity-[0.06]"
+        sizes="(max-width: 1348px) 46vw, 620px"
+        className="pointer-events-none absolute right-[-8%] top-1/2 aspect-[2500/2407] w-[min(46vw,620px)] -translate-y-1/2 opacity-[0.06]"
       />
 
       <div className="shell relative w-full py-[clamp(72px,11vw,150px)]">

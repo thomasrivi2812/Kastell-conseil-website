@@ -43,6 +43,7 @@ export function News() {
                   aria-hidden
                   width={2500}
                   height={2407}
+                  sizes="42px"
                   className="h-[42px] w-[42px] shrink-0 rounded-[9px] bg-sand object-contain p-1.5"
                 />
                 <div className="flex min-w-0 flex-col gap-0.5">

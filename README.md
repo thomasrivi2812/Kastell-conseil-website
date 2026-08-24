@@ -1,7 +1,7 @@
 # Kastell Conseil — site web
 
 Site vitrine de **Kastell Conseil** (conseil en affaires publiques, lobbying et
-communication d'influence — Rennes). Next.js 15 (App Router) + Tailwind CSS,
+communication d'influence — Rennes). Next.js 16 (App Router) + Tailwind CSS,
 prêt à déployer sur Vercel.
 
 La page d'accueil est une reproduction fidèle de la maquette Claude Design :

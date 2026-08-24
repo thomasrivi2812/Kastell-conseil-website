@@ -17,7 +17,8 @@ export function Footer() {
               alt="Kastell — Conseil & lobbying engagé"
               width={2500}
               height={737}
-              className="mb-[22px] block h-[44px] w-auto"
+              sizes="149px"
+              className="mb-[22px] block aspect-[2500/737] h-[44px] w-auto"
             />
             <p className="m-0 max-w-[30ch] text-[15px] leading-[1.7]">
               Conseil en affaires publiques, lobbying et communication
