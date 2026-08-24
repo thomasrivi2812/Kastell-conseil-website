@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const EXTENSIONS = ["jpg", "jpeg", "png", "webp", "avif"] as const;
+const EXTENSIONS = ["svg", "jpg", "jpeg", "png", "webp", "avif"] as const;
 
 /**
  * Résout un visuel optionnel de public/ sans présumer de son extension —

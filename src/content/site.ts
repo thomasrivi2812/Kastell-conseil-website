@@ -60,16 +60,13 @@ export const missions = [
  * Logos clients. `file` est un chemin sous public/ SANS extension : le helper
  * findPublicAsset résout le format réel. Tant qu'un fichier manque, la tuile
  * affiche le nom du client à la place, comme dans la maquette.
- *
- * `dark: true` pose la tuile sur fond forêt, pour un logo blanc/inversé qui
- * serait illisible sur le fond clair.
  */
 export const clients = [
-  { name: "Ville de Rennes", file: "brand/clients/ville-de-rennes" },
-  { name: "Région Bretagne", file: "brand/clients/region-bretagne", dark: true },
-  { name: "Breizh Cola", file: "brand/clients/breizh-cola" },
-  { name: "NDC", file: "brand/clients/ndc" },
-  { name: "Google", file: "brand/clients/google" },
+  { name: "Ville de Rennes", file: "brand/ville-de-rennes" },
+  { name: "Région Bretagne", file: "brand/region-bretagne" },
+  { name: "Breizh Cola", file: "brand/breizh-cola" },
+  { name: "NDC", file: "brand/ndc" },
+  { name: "Google", file: "brand/google" },
 ] as const;
 
 export const founder = {

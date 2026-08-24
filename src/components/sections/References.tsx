@@ -22,11 +22,7 @@ export function References() {
         {logos.map((client) => (
           <div
             key={client.name}
-            className={`client-tile relative flex aspect-[5/2] items-center justify-center border border-[rgba(25,41,36,0.16)] ${
-              client.src && "dark" in client && client.dark
-                ? "bg-forest"
-                : "bg-bone"
-            }`}
+            className="client-tile relative flex aspect-[5/2] items-center justify-center border border-[rgba(25,41,36,0.16)] bg-bone"
           >
             {client.src ? (
               <Image
@@ -34,6 +30,7 @@ export function References() {
                 alt={client.name}
                 fill
                 sizes="220px"
+                unoptimized
                 className="client-logo object-contain px-5 py-3"
               />
             ) : (

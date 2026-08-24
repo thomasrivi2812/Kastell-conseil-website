@@ -476,24 +476,17 @@
 
   .client-tile:hover {
     border-color: rgba(25, 41, 36, 0.4);
-  }
-
-  /* Le fond blanc au survol écraserait les tuiles sombres. */
-  .client-tile.bg-bone:hover {
     background: #ffffff;
   }
 
-  /* Les logos clients arrivent dans des chartes très différentes (multicolore,
-   * rouge, bleu marine). Désaturés au repos, ils forment une ligne cohérente
-   * avec la charte ; la couleur revient au survol. */
+  /* Les logos livrés sont des tracés monochromes : une simple atténuation
+   * suffit à les fondre dans la charte, ils reprennent du corps au survol. */
   .client-logo {
-    filter: grayscale(1);
-    opacity: 0.62;
-    transition: filter 400ms ease, opacity 400ms ease;
+    opacity: 0.55;
+    transition: opacity 400ms ease;
   }
 
   .client-tile:hover .client-logo {
-    filter: grayscale(0);
     opacity: 1;
   }
 

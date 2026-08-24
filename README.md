@@ -89,31 +89,26 @@ elle est listée dans `images.qualities` de `next.config.mjs` ; sans cela le
 ### Logos clients
 
 La liste est dans `clients` (`src/content/site.ts`). Chaque entrée pointe un
-chemin sous `public/` **sans extension** ; déposer les fichiers sous ces noms
-exacts :
+chemin sous `public/` **sans extension** ; `findPublicAsset` résout le format,
+en préférant le SVG. Les cinq fichiers actuels sont dans `public/brand/`.
 
-```
-public/brand/clients/ville-de-rennes.(png|svg|jpg|webp)
-public/brand/clients/region-bretagne.*
-public/brand/clients/breizh-cola.*
-public/brand/clients/ndc.*
-public/brand/clients/google.*
-```
+Tant qu'un fichier manque, sa tuile affiche le nom du client à la place, donc
+la section reste présentable même incomplète.
 
-Tant qu'un fichier manque, sa tuile affiche le nom du client à la place —
-la section reste donc présentable même incomplète.
+Les logos livrés sont des tracés monochromes : ils sont simplement atténués au
+repos et reprennent du corps au survol. Ils sont servis en `unoptimized` —
+l'optimiseur de Next refuse le SVG sans `dangerouslyAllowSVG`, et un vecteur
+n'a de toute façon rien à y gagner.
 
-Les logos sont désaturés au repos et reprennent leur couleur au survol : c'est
-ce qui permet à des chartes aussi différentes (multicolore, rouge, bleu marine)
-de former une ligne cohérente avec le vert et le sable du site.
+**Deux fichiers sources sont à reprendre :**
 
-`dark: true` sur une entrée pose la tuile sur fond vert foncé, pour un logo
-blanc qui serait invisible sur le fond clair. C'est le réglage de Région
-Bretagne. **Fournir de préférence une version à fond transparent** : si le
-fichier embarque son propre aplat sombre, il apparaîtra comme un rectangle
-dans le rectangle. Sinon, retirer `dark: true` de cette entrée.
-
-Préférer le SVG quand il est disponible : net à toute taille et bien plus léger.
+- `google.svg` — la vectorisation a **perdu les deux « o »** : le logo se lit
+  « Go gle ». Le rouge et le jaune de l'original sont passés du mauvais côté du
+  seuil de tracé. Il faut repartir d'un logo Google monochrome propre.
+- `region-bretagne.svg` — c'est la version **en négatif** : un carré noir avec
+  le logo détouré en blanc. Elle fonctionne, mais pèse visuellement bien plus
+  que les quatre autres, qui sont sur fond transparent. Préférer une version à
+  fond transparent.
 
 ### Retombées presse
 
