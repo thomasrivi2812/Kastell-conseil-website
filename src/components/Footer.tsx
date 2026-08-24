@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { legal, nav, site } from "@/content/site";
 
-const linkClass = "text-[15px] text-[rgba(226,240,248,0.82)] hover:text-white";
+const linkClass =
+  "footer-link hit-area text-[15px] text-[rgba(226,240,248,0.82)] hover:text-white";
 const headingClass =
   "m-0 mb-1 font-sans text-[13px] uppercase tracking-[0.18em] text-mist";
 

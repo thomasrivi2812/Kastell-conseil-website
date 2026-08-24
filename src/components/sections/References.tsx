@@ -18,7 +18,7 @@ export function References() {
         {Array.from({ length: 6 }, (_, i) => (
           <div
             key={i}
-            className="flex aspect-[5/2] items-center justify-center border border-[rgba(25,41,36,0.16)] bg-bone"
+            className="client-tile flex aspect-[5/2] items-center justify-center border border-[rgba(25,41,36,0.16)] bg-bone"
           >
             <span className="font-mono text-[11px] text-muted">logo client</span>
           </div>

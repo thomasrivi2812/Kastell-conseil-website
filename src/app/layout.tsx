@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { site } from "@/content/site";
 import "./globals.css";
 
 const sans = Instrument_Sans({
@@ -18,7 +19,7 @@ const serif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kastell-conseil.fr"),
+  metadataBase: new URL(site.url),
   title: {
     default: "Kastell Conseil — Conseil & lobbying engagé",
     template: "%s — Kastell Conseil",
@@ -34,7 +35,6 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     type: "website",
   },
-  icons: { icon: "/brand/kastell-mark.png" },
 };
 
 export default function RootLayout({
@@ -44,7 +44,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className={`${sans.variable} ${serif.variable}`}>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        <a href="#contenu" className="skip-link">
+          Aller au contenu
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

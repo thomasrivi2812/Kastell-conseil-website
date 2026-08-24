@@ -16,7 +16,7 @@ export default function MissionsPage() {
   return (
     <div className="w-full overflow-x-hidden">
       <Header />
-      <main>
+      <main id="contenu">
         <section className="shell pb-[clamp(40px,6vw,72px)] pt-[clamp(56px,9vw,120px)]">
           <Reveal className="flex max-w-[min(900px,92%)] flex-col items-start">
             <p className="eyebrow-tight mb-[clamp(20px,3vw,32px)]">Missions</p>

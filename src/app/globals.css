@@ -28,7 +28,7 @@
   }
 
   a:hover {
-    color: #5e7e7e;
+    color: #557272;
   }
 
   input,
@@ -39,6 +39,51 @@
 }
 
 @layer components {
+  /* ---- accessibilité ---- */
+
+  /* The UA outline is near-black: invisible on the forest bands. */
+  :where(a, button, [tabindex]):focus-visible {
+    outline: 2px solid #557272;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .band-dark :where(a, button, [tabindex]):focus-visible,
+  footer :where(a, button, [tabindex]):focus-visible {
+    outline-color: #e2f0f8;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: #192924;
+    color: #faf9f6;
+    padding: 12px 20px;
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .skip-link:focus {
+    left: 8px;
+    top: 8px;
+    color: #faf9f6;
+  }
+
+  /* WCAG 2.2 target size: widen the hit area without moving anything. */
+  .hit-area {
+    position: relative;
+  }
+
+  .hit-area::after {
+    content: "";
+    position: absolute;
+    inset: -6px -4px;
+  }
+
   /* ---- layout ---- */
   .shell {
     max-width: 1280px;
@@ -77,7 +122,7 @@
     font-size: 14px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #5e7e7e;
+    color: #557272;
     margin: 0;
   }
 
@@ -87,7 +132,7 @@
     font-weight: 500;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: #5e7e7e;
+    color: #557272;
     margin: 0;
   }
 
@@ -202,6 +247,7 @@
 
   /* ---- mission cards ---- */
   .mission-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -209,12 +255,8 @@
     padding: 22px 0 4px;
   }
 
-  .mission-card:hover {
-    border-top-color: #192924;
-  }
-
   .mission-card:hover .mission-title {
-    color: #5e7e7e;
+    color: #557272;
   }
 
   .mission-index {
@@ -222,7 +264,7 @@
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.2em;
-    color: #5e7e7e;
+    color: #557272;
   }
 
   .mission-title {
@@ -258,21 +300,149 @@
   /* Size and leading vary per placeholder in the canvas; set them at the call site. */
   .placeholder-note {
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
-    color: #9aa3a0;
+    color: #666f6c;
     margin: 0;
   }
 
-  /* ---- scroll reveal ---- */
-  .reveal {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 900ms cubic-bezier(0.2, 0.7, 0.2, 1),
-      transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* ---- animations ----
+   * Transform/opacity only, so nothing here shifts layout. The global
+   * prefers-reduced-motion block below neutralises all of it.
+   */
+  /* Underline that draws in from the left. ::after is taken by .hit-area. */
+  .nav-link,
+  .footer-link {
+    position: relative;
   }
 
-  .reveal.is-visible {
-    opacity: 1;
-    transform: none;
+  .nav-link::before,
+  .footer-link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .nav-link:hover::before,
+  .nav-link:focus-visible::before,
+  .footer-link:hover::before,
+  .footer-link:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  /* Arrows lean into the direction they point. */
+  .pill span,
+  .arrow-link span {
+    display: inline-block;
+    transition: transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .pill:hover span,
+  .pill:focus-visible span,
+  .arrow-link:hover span,
+  .arrow-link:focus-visible span {
+    transform: translateX(4px);
+  }
+
+  /* Mission cards: the rule redraws itself under the cursor. */
+  .mission-card::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #192924;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 480ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .mission-card:hover::before,
+  .mission-card:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  .news-card {
+    transition: transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      border-color 320ms ease, box-shadow 320ms ease;
+  }
+
+  .news-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px -20px rgba(25, 41, 36, 0.55);
+  }
+
+  .client-tile {
+    transition: border-color 300ms ease, background-color 300ms ease;
+  }
+
+  .client-tile:hover {
+    border-color: rgba(25, 41, 36, 0.4);
+    background: #ffffff;
+  }
+
+  .site-header {
+    transition: box-shadow 300ms ease;
+  }
+
+  .site-header[data-scrolled="true"] {
+    box-shadow: 0 1px 24px -14px rgba(25, 41, 36, 0.6);
+  }
+
+  /* Portrait settles out of a slight overscale as it reveals. */
+  @media (scripting: enabled) {
+    .reveal .portrait-img {
+      transform: scale(1.05);
+      transition: transform 1400ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .reveal.is-visible .portrait-img {
+      transform: scale(1);
+    }
+  }
+
+  /* Hero watermark drifts, barely. */
+  @keyframes kastell-drift {
+    from {
+      transform: translateY(-50%);
+    }
+    to {
+      transform: translateY(calc(-50% - 16px));
+    }
+  }
+
+  .hero-mark {
+    animation: kastell-drift 11s ease-in-out infinite alternate;
+  }
+
+  /* ---- scroll reveal ----
+   * Gated on (scripting: enabled): with JS off the blocks are never hidden,
+   * instead of leaving the whole page blank. Browsers that don't support the
+   * query simply skip the animation and show everything.
+   */
+  @media (scripting: enabled) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 900ms cubic-bezier(0.2, 0.7, 0.2, 1),
+        transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Hero: the heading leads, the call to action follows. */
+    .reveal-hero-cta {
+      transition-delay: 260ms;
+    }
   }
 }
 
@@ -281,9 +451,20 @@
     scroll-behavior: auto;
   }
 
-  .reveal {
+  .reveal,
+  .reveal.is-visible {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  /* Motion is opt-out everywhere, not just on the reveal. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

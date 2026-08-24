@@ -1,11 +1,34 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { nav } from "@/content/site";
 
 export function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 8);
+        frame = 0;
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
   return (
     <header
-      className="sticky top-0 z-50 border-b border-[rgba(25,41,36,0.10)] bg-[rgba(250,249,246,0.92)] backdrop-blur-[10px]"
+      data-scrolled={scrolled}
+      className="site-header sticky top-0 z-50 border-b border-[rgba(25,41,36,0.10)] bg-[rgba(250,249,246,0.92)] backdrop-blur-[10px]"
     >
       <div className="shell flex items-center justify-between gap-8 py-[18px]">
         <Link href="/#top" className="flex shrink-0 items-center">
@@ -22,7 +45,11 @@ export function Header() {
 
         <nav className="flex flex-wrap items-center justify-end gap-[clamp(16px,2.2vw,34px)]">
           {nav.map((item) => (
-            <Link key={item.href} href={item.href} className="nav-link">
+            <Link
+              key={item.href}
+              href={item.href}
+              className="nav-link hit-area"
+            >
               {item.label}
             </Link>
           ))}

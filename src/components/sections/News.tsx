@@ -34,7 +34,7 @@ export function News() {
             <a
               key={post.date}
               href={post.href}
-              className="flex flex-col rounded-[14px] border border-[rgba(25,41,36,0.14)] bg-white p-[clamp(20px,2.2vw,26px)] hover:border-sage"
+              className="news-card flex flex-col rounded-[14px] border border-[rgba(25,41,36,0.14)] bg-white p-[clamp(20px,2.2vw,26px)] hover:border-sage"
             >
               <div className="mb-5 flex items-center gap-3">
                 <Image

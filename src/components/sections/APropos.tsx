@@ -27,7 +27,7 @@ export function APropos() {
                 alt={`Portrait de ${founder.name}, présidente fondatrice de Kastell Conseil`}
                 fill
                 sizes="(max-width: 900px) 100vw, 40vw"
-                className="object-cover"
+                className="portrait-img object-cover"
               />
             ) : (
               <figcaption className="m-0 font-mono text-[12px] leading-[1.6] text-[rgba(226,240,248,0.6)]">

@@ -1,5 +1,7 @@
 export const site = {
   name: "Kastell Conseil",
+  /** Domaine de production — sert aussi à robots.txt, au sitemap et à l'OpenGraph. */
+  url: "https://kastell-conseil.fr",
   tagline: "Conseil & lobbying engagé",
   email: "contact@kastell-conseil.fr",
   city: "Rennes, Bretagne",

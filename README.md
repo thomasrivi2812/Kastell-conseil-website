@@ -40,6 +40,34 @@ public/brand/       logos et marque (PNG d'origine)
 Les valeurs de la maquette (couleurs, `clamp()`, interlignages) sont
 centralisées dans `tailwind.config.ts` et `src/app/globals.css`.
 
+## Accessibilité, performance, animations
+
+Un audit a été passé sur la page d'accueil (axe-core WCAG 2.1 AA, plus des
+vérifications manuelles). État après corrections :
+
+- **axe-core : 0 violation** en 1440 px et en 390 px (28 auparavant, toutes des
+  contrastes insuffisants). Trois teintes de la charte ont été très légèrement
+  assombries pour atteindre 4,5:1 — elles sont regroupées dans
+  `tailwind.config.ts` si la marque préfère revenir aux valeurs d'origine :
+  `sage` `#5E7E7E` → `#557272`, `dim` `#7C8582` → `#707876`,
+  `muted` `#9AA3A0` → `#666F6C`.
+- **Sans JavaScript, la page reste lisible.** Le voile d'apparition est
+  conditionné à `@media (scripting: enabled)` : JS désactivé, rien n'est masqué.
+- **Focus clavier visible** partout, avec une variante claire sur les bandeaux
+  vert foncé, et un lien d'évitement en tête de page.
+- **Cibles tactiles ≥ 24 px** (WCAG 2.2) sur les liens de navigation et de pied
+  de page, élargies via `.hit-area` — un pseudo-élément, donc sans décaler la
+  mise en page.
+- **Poids de la page divisé par deux** (210 → 116 Ko) : le favicon pointait sur
+  le PNG de la marque en pleine résolution (94 Ko), remplacé par `app/icon.png`
+  en 64 px (3 Ko).
+- `robots.txt` et `sitemap.xml` générés depuis `site.url`.
+
+Les animations sont exclusivement en `transform` / `opacity` — aucune ne décale
+la mise en page, et la hauteur de chaque section reste identique à l'artboard.
+`prefers-reduced-motion: reduce` les neutralise toutes, y compris la dérive du
+filigrane du héros.
+
 ## À compléter
 
 Ces éléments sont des emplacements réservés dans la maquette d'origine et
