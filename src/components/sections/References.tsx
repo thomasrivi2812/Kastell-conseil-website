@@ -1,5 +1,9 @@
+import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { site, testimonials } from "@/content/site";
+import { findPublicAsset } from "@/lib/asset";
+import { clients, site, testimonials } from "@/content/site";
+
+const logos = clients.map((c) => ({ ...c, src: findPublicAsset(c.file) }));
 
 export function References() {
   return (
@@ -15,12 +19,28 @@ export function References() {
         index={1}
         className="grid gap-[clamp(12px,1.4vw,20px)] [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]"
       >
-        {Array.from({ length: 6 }, (_, i) => (
+        {logos.map((client) => (
           <div
-            key={i}
-            className="client-tile flex aspect-[5/2] items-center justify-center border border-[rgba(25,41,36,0.16)] bg-bone"
+            key={client.name}
+            className={`client-tile relative flex aspect-[5/2] items-center justify-center border border-[rgba(25,41,36,0.16)] ${
+              client.src && "dark" in client && client.dark
+                ? "bg-forest"
+                : "bg-bone"
+            }`}
           >
-            <span className="font-mono text-[11px] text-muted">logo client</span>
+            {client.src ? (
+              <Image
+                src={client.src}
+                alt={client.name}
+                fill
+                sizes="220px"
+                className="client-logo object-contain px-5 py-3"
+              />
+            ) : (
+              <span className="px-2 text-center font-mono text-[11px] text-muted">
+                {client.name}
+              </span>
+            )}
           </div>
         ))}
       </Reveal>

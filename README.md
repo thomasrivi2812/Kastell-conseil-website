@@ -86,6 +86,35 @@ derrière un masque, 144 → 112 Ko). Next 16 refusant toute qualité non décla
 elle est listée dans `images.qualities` de `next.config.mjs` ; sans cela le
 `quality` est ignoré en silence.
 
+### Logos clients
+
+La liste est dans `clients` (`src/content/site.ts`). Chaque entrée pointe un
+chemin sous `public/` **sans extension** ; déposer les fichiers sous ces noms
+exacts :
+
+```
+public/brand/clients/ville-de-rennes.(png|svg|jpg|webp)
+public/brand/clients/region-bretagne.*
+public/brand/clients/breizh-cola.*
+public/brand/clients/ndc.*
+public/brand/clients/google.*
+```
+
+Tant qu'un fichier manque, sa tuile affiche le nom du client à la place —
+la section reste donc présentable même incomplète.
+
+Les logos sont désaturés au repos et reprennent leur couleur au survol : c'est
+ce qui permet à des chartes aussi différentes (multicolore, rouge, bleu marine)
+de former une ligne cohérente avec le vert et le sable du site.
+
+`dark: true` sur une entrée pose la tuile sur fond vert foncé, pour un logo
+blanc qui serait invisible sur le fond clair. C'est le réglage de Région
+Bretagne. **Fournir de préférence une version à fond transparent** : si le
+fichier embarque son propre aplat sombre, il apparaîtra comme un rectangle
+dans le rectangle. Sinon, retirer `dark: true` de cette entrée.
+
+Préférer le SVG quand il est disponible : net à toute taille et bien plus léger.
+
 ### Retombées presse
 
 Les trois articles sont dans `press` (`src/content/site.ts`). Les titres ont été
@@ -123,7 +152,7 @@ attendent le contenu réel :
 | Visuel de fond du manifeste | déposer `public/brand/manifeste.jpg` (ou .png/.webp) — voir ci-dessous |
 | Dates des articles de presse | `press` dans `src/content/site.ts` |
 | URL LinkedIn | `site.linkedin` dans `src/content/site.ts` |
-| Logos clients (6) | `src/components/sections/References.tsx` |
+| Logos clients | déposer dans `public/brand/clients/` — voir ci-dessous |
 | Témoignages | `testimonials` dans `src/content/site.ts` |
 | Posts LinkedIn | `posts` dans `src/content/site.ts` — à brancher sur un widget ou l'API LinkedIn |
 | Mentions légales, confidentialité, cookies | `legal` dans `src/content/site.ts` |
