@@ -57,7 +57,7 @@ export const founder = {
   quote:
     "« Peser dans le débat public ne s'improvise pas : cela se prépare, se documente et se construit dans le temps long. »",
   /** Déposer le portrait ici (4:5) — le placeholder du design s'affiche tant qu'il est absent. */
-  photo: "/brand/fondatrice.jpg",
+  photo: "/brand/fondatrice.png",
 } as const;
 
 export const testimonials = [
