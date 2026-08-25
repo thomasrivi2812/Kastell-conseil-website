@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { posts, site } from "@/content/site";
+import { founder, posts, site } from "@/content/site";
 
 export function News() {
   return (
@@ -19,10 +19,10 @@ export function News() {
             </h2>
           </div>
           <a
-            href={site.linkedin}
+            href={site.linkedinProfile}
             className="pill pill-outline px-[22px] py-[10px] text-[12px]"
           >
-            Suivre Kastell Conseil <span aria-hidden>↗</span>
+            Suivre Léa de Lamotte <span aria-hidden>↗</span>
           </a>
         </Reveal>
 
@@ -38,17 +38,17 @@ export function News() {
             >
               <div className="mb-5 flex items-center gap-3">
                 <Image
-                  src="/brand/kastell-mark.png"
+                  src={founder.photo}
                   alt=""
                   aria-hidden
-                  width={2500}
-                  height={2407}
+                  width={798}
+                  height={1200}
                   sizes="42px"
-                  className="h-[42px] w-[42px] shrink-0 rounded-[9px] bg-sand object-contain p-1.5"
+                  className="h-[42px] w-[42px] shrink-0 rounded-full bg-sand object-cover"
                 />
                 <div className="flex min-w-0 flex-col gap-0.5">
                   <span className="font-sans text-[15px] font-semibold text-forest">
-                    Kastell Conseil
+                    {founder.name}
                   </span>
                   <span className="font-sans text-[13px] text-dim">
                     {post.date}

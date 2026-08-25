@@ -4,7 +4,7 @@ import { APropos } from "@/components/sections/APropos";
 import { Contact } from "@/components/sections/Contact";
 import { Hero } from "@/components/sections/Hero";
 import { Manifeste } from "@/components/sections/Manifeste";
-import { MissionsPreview } from "@/components/sections/MissionsPreview";
+import { OffresPreview } from "@/components/sections/OffresPreview";
 import { News } from "@/components/sections/News";
 import { References } from "@/components/sections/References";
 import { site } from "@/content/site";
@@ -16,7 +16,7 @@ export default function Home() {
       <main id="contenu">
         <Hero />
         <Manifeste />
-        <MissionsPreview />
+        <OffresPreview />
         <APropos />
         <References />
         {site.showNews ? <News /> : null}

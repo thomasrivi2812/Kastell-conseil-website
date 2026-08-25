@@ -131,7 +131,7 @@
   /* ---- type ---- */
   .eyebrow {
     font-family: var(--font-sans), "Instrument Sans", sans-serif;
-    font-size: 14px;
+    font-size: 17px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #557272;
@@ -140,12 +140,22 @@
 
   .eyebrow-tight {
     font-family: var(--font-sans), "Instrument Sans", sans-serif;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 500;
     letter-spacing: 0.24em;
     text-transform: uppercase;
     color: #557272;
     margin: 0;
+  }
+
+  .hero-name {
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: clamp(13px, 1.1vw, 16px);
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #557272;
+    margin: 0 0 clamp(18px, 2.2vw, 28px);
   }
 
   .h1 {
@@ -163,7 +173,7 @@
   .h2 {
     font-family: var(--font-serif), "Instrument Serif", serif;
     font-weight: 400;
-    font-size: clamp(30px, 3.4vw, 46px);
+    font-size: clamp(33px, 3.8vw, 52px);
     line-height: 1.16;
     color: #192924;
     margin: 0;
@@ -257,8 +267,8 @@
     border-color: #192924;
   }
 
-  /* ---- mission cards ---- */
-  .mission-card {
+  /* ---- cartes offres ---- */
+  .offer-card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -267,11 +277,11 @@
     padding: 22px 0 4px;
   }
 
-  .mission-card:hover .mission-title {
+  .offer-card:hover .offer-title {
     color: #557272;
   }
 
-  .mission-index {
+  .offer-index {
     font-family: var(--font-sans), "Instrument Sans", sans-serif;
     font-size: 12px;
     font-weight: 500;
@@ -279,7 +289,7 @@
     color: #557272;
   }
 
-  .mission-title {
+  .offer-title {
     font-family: var(--font-serif), "Instrument Serif", serif;
     font-size: clamp(26px, 2.6vw, 38px);
     line-height: 1.1;
@@ -295,7 +305,7 @@
 
   .eyebrow-dark {
     font-family: var(--font-sans), "Instrument Sans", sans-serif;
-    font-size: 14px;
+    font-size: 17px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #8fafae;
@@ -324,7 +334,7 @@
    * une marge confortable. Ajuster --manifeste-opacity selon l'image livrée.
    */
   .manifeste-bg {
-    --manifeste-opacity: 0.2;
+    --manifeste-opacity: 0.34;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -362,7 +372,7 @@
   /* En une seule colonne, le titre occupe toute la largeur : le fondu descend. */
   @media (max-width: 899px) {
     .manifeste-bg {
-      --manifeste-opacity: 0.16;
+      --manifeste-opacity: 0.26;
       width: 100%;
       /* Resserré sur la zone du titre : au-delà, le visuel concurrence le texte. */
       -webkit-mask-image: linear-gradient(
@@ -441,8 +451,8 @@
     transform: translateX(4px);
   }
 
-  /* Mission cards: the rule redraws itself under the cursor. */
-  .mission-card::before {
+  /* Cartes offres : le filet se redessine sous le curseur. */
+  .offer-card::before {
     content: "";
     position: absolute;
     top: -1px;
@@ -455,8 +465,8 @@
     transition: transform 480ms cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
-  .mission-card:hover::before,
-  .mission-card:focus-visible::before {
+  .offer-card:hover::before,
+  .offer-card:focus-visible::before {
     transform: scaleX(1);
   }
 

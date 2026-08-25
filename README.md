@@ -86,6 +86,23 @@ derrière un masque, 144 → 112 Ko). Next 16 refusant toute qualité non décla
 elle est listée dans `images.qualities` de `next.config.mjs` ; sans cela le
 `quality` est ignoré en silence.
 
+### Logos des médias (presse)
+
+Même principe que les logos clients : chaque entrée de `press` porte un chemin
+`logo` sous `public/` **sans extension**. Déposer les fichiers sous
+`public/brand/press/ouest-france.*`, `bretagne-economique.*`,
+`femmes-de-bretagne.*`. Tant qu'un fichier manque, le nom du média s'affiche
+en toutes lettres dans la pastille.
+
+### Pages légales
+
+`/mentions-legales`, `/confidentialite` et `/cookies` partagent le gabarit
+`src/components/LegalPage.tsx`. **Leur contenu est un squelette** : tout ce qui
+relève de l'éditeur (forme juridique, SIREN, RCS, hébergeur, numéro HATVP,
+durées de conservation) est laissé entre crochets, à compléter par le client ou
+son conseil. Rien n'a été inventé. Les trois pages sont en `noindex` et hors
+sitemap tant qu'elles ne sont pas remplies.
+
 ### Logos clients
 
 La liste est dans `clients` (`src/content/site.ts`). Chaque entrée pointe un
@@ -146,7 +163,11 @@ attendent le contenu réel :
 | --- | --- |
 | Visuel de fond du manifeste | déposer `public/brand/manifeste.jpg` (ou .png/.webp) — voir ci-dessous |
 | Dates des articles de presse | `press` dans `src/content/site.ts` |
-| URL LinkedIn | `site.linkedin` dans `src/content/site.ts` |
+| URL LinkedIn (page entreprise et profil de Léa) | `site.linkedin` / `site.linkedinProfile` |
+| Titre de la tribune et nom du média | `publications` dans `src/content/site.ts` |
+| Description du Réseau Influence & Territoire | `publications` |
+| Logos des médias (presse) | `public/brand/press/…` — voir ci-dessous |
+| Contenu des pages légales | `src/app/mentions-legales`, `confidentialite`, `cookies` |
 | Logos clients | déposer dans `public/brand/clients/` — voir ci-dessous |
 | Témoignages | `testimonials` dans `src/content/site.ts` |
 | Posts LinkedIn | `posts` dans `src/content/site.ts` — à brancher sur un widget ou l'API LinkedIn |

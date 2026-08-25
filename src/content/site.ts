@@ -1,11 +1,15 @@
 export const site = {
   name: "Kastell Conseil",
   /** Domaine de production — sert aussi à robots.txt, au sitemap et à l'OpenGraph. */
-  url: "https://kastell-conseil.fr",
+  url: "https://kastell-conseils.fr",
   tagline: "Conseil & lobbying engagé",
-  email: "contact@kastell-conseil.fr",
+  /** Domaine au pluriel depuis le changement de nom de domaine. */
+  email: "contact@kastell-conseils.fr",
   city: "Rennes, Bretagne",
+  /** Page entreprise. */
   linkedin: "#",
+  /** Profil personnel : c'est lui qui alimente la section actualités. */
+  linkedinProfile: "#",
   /** Sections toggled from the design canvas props. */
   showTestimonials: true,
   showNews: true,
@@ -16,17 +20,17 @@ export const manifeste = {
    * Visuel de fond, chemin sous public/ SANS extension : findPublicAsset
    * résout le format réel du fichier. Laisser vide pour retirer le fond.
    */
-  backdrop: "brand/photoorga",
+  backdrop: "brand/manifeste-carte",
 } as const;
 
 export const nav = [
   { label: "Manifeste", href: "/#manifeste" },
-  { label: "Missions", href: "/missions" },
+  { label: "Offres", href: "/offres" },
   { label: "À propos", href: "/#apropos" },
   { label: "Références", href: "/#references" },
 ] as const;
 
-export const missions = [
+export const offers = [
   {
     index: "01",
     slug: "affaires-publiques",
@@ -84,27 +88,56 @@ export const founder = {
 
 /**
  * Retombées presse. Titres repris des URL sources ; les dates ne sont pas
- * renseignées faute d'avoir pu ouvrir les articles — ajouter `date` ici si
- * besoin, l'affichage la reprend automatiquement.
+ * renseignées faute d'avoir pu ouvrir les articles.
+ *
+ * `logo` est un chemin sous public/ SANS extension. Tant que le fichier manque,
+ * le nom du média s'affiche en toutes lettres à la place.
  */
 export const press = [
   {
     outlet: "Ouest-France",
+    logo: "brand/press/ouest-france",
     title:
       "Elle crée le premier cabinet d'affaires publiques dans le pays de Lamballe",
     href: "https://www.ouest-france.fr/economie/entreprises/elle-cree-le-premier-cabinet-daffaires-publiques-dans-le-pays-de-lamballe-841a2d3a-a91d-11f0-a84e-0a4f72002724",
   },
   {
     outlet: "Bretagne Économique",
+    logo: "brand/press/bretagne-economique",
     title:
       "Léa de Lamotte crée Kastell Conseil, spécialisé dans le lobbying engagé et les affaires publiques",
     href: "https://www.bretagne-economique.com/actualites/lea-de-lamotte-cree-kastell-conseil-specialise-dans-le-lobbying-engage-et-les-affaires-publiques/",
   },
   {
     outlet: "Femmes de Bretagne",
+    logo: "brand/press/femmes-de-bretagne",
     title:
       "Léa de Lamotte, entrepreneure engagée au service des territoires bretons",
     href: "https://www.femmesdebretagne.fr/articles/197488-lea-de-lamotte-entrepreneure-engagee-au-service-des-territoires-bretons",
+  },
+] as const;
+
+/**
+ * Publications. Le premier billet est paru en presse écrite : il n'a pas de
+ * version web, d'où le renvoi vers le post LinkedIn qui le présente.
+ * TODO client : titre exact de la tribune, nom du média, description du RIT.
+ */
+export const publications = [
+  {
+    label: "Tribune",
+    title: "[ Titre de la tribune ]",
+    context: "Parue en presse écrite — [ média ], début 2026",
+    href: "https://www.linkedin.com/feed/update/urn:li:activity:7427385529794527232/",
+    cta: "Voir le post LinkedIn",
+  },
+  {
+    label: "Manifeste",
+    title: "Réseau Influence & Territoire",
+    context:
+      "[ Description du RIT — réseau professionnel co-fondé en 2026 ]",
+    /* URL publique : le lien fourni pointait vers l'espace d'administration. */
+    href: "https://www.linkedin.com/company/115801577/",
+    cta: "Suivre le RIT sur LinkedIn",
   },
 ] as const;
 
@@ -143,8 +176,8 @@ export const posts = [
 ] as const;
 
 export const legal = [
-  { label: "Mentions légales", href: "#" },
-  { label: "Politique de confidentialité", href: "#" },
-  { label: "Politique de cookies", href: "#" },
+  { label: "Mentions légales", href: "/mentions-legales" },
+  { label: "Politique de confidentialité", href: "/confidentialite" },
+  { label: "Politique de cookies", href: "/cookies" },
   { label: "LinkedIn", href: site.linkedin },
 ] as const;

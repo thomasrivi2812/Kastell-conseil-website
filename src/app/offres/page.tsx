@@ -4,22 +4,22 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Contact } from "@/components/sections/Contact";
 import { Reveal } from "@/components/Reveal";
-import { missions } from "@/content/site";
+import { offers } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Missions",
+  title: "Offres",
   description:
     "Affaires publiques, représentation d'intérêts, communication d'influence et transition écologique : les quatre terrains d'intervention de Kastell Conseil.",
 };
 
-export default function MissionsPage() {
+export default function OffresPage() {
   return (
     <div className="w-full overflow-x-clip">
       <Header />
       <main id="contenu">
         <section className="shell pb-[clamp(40px,6vw,72px)] pt-[clamp(56px,9vw,120px)]">
           <Reveal className="flex max-w-[min(900px,92%)] flex-col items-start">
-            <p className="eyebrow-tight mb-[clamp(20px,3vw,32px)]">Missions</p>
+            <p className="eyebrow-tight mb-[clamp(20px,3vw,32px)]">Offres</p>
             <h1 className="h1">Quatre terrains d&apos;intervention.</h1>
             <p className="body-lg mt-[clamp(24px,3vw,36px)] max-w-[56ch]">
               Chaque mission part du même point : comprendre où se prend la
@@ -29,10 +29,10 @@ export default function MissionsPage() {
           </Reveal>
         </section>
 
-        {missions.map((mission, i) => (
+        {offers.map((offer, i) => (
           <section
-            key={mission.slug}
-            id={mission.slug}
+            key={offer.slug}
+            id={offer.slug}
             className={`hairline-top ${
               i % 2 === 1 ? "bg-sand" : ""
             }`}
@@ -43,13 +43,13 @@ export default function MissionsPage() {
                 className="grid-auto items-start gap-[clamp(32px,6vw,90px)]"
               >
                 <div>
-                  <p className="mission-index mb-[18px] block">
-                    {mission.index}
+                  <p className="offer-index mb-[18px] block">
+                    {offer.index}
                   </p>
-                  <h2 className="h2 max-w-[16ch]">{mission.title}</h2>
+                  <h2 className="h2 max-w-[16ch]">{offer.title}</h2>
                 </div>
                 <div className="max-w-[60ch]">
-                  <p className="body-lg">{mission.summary}</p>
+                  <p className="body-lg">{offer.summary}</p>
                 </div>
               </Reveal>
             </div>

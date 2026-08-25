@@ -22,11 +22,14 @@ export function Hero() {
       <div className="shell relative w-full py-[clamp(72px,11vw,150px)]">
         <div className="flex max-w-[min(900px,92%)] flex-col items-start">
           <Reveal>
+            <p className="hero-name">
+              Kastell, cabinet d&apos;affaires publiques
+            </p>
             <h1 className="h1">Peser dans le débat public.</h1>
           </Reveal>
           <Reveal className="reveal-hero-cta mt-[clamp(30px,4vw,48px)]">
-            <Link href="/missions" className="pill pill-solid">
-              Découvrir nos missions <span aria-hidden>→</span>
+            <Link href="/offres" className="pill pill-solid">
+              Découvrir nos offres <span aria-hidden>→</span>
             </Link>
           </Reveal>
         </div>

@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    // La section « Missions » est devenue « Offres » ; on ne casse pas les liens
+    // déjà partagés.
+    return [
+      { source: "/missions", destination: "/offres", permanent: true },
+    ];
+  },
   images: {
     // Next 16 rejette toute qualité non déclarée. 55 sert au visuel de fond du
     // manifeste : masqué et à 20 % d'opacité, la compression y est invisible.

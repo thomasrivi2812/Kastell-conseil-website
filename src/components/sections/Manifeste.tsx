@@ -25,7 +25,7 @@ export function Manifeste() {
             alt=""
             fill
             sizes="(max-width: 899px) 100vw, 62vw"
-            quality={55}
+            unoptimized
             className="object-cover"
           />
         </div>
