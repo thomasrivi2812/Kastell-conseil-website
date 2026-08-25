@@ -35,7 +35,7 @@ const accueil: SchemaTypeDefinition = {
   type: "document",
   groups: [
     { name: "heros", title: "Héros" },
-    { name: "manifeste", title: "Manifeste" },
+    { name: "vision", title: "Notre vision" },
     { name: "references", title: "Références" },
     { name: "actualites", title: "Actualités" },
     { name: "contact", title: "Contact" },
@@ -51,19 +51,19 @@ const accueil: SchemaTypeDefinition = {
       description: "Laisser vide pour garder le motif cartographique fourni.",
     },
 
-    { name: "manifesteIntitule", title: "Intitulé de section", group: "manifeste", ...texte },
-    { name: "manifesteTitre", title: "Titre", group: "manifeste", ...paragraphe },
+    { name: "visionIntitule", title: "Intitulé de section", group: "vision", ...texte },
+    { name: "visionTitre", title: "Titre", group: "vision", ...paragraphe },
     {
-      name: "manifesteParagraphes",
+      name: "visionParagraphes",
       title: "Paragraphes",
-      group: "manifeste",
+      group: "vision",
       type: "array",
       of: [{ type: "text", rows: 4 }],
     },
     {
-      name: "manifesteChiffres",
+      name: "visionChiffres",
       title: "Chiffres clés",
-      group: "manifeste",
+      group: "vision",
       type: "array",
       of: [
         {

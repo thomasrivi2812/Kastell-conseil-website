@@ -9,9 +9,10 @@ export async function APropos() {
     <section id="apropos" className="band-dark">
       <div className="shell band-lg">
         <div className="grid items-start gap-[clamp(32px,5vw,80px)] [grid-template-columns:minmax(220px,0.72fr)_minmax(280px,1.28fr)] max-[820px]:[grid-template-columns:1fr]">
-          <Reveal
-            as="figure"
-            className="relative m-0 flex min-h-[clamp(300px,30vw,430px)] items-end overflow-hidden border border-[rgba(226,240,248,0.14)] bg-[rgba(226,240,248,0.06)] p-6 [background-image:repeating-linear-gradient(135deg,rgba(226,240,248,0.06)_0_2px,transparent_2px_12px)]"
+          <div className="apropos-colonne flex flex-col">
+            <Reveal
+              as="figure"
+              className="relative m-0 flex min-h-[clamp(300px,30vw,430px)] items-end overflow-hidden border border-[rgba(226,240,248,0.14)] bg-[rgba(226,240,248,0.06)] p-6 [background-image:repeating-linear-gradient(135deg,rgba(226,240,248,0.06)_0_2px,transparent_2px_12px)]"
           >
             {portrait ? (
               <Image
@@ -28,7 +29,19 @@ export async function APropos() {
                 {about.portraitPlaceholder[1]}
               </figcaption>
             )}
-          </Reveal>
+            </Reveal>
+
+            <Reveal
+              index={2}
+              className="apropos-citation mt-[clamp(26px,3vw,38px)]"
+            >
+              <blockquote className="m-0 border-l-2 border-sage pl-[clamp(18px,2vw,26px)]">
+                <p className="m-0 font-serif text-[clamp(19px,1.7vw,25px)] font-normal italic leading-[1.42] text-white">
+                  {founder.quote}
+                </p>
+              </blockquote>
+            </Reveal>
+          </div>
 
           <Reveal index={1}>
             <p className="eyebrow-dark mb-[22px]">{about.eyebrow}</p>
@@ -51,12 +64,6 @@ export async function APropos() {
                 {paragraph}
               </p>
             ))}
-
-            <blockquote className="m-0 border-l-2 border-sage pl-[clamp(20px,2.4vw,32px)]">
-              <p className="m-0 max-w-[34ch] font-serif text-[clamp(21px,2.1vw,30px)] font-normal italic leading-[1.42] text-white">
-                {founder.quote}
-              </p>
-            </blockquote>
           </Reveal>
         </div>
 

@@ -21,7 +21,7 @@ export const hero = {
   cta: "Découvrir nos offres",
 } as const;
 
-export const manifeste = {
+export const vision = {
   /**
    * Visuel de fond, chemin sous public/ SANS extension : findPublicAsset
    * résout le format réel du fichier. Vide = pas de fond, comme la maquette.
@@ -29,7 +29,7 @@ export const manifeste = {
    * indiquer "brand/manifeste-carte" ou "brand/photoorga".
    */
   backdrop: "",
-  eyebrow: "Manifeste",
+  eyebrow: "Notre vision",
   title:
     "Une passerelle entre le monde politique et les entreprises des territoires.",
   paragraphs: [
@@ -44,7 +44,7 @@ export const manifeste = {
 } as const;
 
 export const nav = [
-  { label: "Manifeste", href: "/#manifeste" },
+  { label: "Notre vision", href: "/#vision" },
   { label: "Offres", href: "/offres" },
   { label: "À propos", href: "/#apropos" },
   { label: "Références", href: "/#references" },
@@ -106,9 +106,16 @@ export const clients = [
 export const founder = {
   name: "Léa de Lamotte",
   role: "Conseil en affaires publiques · Rennes",
+  /**
+   * Texte à faire valider par Léa. Les paragraphes ajoutés développent la
+   * méthode et le positionnement : ils n'avancent aucun fait biographique qui
+   * ne figurait pas déjà sur le site — ni école, ni employeur, ni date.
+   */
   bio: [
     "Formée aux institutions et passée par les cabinets d'élus comme par la direction des affaires publiques d'un grand groupe, elle a fondé Kastell Conseil pour porter les enjeux des entreprises bretonnes engagées dans la transition écologique.",
-    "Elle intervient personnellement sur chaque mission, de la stratégie à la rencontre des décideurs.",
+    "De ce double parcours, elle a gardé une conviction : on ne défend bien un dossier qu'en comprenant les contraintes de celui qui décide. Calendrier parlementaire, arbitrages budgétaires, équilibres locaux — autant de réalités qui déterminent ce qu'il est possible d'obtenir, et à quel moment.",
+    "C'est aussi ce qui l'a conduite à installer le cabinet en Bretagne plutôt qu'à Paris. Les dirigeants qu'elle accompagne connaissent leur filière mieux que quiconque ; ce qui leur manque, c'est le chemin jusqu'à la décision publique. Kastell Conseil parcourt ce chemin avec eux, de Rennes à Bruxelles.",
+    "Elle intervient personnellement sur chaque mission, de la note de cadrage à la rencontre des décideurs.",
   ],
   quote:
     "« Peser dans le débat public ne s'improvise pas : cela se prépare, se documente et se construit dans le temps long. »",

@@ -3,7 +3,7 @@ import { Header } from "@/components/Header";
 import { APropos } from "@/components/sections/APropos";
 import { Contact } from "@/components/sections/Contact";
 import { Hero } from "@/components/sections/Hero";
-import { Manifeste } from "@/components/sections/Manifeste";
+import { Vision } from "@/components/sections/Vision";
 import { OffresPreview } from "@/components/sections/OffresPreview";
 import { News } from "@/components/sections/News";
 import { References } from "@/components/sections/References";
@@ -15,7 +15,7 @@ export default function Home() {
       <Header />
       <main id="contenu">
         <Hero />
-        <Manifeste />
+        <Vision />
         <OffresPreview />
         <APropos />
         <References />

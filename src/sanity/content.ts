@@ -90,19 +90,19 @@ function assembler(d: Donnees) {
       illustration:
         imageUrl(a.herosVisuel as never, 1400) ?? "/brand/manifeste-carte.svg",
     },
-    manifeste: {
-      eyebrow: ou(a.manifesteIntitule as string, fichier.manifeste.eyebrow),
-      title: ou(a.manifesteTitre as string, fichier.manifeste.title),
+    vision: {
+      eyebrow: ou(a.visionIntitule as string, fichier.vision.eyebrow),
+      title: ou(a.visionTitre as string, fichier.vision.title),
       paragraphs: ou(
-        a.manifesteParagraphes as string[],
-        fichier.manifeste.paragraphs as readonly string[] as string[],
+        a.visionParagraphes as string[],
+        fichier.vision.paragraphs as readonly string[] as string[],
       ),
       stats: ou(
-        (a.manifesteChiffres as Doc[] | undefined)?.map((s) => ({
+        (a.visionChiffres as Doc[] | undefined)?.map((s) => ({
           value: (s.valeur as string) ?? "",
           label: (s.libelle as string) ?? "",
         })),
-        fichier.manifeste.stats as readonly { value: string; label: string }[] as {
+        fichier.vision.stats as readonly { value: string; label: string }[] as {
           value: string;
           label: string;
         }[],
