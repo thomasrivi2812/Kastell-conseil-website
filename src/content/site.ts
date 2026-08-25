@@ -18,9 +18,11 @@ export const site = {
 export const manifeste = {
   /**
    * Visuel de fond, chemin sous public/ SANS extension : findPublicAsset
-   * résout le format réel du fichier. Laisser vide pour retirer le fond.
+   * résout le format réel du fichier. Vide = pas de fond, comme la maquette.
+   * La carte sert désormais d'illustration au héros ; pour en remettre une ici,
+   * indiquer "brand/manifeste-carte" ou "brand/photoorga".
    */
-  backdrop: "brand/manifeste-carte",
+  backdrop: "",
 } as const;
 
 export const nav = [

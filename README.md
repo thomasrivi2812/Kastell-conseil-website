@@ -63,6 +63,27 @@ vérifications manuelles). État après corrections :
   `app/icon.png` en 64 px (3 Ko). La mesure ne couvre pas les bundles JS.
 - `robots.txt` et `sitemap.xml` générés depuis `site.url`.
 
+### Logos et bascule du header
+
+Le héros affiche le mot-symbole complet en grand. Le header, lui, part de la
+marque seule tant que le héros est à l'écran — inutile de répéter un logo déjà
+visible — puis bascule sur le mot-symbole dès qu'on le quitte, et sur toute
+autre page. La détection se fait par `IntersectionObserver` sur `#top` ; l'état
+initial suit la route (`usePathname`) pour éviter un saut à l'hydratation.
+Les deux faces se croisent en fondu et la largeur du conteneur s'anime.
+
+### Illustration du héros
+
+`public/brand/manifeste-carte.svg` est un motif cartographique **abstrait**
+(courbes de niveau, graticule, trois places reliées) généré pour évoquer
+l'ancrage territorial et la liaison vers Paris. Il n'affirme aucune géographie
+réelle. Un masque en dégradé efface ses bords, sinon le graticule dessine un
+rectangle net posé sur la page.
+
+Il est calé à droite du bloc de texte : vérifié de 900 à 1440 px, aucun glyphe
+ne passe dessus. En dessous de 900 px la colonne se resserre et le texte le
+recouvre, d'où une opacité réduite à ce palier.
+
 ### Visuel de fond du manifeste
 
 Déposer une image dans `public/brand/manifeste.*` (jpg, png, webp, avif — le
@@ -70,9 +91,10 @@ composant résout l'extension tout seul). Elle se place derrière le titre et
 s'efface en dégradé vers la colonne de texte ; sans fichier, la section reste
 telle que dans la maquette.
 
-Le visuel actuel est `photoorga.png`, désigné par `manifeste.backdrop` dans
-`src/content/site.ts` (chemin **sans extension** : le helper résout le format
-réel). Vider la valeur retire le fond.
+`manifeste.backdrop` est **vide** : la section a retrouvé le bandeau sable nu de
+la maquette, la carte servant désormais d'illustration au héros. Pour remettre
+un fond, indiquer `brand/manifeste-carte` ou `brand/photoorga` (chemin **sans
+extension** : le helper résout le format réel).
 
 L'opacité se règle via `--manifeste-opacity` dans `globals.css` (0.20 en
 desktop, 0.16 en mobile). **Attention au contraste** : l'accroche « Manifeste »
