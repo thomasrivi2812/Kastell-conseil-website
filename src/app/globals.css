@@ -151,13 +151,19 @@
   .h1 {
     font-family: var(--font-serif), "Instrument Serif", serif;
     font-weight: 400;
-    font-size: clamp(40px, 6vw, 84px);
+    font-size: clamp(34px, 4.5vw, 64px);
     line-height: 1;
     letter-spacing: -0.02em;
     color: #192924;
     margin: 0;
-    max-width: 12em;
+    max-width: 14em;
     text-wrap: balance;
+    /*
+     * Alignement optique sur le mot-symbole : le « P » porte une chasse gauche
+     * que le logo, détouré au ras du « K », n'a pas. Mesuré à 1,5px pour 84px
+     * de corps, donc exprimé en em pour tenir à toutes les tailles.
+     */
+    margin-left: -0.018em;
   }
 
   .h2 {
@@ -524,30 +530,23 @@
 
   .hero-map {
     opacity: 0.55;
-    /* Sans fondu, le graticule dessine un rectangle net posé sur la page. */
+    /*
+     * Coupe franche : le motif déborde à droite et dépasse en hauteur, la
+     * section le rogne (overflow-hidden). Seul le bord gauche reste en fondu,
+     * pour qu'il ne vienne pas buter contre le texte.
+     */
     -webkit-mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        #000 26%,
-        #000 100%
-      ),
-      linear-gradient(
-        to bottom,
-        transparent 0%,
-        #000 16%,
-        #000 82%,
-        transparent 100%
-      );
-    -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 100%),
-      linear-gradient(
-        to bottom,
-        transparent 0%,
-        #000 16%,
-        #000 82%,
-        transparent 100%
-      );
-    mask-composite: intersect;
+      to right,
+      transparent 0%,
+      #000 30%,
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 30%,
+      #000 100%
+    );
   }
 
   @media (max-width: 900px) {

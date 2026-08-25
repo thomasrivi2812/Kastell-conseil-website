@@ -19,7 +19,7 @@ export function Hero() {
         height={900}
         priority
         unoptimized
-        className="hero-map pointer-events-none absolute right-[-6%] top-1/2 aspect-[4/3] w-[min(44vw,620px)] -translate-y-1/2"
+        className="hero-map pointer-events-none absolute right-[-12%] top-1/2 aspect-[4/3] w-[min(70vw,1080px)] -translate-y-1/2"
       />
 
       <div className="shell relative w-full py-[clamp(72px,11vw,150px)]">

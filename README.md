@@ -80,9 +80,17 @@ l'ancrage territorial et la liaison vers Paris. Il n'affirme aucune géographie
 réelle. Un masque en dégradé efface ses bords, sinon le graticule dessine un
 rectangle net posé sur la page.
 
-Il est calé à droite du bloc de texte : vérifié de 900 à 1440 px, aucun glyphe
-ne passe dessus. En dessous de 900 px la colonne se resserre et le texte le
-recouvre, d'où une opacité réduite à ce palier.
+Il déborde volontairement à droite et dépasse en hauteur : la section le rogne
+(`overflow-hidden`), d'où la coupe franche au bord. Seul son bord gauche reste
+en fondu, pour qu'il ne vienne pas buter contre le texte. En dessous de 900 px
+la colonne se resserre et le texte le recouvre, d'où une opacité réduite à ce
+palier.
+
+Le `.h1` porte un `margin-left: -0.018em` : le « P » a une chasse gauche que le
+mot-symbole, détouré au ras du « K », n'a pas. Sans cette correction le titre
+est décalé de 1,5 px vers la droite à 84 px de corps. Exprimée en em, elle tient
+à toutes les tailles — vérifié à 1440, 1100 et 700 px, l'encre du logo, du titre
+et du bouton démarre au même pixel.
 
 ### Visuel de fond du manifeste
 
