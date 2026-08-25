@@ -198,8 +198,11 @@ français et clique sur **Publier**.
 
 1. Créer un projet sur [sanity.io/manage](https://sanity.io/manage), dataset
    `production`.
-2. Copier `.env.example` en `.env.local` et renseigner
-   `NEXT_PUBLIC_SANITY_PROJECT_ID`.
+2. Copier `.env.example` en `.env.local` et y reporter l'identifiant du projet
+   **sous les deux préfixes** — `NEXT_PUBLIC_SANITY_PROJECT_ID` et
+   `SANITY_STUDIO_PROJECT_ID`, même valeur. Next n'expose au navigateur que le
+   premier, le studio que le second : n'en renseigner qu'un laisse l'autre
+   côté sans identifiant.
 3. Déployer le studio : `npx sanity deploy` — il choisit une adresse en
    `.sanity.studio`. C'est le lien à donner à Léa.
 4. Inviter Léa sur le projet Sanity avec le rôle **editor**.

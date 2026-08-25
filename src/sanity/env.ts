@@ -1,11 +1,27 @@
+/**
+ * Ce fichier est lu par Next ET par le bundle du studio Sanity, qui n'exposent
+ * pas les mêmes variables :
+ *   - Next ne transmet au navigateur que le préfixe NEXT_PUBLIC_
+ *   - le studio ne transmet que le préfixe SANITY_STUDIO_
+ * D'où la double lecture. Les deux doivent être renseignées dans .env.local,
+ * avec la même valeur.
+ *
+ * L'accès passe par des gardes optionnelles : selon le contexte de compilation,
+ * `process` peut ne pas exister du tout et une lecture directe lèverait.
+ */
+const lire = (cle: string): string | undefined => {
+  if (typeof process === "undefined") return undefined;
+  return process.env?.[cle];
+};
+
 export const projectId =
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ??
-  process.env.SANITY_STUDIO_PROJECT_ID ??
-  "";
+  lire("NEXT_PUBLIC_SANITY_PROJECT_ID") ?? lire("SANITY_STUDIO_PROJECT_ID") ?? "";
+
 export const dataset =
-  process.env.NEXT_PUBLIC_SANITY_DATASET ??
-  process.env.SANITY_STUDIO_DATASET ??
+  lire("NEXT_PUBLIC_SANITY_DATASET") ??
+  lire("SANITY_STUDIO_DATASET") ??
   "production";
+
 export const apiVersion = "2024-10-01";
 
 /**
