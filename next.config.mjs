@@ -9,6 +9,8 @@ const nextConfig = {
     ];
   },
   images: {
+    // Visuels servis par le CDN Sanity une fois le CMS branché.
+    remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
     // Next 16 rejette toute qualité non déclarée. 55 sert au visuel de fond du
     // manifeste : masqué et à 20 % d'opacité, la compression y est invisible.
     qualities: [55, 75],

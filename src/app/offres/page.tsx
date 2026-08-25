@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Contact } from "@/components/sections/Contact";
 import { Reveal } from "@/components/Reveal";
-import { offers, offersSection } from "@/content/site";
+import { getContent } from "@/sanity/content";
 
 export const metadata: Metadata = {
   title: "Offres",
@@ -12,7 +12,8 @@ export const metadata: Metadata = {
     "Affaires publiques, représentation d'intérêts, communication d'influence et transition écologique : les quatre terrains d'intervention de Kastell Conseil.",
 };
 
-export default function OffresPage() {
+export default async function OffresPage() {
+  const { offers, offersSection } = await getContent();
   return (
     <div className="w-full overflow-x-clip">
       <Header />

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
-import { hero } from "@/content/site";
+import { getContent } from "@/sanity/content";
 
-export function Hero() {
+export async function Hero() {
+  const { hero } = await getContent();
   return (
     <section
       id="top"
@@ -13,7 +14,7 @@ export function Hero() {
           symbole K, redondant depuis que le mot-symbole occupe le héros. Calé à
           droite du bloc de texte, il ne passe jamais sous les glyphes. */}
       <Image
-        src="/brand/manifeste-carte.svg"
+        src={hero.illustration}
         alt=""
         aria-hidden
         width={1200}

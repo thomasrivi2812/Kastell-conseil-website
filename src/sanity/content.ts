@@ -1,0 +1,220 @@
+import { cache } from "react";
+import * as fichier from "@/content/site";
+import { findPublicAsset } from "@/lib/asset";
+import { sanityClient } from "./client";
+import { imageUrl } from "./image";
+
+/**
+ * Contenu du site, Sanity par-dessus les valeurs du dépôt.
+ *
+ * La fusion se fait champ par champ : une fiche à moitié remplie dans le studio
+ * ne vide jamais une rubrique, et si Sanity est injoignable le site sert ce
+ * qu'il a. C'est ce qui permet de brancher le CMS progressivement.
+ */
+
+const REQUETE = `{
+  "parametres": *[_type == "parametres"][0],
+  "accueil": *[_type == "accueil"][0],
+  "offres": *[_type == "offres"][0],
+  "apropos": *[_type == "apropos"][0],
+  "piedDePage": *[_type == "piedDePage"][0]
+}`;
+
+/** Retient la valeur du CMS seulement si elle est réellement renseignée. */
+const ou = <T,>(cms: T | null | undefined, repli: T): T => {
+  if (cms === null || cms === undefined) return repli;
+  if (typeof cms === "string" && cms.trim() === "") return repli;
+  if (Array.isArray(cms) && cms.length === 0) return repli;
+  return cms;
+};
+
+type Doc = Record<string, unknown>;
+type Donnees = {
+  parametres?: Doc;
+  accueil?: Doc;
+  offres?: Doc;
+  apropos?: Doc;
+  piedDePage?: Doc;
+};
+
+const slug = (s: string) =>
+  s
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+function assembler(d: Donnees) {
+  const p = (d.parametres ?? {}) as Doc;
+  const a = (d.accueil ?? {}) as Doc;
+  const o = (d.offres ?? {}) as Doc;
+  const ap = (d.apropos ?? {}) as Doc;
+  const f = (d.piedDePage ?? {}) as Doc;
+
+  type Offre = { index: string; slug: string; title: string; summary: string };
+  type Publication = {
+    label: string;
+    title: string;
+    context: string;
+    href: string;
+    cta: string;
+  };
+  const offresListe: Offre[] | undefined = (o.liste as Doc[] | undefined)?.map((item, i) => ({
+    index: String(i + 1).padStart(2, "0"),
+    slug: (item.ancre as string) || slug((item.titre as string) ?? `offre-${i + 1}`),
+    title: (item.titre as string) ?? "",
+    summary: (item.resume as string) ?? "",
+  }));
+
+  const presse = (ap.presse as Doc[] | undefined)?.map((item) => ({
+    outlet: (item.media as string) ?? "",
+    title: (item.titre as string) ?? "",
+    href: (item.lien as string) ?? "#",
+    logoUrl: imageUrl(item.logo as never, 240),
+  }));
+
+  return {
+    site: {
+      ...fichier.site,
+      name: ou(p.nom as string, fichier.site.name),
+      url: ou(p.url as string, fichier.site.url),
+      email: ou(p.email as string, fichier.site.email),
+      city: ou(p.ville as string, fichier.site.city),
+      linkedin: ou(p.linkedin as string, fichier.site.linkedin),
+      linkedinProfile: ou(p.linkedinProfil as string, fichier.site.linkedinProfile),
+    },
+    hero: {
+      promise: ou(a.promesse as string, fichier.hero.promise),
+      cta: ou(a.herosCta as string, fichier.hero.cta),
+      illustration:
+        imageUrl(a.herosVisuel as never, 1400) ?? "/brand/manifeste-carte.svg",
+    },
+    manifeste: {
+      eyebrow: ou(a.manifesteIntitule as string, fichier.manifeste.eyebrow),
+      title: ou(a.manifesteTitre as string, fichier.manifeste.title),
+      paragraphs: ou(
+        a.manifesteParagraphes as string[],
+        fichier.manifeste.paragraphs as readonly string[] as string[],
+      ),
+      stats: ou(
+        (a.manifesteChiffres as Doc[] | undefined)?.map((s) => ({
+          value: (s.valeur as string) ?? "",
+          label: (s.libelle as string) ?? "",
+        })),
+        fichier.manifeste.stats as readonly { value: string; label: string }[] as {
+          value: string;
+          label: string;
+        }[],
+      ),
+    },
+    offersSection: {
+      ...fichier.offersSection,
+      eyebrow: ou(o.intitule as string, fichier.offersSection.eyebrow),
+      pageTitle: ou(o.titrePage as string, fichier.offersSection.pageTitle),
+      pageIntro: ou(o.introPage as string, fichier.offersSection.pageIntro),
+    },
+    offers: ou<Offre[]>(offresListe, fichier.offers as readonly Offre[] as Offre[]),
+    about: {
+      ...fichier.about,
+      eyebrow: ou(ap.intitule as string, fichier.about.eyebrow),
+      pressHeading: ou(ap.presseIntitule as string, fichier.about.pressHeading),
+      publicationsHeading: ou(
+        ap.publicationsIntitule as string,
+        fichier.about.publicationsHeading,
+      ),
+    },
+    founder: {
+      ...fichier.founder,
+      name: ou(ap.nom as string, fichier.founder.name),
+      role: ou(ap.role as string, fichier.founder.role),
+      bio: ou(ap.biographie as string[], fichier.founder.bio as readonly string[] as string[]),
+      quote: ou(ap.citation as string, fichier.founder.quote),
+      photoUrl: imageUrl(ap.portrait as never, 900) ?? findPublicAsset("brand/fondatrice"),
+    },
+    press: ou(
+      presse,
+      fichier.press.map((item) => ({
+        outlet: item.outlet,
+        title: item.title,
+        href: item.href,
+        logoUrl: findPublicAsset(item.logo),
+      })),
+    ),
+    publications: ou<Publication[]>(
+      (ap.publications as Doc[] | undefined)?.map((item) => ({
+        label: (item.categorie as string) ?? "",
+        title: (item.titre as string) ?? "",
+        context: (item.contexte as string) ?? "",
+        href: (item.lien as string) ?? "#",
+        cta: (item.cta as string) ?? "En savoir plus",
+      })),
+      fichier.publications as readonly Publication[] as Publication[],
+    ),
+    references: {
+      ...fichier.references,
+      eyebrow: ou(a.referencesIntitule as string, fichier.references.eyebrow),
+      title: ou(a.referencesTitre as string, fichier.references.title),
+    },
+    clients: ou(
+      (a.clients as Doc[] | undefined)?.map((c) => ({
+        name: (c.nom as string) ?? "",
+        logoUrl: imageUrl(c.logo as never, 320),
+      })),
+      fichier.clients.map((c) => ({
+        name: c.name,
+        logoUrl: findPublicAsset(c.file),
+      })),
+    ),
+    testimonials: ou(
+      (a.temoignages as Doc[] | undefined)?.map((t) => ({
+        quote: (t.citation as string) ?? "",
+        author: (t.auteur as string) ?? "",
+      })),
+      fichier.testimonials as readonly unknown[] as { quote: string; author: string }[],
+    ),
+    news: {
+      ...fichier.news,
+      heading: ou(a.actualitesTitre as string, fichier.news.heading),
+      followCta: ou(a.actualitesCta as string, fichier.news.followCta),
+    },
+    posts: ou(
+      (a.posts as Doc[] | undefined)?.map((post) => ({
+        date: (post.date as string) ?? "",
+        excerpt: (post.extrait as string) ?? "",
+        href: (post.lien as string) ?? "#",
+      })),
+      fichier.posts as readonly unknown[] as { date: string; excerpt: string; href: string }[],
+    ),
+    contact: {
+      ...fichier.contact,
+      eyebrow: ou(a.contactIntitule as string, fichier.contact.eyebrow),
+      title: ou(a.contactTitre as string, fichier.contact.title),
+      intro: ou(a.contactIntro as string, fichier.contact.intro),
+    },
+    footer: {
+      ...fichier.footer,
+      blurb: ou(f.accroche as string, fichier.footer.blurb),
+      copyright: ou(f.copyright as string, fichier.footer.copyright),
+      mention: ou(f.mention as string, fichier.footer.mention),
+    },
+  };
+}
+
+export type Contenu = ReturnType<typeof assembler>;
+
+export const getContent = cache(async (): Promise<Contenu> => {
+  if (!sanityClient) return assembler({});
+  try {
+    const data = await sanityClient.fetch<Donnees>(
+      REQUETE,
+      {},
+      { next: { revalidate: 60, tags: ["contenu"] } },
+    );
+    return assembler(data ?? {});
+  } catch (error) {
+    // Le site reste debout si le CMS tombe : on sert le contenu du dépôt.
+    console.error("[sanity] lecture impossible, repli sur le contenu du dépôt", error);
+    return assembler({});
+  }
+});

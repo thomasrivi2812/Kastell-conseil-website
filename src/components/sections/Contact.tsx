@@ -1,7 +1,8 @@
 import { Reveal } from "@/components/Reveal";
-import { contact, site } from "@/content/site";
+import { getContent } from "@/sanity/content";
 
-export function Contact() {
+export async function Contact() {
+  const { contact, site } = await getContent();
   return (
     <section id="contact" className="band-dark">
       <div className="shell py-[clamp(60px,9vw,130px)]">

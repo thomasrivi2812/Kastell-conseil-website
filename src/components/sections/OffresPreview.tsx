@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
-import { offers, offersSection } from "@/content/site";
+import { getContent } from "@/sanity/content";
 
-export function OffresPreview() {
+export async function OffresPreview() {
+  const { offers, offersSection } = await getContent();
   return (
     <section id="offres" className="hairline-top">
       <div className="shell band-md">

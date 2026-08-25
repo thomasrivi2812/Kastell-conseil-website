@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { manifeste } from "@/content/site";
+import { manifeste as reglages } from "@/content/site";
 import { findPublicAsset } from "@/lib/asset";
+import { getContent } from "@/sanity/content";
 
-const backdrop = manifeste.backdrop
-  ? findPublicAsset(manifeste.backdrop)
-  : null;
+/** Fond optionnel : réglage du dépôt, vide par défaut depuis que la carte sert au héros. */
+const backdrop = reglages.backdrop ? findPublicAsset(reglages.backdrop) : null;
 
-
-export function Manifeste() {
+export async function Manifeste() {
+  const { manifeste } = await getContent();
   return (
     <section
       id="manifeste"

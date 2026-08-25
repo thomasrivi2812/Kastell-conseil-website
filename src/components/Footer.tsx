@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { footer, legal, nav, site } from "@/content/site";
+import { legal, nav } from "@/content/site";
+import { getContent } from "@/sanity/content";
 
 const linkClass =
   "footer-link hit-area text-[15px] text-[rgba(226,240,248,0.82)] hover:text-white";
 const headingClass =
   "m-0 mb-1 font-sans text-[13px] uppercase tracking-[0.18em] text-mist";
 
-export function Footer() {
+export async function Footer() {
+  const { footer, site } = await getContent();
   return (
     <footer className="bg-forest text-[rgba(226,240,248,0.72)]">
       <div className="shell pb-[34px] pt-[clamp(48px,6vw,80px)]">

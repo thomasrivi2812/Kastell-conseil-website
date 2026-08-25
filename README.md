@@ -184,6 +184,49 @@ la mise en page, et la hauteur de chaque section reste identique à l'artboard.
 `prefers-reduced-motion: reduce` les neutralise toutes, y compris la dérive du
 filigrane du héros.
 
+## CMS (Sanity)
+
+Léa modifie le contenu, jamais le code. Le studio est hébergé par Sanity sur
+une URL dédiée : elle s'y connecte par e-mail, remplit des formulaires en
+français et clique sur **Publier**.
+
+> Le studio n'est pas servi par Next : Sanity 6 ne se compile ni avec Turbopack
+> ni avec webpack à l'intérieur de Next 16. L'hébergement Sanity est gratuit,
+> officiel, et évite d'embarquer un back-office dans le site vitrine.
+
+### Mise en route (une seule fois)
+
+1. Créer un projet sur [sanity.io/manage](https://sanity.io/manage), dataset
+   `production`.
+2. Copier `.env.example` en `.env.local` et renseigner
+   `NEXT_PUBLIC_SANITY_PROJECT_ID`.
+3. Déployer le studio : `npx sanity deploy` — il choisit une adresse en
+   `.sanity.studio`. C'est le lien à donner à Léa.
+4. Inviter Léa sur le projet Sanity avec le rôle **editor**.
+5. Dans Vercel, ajouter `NEXT_PUBLIC_SANITY_PROJECT_ID`,
+   `NEXT_PUBLIC_SANITY_DATASET` et `SANITY_REVALIDATE_SECRET`.
+6. Dans Sanity, créer un webhook vers
+   `https://<domaine>/api/revalidate`, méthode POST, avec l'en-tête
+   `x-kastell-secret` valant le même secret. Sans lui, les modifications
+   apparaissent avec au plus une minute de retard ; avec lui, immédiatement.
+
+### Tant que rien n'est branché
+
+`isSanityConfigured` est faux sans identifiant de projet : le site sert le
+contenu de `src/content/site.ts`. **Rien ne casse avant la mise en route, et
+rien ne casse non plus si Sanity devient injoignable** — `getContent()` rattrape
+l'erreur et retombe sur le dépôt.
+
+La fusion se fait **champ par champ** : une fiche à moitié remplie dans le
+studio ne vide aucune rubrique, ce qui permet de basculer progressivement.
+
+### Ce que voit Léa
+
+Cinq rubriques, dans l'ordre du site, sans bouton « créer » ni liste à
+parcourir : Paramètres du site, Page d'accueil, Offres, À propos, Pied de page.
+Les schémas sont dans `src/sanity/schema.ts` ; leurs intitulés sont les
+étiquettes qu'elle lit.
+
 ## Couche de contenu
 
 **Aucun texte visible n'est écrit dans les composants.** Tout ce qui est

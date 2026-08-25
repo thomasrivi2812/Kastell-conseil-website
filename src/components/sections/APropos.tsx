@@ -1,24 +1,10 @@
-import fs from "node:fs";
-import path from "node:path";
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { about, founder, press, publications } from "@/content/site";
-import { findPublicAsset } from "@/lib/asset";
+import { getContent } from "@/sanity/content";
 
-/**
- * La maquette prévoit un cadre hachuré tant que le portrait n'est pas livré ;
- * déposer la photo à l'emplacement de founder.photo le remplace.
- */
-const hasPortrait = fs.existsSync(
-  path.join(process.cwd(), "public", founder.photo),
-);
-
-const pressItems = press.map((article) => ({
-  ...article,
-  logoSrc: findPublicAsset(article.logo),
-}));
-
-export function APropos() {
+export async function APropos() {
+  const { about, founder, press, publications } = await getContent();
+  const portrait = founder.photoUrl;
   return (
     <section id="apropos" className="band-dark">
       <div className="shell band-lg">
@@ -27,9 +13,9 @@ export function APropos() {
             as="figure"
             className="relative m-0 flex min-h-[clamp(300px,30vw,430px)] items-end overflow-hidden border border-[rgba(226,240,248,0.14)] bg-[rgba(226,240,248,0.06)] p-6 [background-image:repeating-linear-gradient(135deg,rgba(226,240,248,0.06)_0_2px,transparent_2px_12px)]"
           >
-            {hasPortrait ? (
+            {portrait ? (
               <Image
-                src={founder.photo}
+                src={portrait}
                 alt={`Portrait de ${founder.name}, présidente fondatrice de Kastell Conseil`}
                 fill
                 sizes="(max-width: 820px) 100vw, 30vw"
@@ -82,7 +68,7 @@ export function APropos() {
               {about.pressHeading}
             </p>
             <ul className="m-0 flex list-none flex-col gap-[14px] p-0">
-              {pressItems.map((article) => (
+              {press.map((article) => (
                 <li key={article.href}>
                   <a
                     href={article.href}
@@ -90,10 +76,10 @@ export function APropos() {
                     rel="noopener noreferrer"
                     className="press-link flex items-center gap-[14px] text-[15px] leading-[1.5] text-[rgba(226,240,248,0.82)] hover:text-white"
                   >
-                    {article.logoSrc ? (
+                    {article.logoUrl ? (
                       <span className="press-logo relative block h-[34px] w-[92px] shrink-0 overflow-hidden rounded-[6px] bg-bone">
                         <Image
-                          src={article.logoSrc}
+                          src={article.logoUrl}
                           alt={article.outlet}
                           fill
                           sizes="92px"

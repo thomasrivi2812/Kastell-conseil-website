@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { founder, news, posts, site } from "@/content/site";
+import { getContent } from "@/sanity/content";
 
-export function News() {
+export async function News() {
+  const { founder, news, posts, site } = await getContent();
   return (
     <section className="hairline-top bg-sand">
       <div className="shell band-md">
@@ -38,7 +39,7 @@ export function News() {
             >
               <div className="mb-5 flex items-center gap-3">
                 <Image
-                  src={founder.photo}
+                  src={founder.photoUrl ?? founder.photo}
                   alt=""
                   aria-hidden
                   width={798}

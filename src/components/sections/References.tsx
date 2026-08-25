@@ -1,11 +1,10 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { findPublicAsset } from "@/lib/asset";
-import { clients, references, site, testimonials } from "@/content/site";
+import { site } from "@/content/site";
+import { getContent } from "@/sanity/content";
 
-const logos = clients.map((c) => ({ ...c, src: findPublicAsset(c.file) }));
-
-export function References() {
+export async function References() {
+  const { clients: logos, references, testimonials } = await getContent();
   return (
     <section id="references" className="shell band-refs">
       <Reveal>
@@ -24,9 +23,9 @@ export function References() {
             key={client.name}
             className="client-tile relative flex aspect-[5/2] items-center justify-center overflow-hidden rounded-[12px] border border-[rgba(25,41,36,0.16)] bg-bone"
           >
-            {client.src ? (
+            {client.logoUrl ? (
               <Image
-                src={client.src}
+                src={client.logoUrl}
                 alt={client.name}
                 fill
                 sizes="220px"
