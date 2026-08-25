@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
+import { hero } from "@/content/site";
 
 export function Hero() {
   return (
@@ -36,11 +37,11 @@ export function Hero() {
               sizes="(max-width: 700px) 78vw, min(34vw, 520px)"
               className="mb-[clamp(30px,4.5vw,54px)] block aspect-[2500/737] h-auto w-[min(78vw,clamp(280px,34vw,520px))]"
             />
-            <h1 className="h1">Peser dans le débat public.</h1>
+            <h1 className="h1">{hero.promise}</h1>
           </Reveal>
           <Reveal className="reveal-hero-cta mt-[clamp(30px,4vw,48px)]">
             <Link href="/offres" className="pill pill-solid">
-              Découvrir nos offres <span aria-hidden>→</span>
+              {hero.cta} <span aria-hidden>→</span>
             </Link>
           </Reveal>
         </div>

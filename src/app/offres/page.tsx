@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Contact } from "@/components/sections/Contact";
 import { Reveal } from "@/components/Reveal";
-import { offers } from "@/content/site";
+import { offers, offersSection } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Offres",
@@ -19,12 +19,10 @@ export default function OffresPage() {
       <main id="contenu">
         <section className="shell pb-[clamp(40px,6vw,72px)] pt-[clamp(56px,9vw,120px)]">
           <Reveal className="flex max-w-[min(900px,92%)] flex-col items-start">
-            <p className="eyebrow-tight mb-[clamp(20px,3vw,32px)]">Offres</p>
-            <h1 className="h1">Quatre terrains d&apos;intervention.</h1>
+            <p className="eyebrow-tight mb-[clamp(20px,3vw,32px)]">{offersSection.eyebrow}</p>
+            <h1 className="h1">{offersSection.pageTitle}</h1>
             <p className="body-lg mt-[clamp(24px,3vw,36px)] max-w-[56ch]">
-              Chaque mission part du même point : comprendre où se prend la
-              décision, à quel moment, et par qui. Le reste — argumentaire,
-              interlocuteurs, calendrier — en découle.
+{offersSection.pageIntro}
             </p>
           </Reveal>
         </section>
@@ -59,9 +57,9 @@ export default function OffresPage() {
         <section className="hairline-top">
           <div className="shell band-md">
             <Reveal className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-5">
-              <p className="eyebrow-tight">Retour</p>
+              <p className="eyebrow-tight">{offersSection.backLabel}</p>
               <Link href="/" className="pill pill-outline">
-                Revenir à l&apos;accueil <span aria-hidden>→</span>
+                {offersSection.backCta} <span aria-hidden>→</span>
               </Link>
             </Reveal>
           </div>

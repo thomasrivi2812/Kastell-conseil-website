@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
-import { offers } from "@/content/site";
+import { offers, offersSection } from "@/content/site";
 
 export function OffresPreview() {
   return (
     <section id="offres" className="hairline-top">
       <div className="shell band-md">
         <Reveal className="mb-[clamp(30px,4vw,56px)] flex flex-wrap items-baseline justify-between gap-x-10 gap-y-5">
-          <p className="eyebrow-tight">Offres</p>
+          <p className="eyebrow-tight">{offersSection.eyebrow}</p>
           <Link href="/offres" className="pill pill-outline">
-            Toutes nos offres <span aria-hidden>→</span>
+            {offersSection.ctaAll} <span aria-hidden>→</span>
           </Link>
         </Reveal>
 

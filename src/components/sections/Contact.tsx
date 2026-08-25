@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/Reveal";
-import { site } from "@/content/site";
+import { contact, site } from "@/content/site";
 
 export function Contact() {
   return (
@@ -7,12 +7,11 @@ export function Contact() {
       <div className="shell py-[clamp(60px,9vw,130px)]">
         <Reveal className="flex max-w-[900px] flex-col items-start">
           <p className="m-0 mb-[clamp(24px,3vw,40px)] font-sans text-[12px] font-medium uppercase tracking-[0.24em] text-mist">
-            Contact
+            {contact.eyebrow}
           </p>
-          <h2 className="h2-contact">Parlons de vos enjeux publics.</h2>
+          <h2 className="h2-contact">{contact.title}</h2>
           <p className="mb-[clamp(34px,4.5vw,52px)] mt-[26px] max-w-[44ch] text-[clamp(16px,1.25vw,19px)] leading-[1.7] text-[rgba(226,240,248,0.78)]">
-            Un premier échange de trente minutes suffit souvent à clarifier une
-            stratégie.
+{contact.intro}
           </p>
 
           <div className="flex flex-wrap gap-[14px]">
@@ -20,13 +19,13 @@ export function Contact() {
               href={`mailto:${site.email}`}
               className="pill bg-bone px-7 py-[15px] text-forest hover:bg-white hover:text-forest"
             >
-              Nous contacter par mail <span aria-hidden>→</span>
+              {contact.mailCta} <span aria-hidden>→</span>
             </a>
             <a
               href={site.linkedin}
               className="pill border border-[rgba(226,240,248,0.4)] px-7 py-[15px] text-white hover:border-white hover:bg-[rgba(226,240,248,0.1)] hover:text-white"
             >
-              Nous contacter sur LinkedIn <span aria-hidden>↗</span>
+              {contact.linkedinCta} <span aria-hidden>↗</span>
             </a>
           </div>
 

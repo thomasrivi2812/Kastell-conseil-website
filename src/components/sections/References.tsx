@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { findPublicAsset } from "@/lib/asset";
-import { clients, site, testimonials } from "@/content/site";
+import { clients, references, site, testimonials } from "@/content/site";
 
 const logos = clients.map((c) => ({ ...c, src: findPublicAsset(c.file) }));
 
@@ -9,9 +9,9 @@ export function References() {
   return (
     <section id="references" className="shell band-refs">
       <Reveal>
-        <p className="eyebrow mb-[18px]">Références</p>
+        <p className="eyebrow mb-[18px]">{references.eyebrow}</p>
         <h2 className="h2 mb-[clamp(32px,4vw,54px)] max-w-[26ch]">
-          Ils nous confient leurs enjeux publics
+          {references.title}
         </h2>
       </Reveal>
 
@@ -62,7 +62,7 @@ export function References() {
           ))}
           <div className="border-t border-[rgba(25,41,36,0.2)] pt-6">
             <p className="placeholder-note text-[12px] leading-[1.7]">
-              emplacement disponible — cas client ou témoignage à venir
+              {references.freeSlot}
             </p>
           </div>
         </Reveal>

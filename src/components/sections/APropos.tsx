@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { founder, press, publications } from "@/content/site";
+import { about, founder, press, publications } from "@/content/site";
 import { findPublicAsset } from "@/lib/asset";
 
 /**
@@ -37,15 +37,15 @@ export function APropos() {
               />
             ) : (
               <figcaption className="m-0 font-mono text-[12px] leading-[1.6] text-[rgba(226,240,248,0.6)]">
-                portrait — présidente fondatrice
+                {about.portraitPlaceholder[0]}
                 <br />
-                (photo professionnelle, format 4:5)
+                {about.portraitPlaceholder[1]}
               </figcaption>
             )}
           </Reveal>
 
           <Reveal index={1}>
-            <p className="eyebrow-dark mb-[22px]">Présidente fondatrice</p>
+            <p className="eyebrow-dark mb-[22px]">{about.eyebrow}</p>
             <h2 className="m-0 mb-2 font-serif text-[clamp(33px,3.8vw,52px)] font-normal leading-[1.14] text-white">
               {founder.name}
             </h2>
@@ -79,7 +79,7 @@ export function APropos() {
         <div className="mt-[clamp(48px,6vw,80px)] grid gap-[clamp(36px,5vw,80px)] [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
           <Reveal index={2} className="border-t border-[rgba(226,240,248,0.2)] pt-[22px]">
             <p className="eyebrow-dark mb-[18px] text-[12px] font-medium tracking-[0.22em]">
-              Dans la presse
+              {about.pressHeading}
             </p>
             <ul className="m-0 flex list-none flex-col gap-[14px] p-0">
               {pressItems.map((article) => (
@@ -122,7 +122,7 @@ export function APropos() {
 
           <Reveal index={3} className="border-t border-[rgba(226,240,248,0.2)] pt-[22px]">
             <p className="eyebrow-dark mb-[18px] text-[12px] font-medium tracking-[0.22em]">
-              Nos publications
+              {about.publicationsHeading}
             </p>
             <ul className="m-0 flex list-none flex-col gap-[22px] p-0">
               {publications.map((item) => (

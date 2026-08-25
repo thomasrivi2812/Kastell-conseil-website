@@ -15,6 +15,12 @@ export const site = {
   showNews: true,
 } as const;
 
+export const hero = {
+  /** Le mot-symbole porte le nom : ce titre est la promesse seule. */
+  promise: "Peser dans le débat public.",
+  cta: "Découvrir nos offres",
+} as const;
+
 export const manifeste = {
   /**
    * Visuel de fond, chemin sous public/ SANS extension : findPublicAsset
@@ -23,6 +29,18 @@ export const manifeste = {
    * indiquer "brand/manifeste-carte" ou "brand/photoorga".
    */
   backdrop: "",
+  eyebrow: "Manifeste",
+  title:
+    "Une passerelle entre le monde politique et les entreprises des territoires.",
+  paragraphs: [
+    "Les décisions qui façonnent la transition écologique se prennent à Rennes, à Paris et à Bruxelles. Les entreprises qui la mettent en œuvre, elles, travaillent au plus près du terrain. Kastell Conseil existe pour relier les deux.",
+    "Nous portons vos enjeux avec méthode : comprendre le calendrier politique, construire un argumentaire solide, identifier les bons interlocuteurs et engager un dialogue durable. Sans esbroufe, avec une exigence de transparence et de conformité.",
+    "Proximité, expertise, engagement : trois principes qui structurent chacune de nos missions.",
+  ],
+  stats: [
+    { value: "15 ans", label: "d'expérience institutionnelle" },
+    { value: "Rennes", label: "Paris · Bruxelles" },
+  ],
 } as const;
 
 export const nav = [
@@ -31,6 +49,16 @@ export const nav = [
   { label: "À propos", href: "/#apropos" },
   { label: "Références", href: "/#references" },
 ] as const;
+
+export const offersSection = {
+  eyebrow: "Offres",
+  ctaAll: "Toutes nos offres",
+  pageTitle: "Quatre terrains d'intervention.",
+  pageIntro:
+    "Chaque mission part du même point : comprendre où se prend la décision, à quel moment, et par qui. Le reste — argumentaire, interlocuteurs, calendrier — en découle.",
+  backLabel: "Retour",
+  backCta: "Revenir à l'accueil",
+} as const;
 
 export const offers = [
   {
@@ -142,6 +170,45 @@ export const publications = [
     cta: "Suivre le RIT sur LinkedIn",
   },
 ] as const;
+
+export const about = {
+  eyebrow: "Présidente fondatrice",
+  pressHeading: "Dans la presse",
+  publicationsHeading: "Nos publications",
+  portraitPlaceholder: ["portrait — présidente fondatrice", "(photo professionnelle, format 4:5)"],
+} as const;
+
+export const references = {
+  eyebrow: "Références",
+  title: "Ils nous confient leurs enjeux publics",
+  freeSlot: "emplacement disponible — cas client ou témoignage à venir",
+} as const;
+
+export const news = {
+  heading: "Sur LinkedIn",
+  followCta: "Suivre Léa de Lamotte",
+  postCta: "Voir le post",
+  previewLabel: "aperçu du post (image)",
+} as const;
+
+export const contact = {
+  eyebrow: "Contact",
+  title: "Parlons de vos enjeux publics.",
+  intro:
+    "Un premier échange de trente minutes suffit souvent à clarifier une stratégie.",
+  mailCta: "Nous contacter par mail",
+  linkedinCta: "Nous contacter sur LinkedIn",
+} as const;
+
+export const footer = {
+  blurb:
+    "Conseil en affaires publiques, lobbying et communication d'influence. Rennes, Bretagne.",
+  navHeading: "Navigation",
+  infoHeading: "Informations",
+  contactHeading: "Contact",
+  copyright: "© 2026 Kastell Conseil",
+  mention: "Représentant d'intérêts déclaré — HATVP",
+} as const;
 
 export const testimonials = [
   {

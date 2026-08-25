@@ -184,6 +184,18 @@ la mise en page, et la hauteur de chaque section reste identique à l'artboard.
 `prefers-reduced-motion: reduce` les neutralise toutes, y compris la dérive du
 filigrane du héros.
 
+## Couche de contenu
+
+**Aucun texte visible n'est écrit dans les composants.** Tout ce qui est
+rédactionnel vit dans `src/content/site.ts`, groupé par section : `hero`,
+`manifeste`, `offersSection`, `offers`, `about`, `founder`, `press`,
+`publications`, `references`, `clients`, `testimonials`, `news`, `posts`,
+`contact`, `footer`, `legal`.
+
+C'est le point d'entrée d'un CMS : brancher une source externe se fait à cet
+endroit, sans toucher aux composants. Chaque groupe correspond à ce que serait
+un document ou une collection côté CMS.
+
 ## À compléter
 
 Ces éléments sont des emplacements réservés dans la maquette d'origine et

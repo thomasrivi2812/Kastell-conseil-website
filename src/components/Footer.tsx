@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { legal, nav, site } from "@/content/site";
+import { footer, legal, nav, site } from "@/content/site";
 
 const linkClass =
   "footer-link hit-area text-[15px] text-[rgba(226,240,248,0.82)] hover:text-white";
@@ -22,13 +22,12 @@ export function Footer() {
               className="mb-[22px] block aspect-[2500/737] h-[44px] w-auto"
             />
             <p className="m-0 max-w-[30ch] text-[15px] leading-[1.7]">
-              Conseil en affaires publiques, lobbying et communication
-              d&apos;influence. Rennes, Bretagne.
+              {footer.blurb}
             </p>
           </div>
 
           <div className="flex flex-col gap-3">
-            <p className={headingClass}>Navigation</p>
+            <p className={headingClass}>{footer.navHeading}</p>
             {nav.map((item) => (
               <Link key={item.href} href={item.href} className={linkClass}>
                 {item.label}
@@ -40,7 +39,7 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col gap-3">
-            <p className={headingClass}>Informations</p>
+            <p className={headingClass}>{footer.infoHeading}</p>
             {legal.map((item) => (
               <a key={item.label} href={item.href} className={linkClass}>
                 {item.label}
@@ -49,7 +48,7 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col gap-3">
-            <p className={headingClass}>Contact</p>
+            <p className={headingClass}>{footer.contactHeading}</p>
             <a href={`mailto:${site.email}`} className={linkClass}>
               {site.email}
             </a>
@@ -59,10 +58,10 @@ export function Footer() {
 
         <div className="mt-[clamp(36px,4vw,56px)] flex flex-wrap justify-between gap-x-7 gap-y-3 border-t border-[rgba(226,240,248,0.16)] pt-[22px]">
           <p className="m-0 font-sans text-[13px] uppercase tracking-[0.12em] text-[rgba(226,240,248,0.55)]">
-            © 2026 Kastell Conseil
+            {footer.copyright}
           </p>
           <p className="m-0 font-sans text-[13px] uppercase tracking-[0.12em] text-[rgba(226,240,248,0.55)]">
-            Représentant d&apos;intérêts déclaré — HATVP
+            {footer.mention}
           </p>
         </div>
       </div>

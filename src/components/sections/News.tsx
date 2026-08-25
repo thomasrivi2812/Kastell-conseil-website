@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { founder, posts, site } from "@/content/site";
+import { founder, news, posts, site } from "@/content/site";
 
 export function News() {
   return (
@@ -15,14 +15,14 @@ export function News() {
               in
             </span>
             <h2 className="m-0 font-serif text-[clamp(26px,2.8vw,38px)] font-normal leading-[1.1] text-forest">
-              Sur LinkedIn
+              {news.heading}
             </h2>
           </div>
           <a
             href={site.linkedinProfile}
             className="pill pill-outline px-[22px] py-[10px] text-[12px]"
           >
-            Suivre Léa de Lamotte <span aria-hidden>↗</span>
+            {news.followCta} <span aria-hidden>↗</span>
           </a>
         </Reveal>
 
@@ -67,11 +67,11 @@ export function News() {
               </p>
 
               <span className="flex aspect-[16/10] items-end rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand p-3 font-mono text-[11px] text-muted">
-                aperçu du post (image)
+                {news.previewLabel}
               </span>
 
               <span className="mt-[22px] font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-forest">
-                Voir le post <span aria-hidden>→</span>
+                {news.postCta} <span aria-hidden>→</span>
               </span>
             </a>
           ))}
