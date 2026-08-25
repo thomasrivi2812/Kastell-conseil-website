@@ -194,24 +194,38 @@ français et clique sur **Publier**.
 > ni avec webpack à l'intérieur de Next 16. L'hébergement Sanity est gratuit,
 > officiel, et évite d'embarquer un back-office dans le site vitrine.
 
-### Mise en route (une seule fois)
+### Mise en route (une seule fois, sans terminal)
 
-1. Créer un projet sur [sanity.io/manage](https://sanity.io/manage), dataset
-   `production`.
-2. Copier `.env.example` en `.env.local` et y reporter l'identifiant du projet
-   **sous les deux préfixes** — `NEXT_PUBLIC_SANITY_PROJECT_ID` et
-   `SANITY_STUDIO_PROJECT_ID`, même valeur. Next n'expose au navigateur que le
-   premier, le studio que le second : n'en renseigner qu'un laisse l'autre
-   côté sans identifiant.
-3. Déployer le studio : `npx sanity deploy` — il choisit une adresse en
-   `.sanity.studio`. C'est le lien à donner à Léa.
-4. Inviter Léa sur le projet Sanity avec le rôle **editor**.
-5. Dans Vercel, ajouter `NEXT_PUBLIC_SANITY_PROJECT_ID`,
-   `NEXT_PUBLIC_SANITY_DATASET` et `SANITY_REVALIDATE_SECRET`.
-6. Dans Sanity, créer un webhook vers
-   `https://<domaine>/api/revalidate`, méthode POST, avec l'en-tête
-   `x-kastell-secret` valant le même secret. Sans lui, les modifications
-   apparaissent avec au plus une minute de retard ; avec lui, immédiatement.
+`sanity login` et `sanity deploy` exigent un terminal. Le studio se construit
+aussi en statique (`npm run studio:build`), donc **Vercel peut le déployer comme
+n'importe quel site** — tout se fait depuis le navigateur, avec les deux outils
+déjà en place.
+
+1. **Projet Sanity** — sur [sanity.io/manage](https://sanity.io/manage),
+   *Create new project*, dataset `production`. Relever l'identifiant (`Project ID`).
+2. **Studio sur Vercel** — nouveau projet Vercel, **même dépôt GitHub** :
+   - Framework preset : `Other`
+   - Build command : `npm run studio:build`
+   - Output directory : `dist`
+   - Variables : `SANITY_STUDIO_PROJECT_ID`, `SANITY_STUDIO_DATASET=production`
+
+   L'URL obtenue est le lien à donner à Léa.
+3. **CORS** — dans Sanity, *API → CORS origins*, ajouter l'URL du studio avec
+   *Allow credentials*. Sans cette étape le studio s'affiche mais reste vide :
+   le navigateur bloque ses appels à l'API.
+4. **Léa** — *Members → Invite*, rôle **Editor** (pas Administrator : inutile
+   qu'elle puisse supprimer le dataset).
+5. **Site** — dans le projet Vercel existant, ajouter
+   `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET=production` et
+   `SANITY_REVALIDATE_SECRET` (`openssl rand -hex 32`), puis redéployer.
+6. **Webhook** *(optionnel)* — Sanity *API → Webhooks*, URL
+   `https://<domaine>/api/revalidate`, méthode POST, en-tête
+   `x-kastell-secret` valant le même secret. Sans lui les modifications
+   apparaissent en moins d'une minute ; avec lui, immédiatement.
+
+> Le build du studio recopie `public/` dans sa sortie, soit ~7 Mo d'images du
+> site embarquées pour rien. Sans conséquence — c'est un déploiement séparé —
+> mais ça alourdit ses builds.
 
 ### Tant que rien n'est branché
 
