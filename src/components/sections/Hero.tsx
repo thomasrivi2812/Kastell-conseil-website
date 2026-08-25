@@ -19,11 +19,11 @@ export function Hero() {
         height={900}
         priority
         unoptimized
-        className="hero-map pointer-events-none absolute right-[-12%] top-1/2 aspect-[4/3] w-[min(70vw,1080px)] -translate-y-1/2"
+        className="hero-map pointer-events-none absolute top-1/2 aspect-[4/3] -translate-y-1/2"
       />
 
       <div className="shell relative w-full py-[clamp(72px,11vw,150px)]">
-        <div className="flex max-w-[min(900px,92%)] flex-col items-start">
+        <div className="flex max-w-[min(900px,92%)] translate-y-[clamp(14px,2.6vw,48px)] flex-col items-start">
           <Reveal>
             {/* Le mot-symbole porte le nom et la baseline : la ligne de texte
                 qui les répétait a été retirée. Le H1 reste la promesse. */}

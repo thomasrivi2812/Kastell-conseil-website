@@ -151,7 +151,7 @@
   .h1 {
     font-family: var(--font-serif), "Instrument Serif", serif;
     font-weight: 400;
-    font-size: clamp(34px, 4.5vw, 64px);
+    font-size: clamp(30px, 3.7vw, 52px);
     line-height: 1;
     letter-spacing: -0.02em;
     color: #192924;
@@ -529,6 +529,13 @@
   }
 
   .hero-map {
+    /*
+     * Calage borné plutôt qu'en pourcentage pur : un offset en % s'étire avec
+     * la fenêtre alors que la largeur est plafonnée, ce qui creusait un vide
+     * entre le texte et le motif au-delà de 1600px.
+     */
+    right: calc(-1 * clamp(60px, 26vw, 420px));
+    width: min(70vw, 1240px);
     opacity: 0.55;
     /*
      * Coupe franche : le motif déborde à droite et dépasse en hauteur, la
