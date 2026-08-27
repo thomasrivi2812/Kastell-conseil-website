@@ -18,6 +18,10 @@ const config: Config = {
         mist: "#8FAFAE",
         frost: "#B8CFCE",
         ice: "#E2F0F8",
+        /* Vert clair de la charte, décliné pour les fonds clairs. */
+        accent: "#8FAFAE",
+        "accent-tint": "#EDF4F2",
+        "accent-line": "rgba(143,175,174,0.55)",
         muted: "#666F6C",
         dim: "#707876",
       },

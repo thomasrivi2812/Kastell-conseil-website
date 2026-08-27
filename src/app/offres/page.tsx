@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Contact } from "@/components/sections/Contact";
 import { Reveal } from "@/components/Reveal";
+import { site } from "@/content/site";
 import { getContent } from "@/sanity/content";
 
 export const metadata: Metadata = {
@@ -33,7 +34,7 @@ export default async function OffresPage() {
             key={offer.slug}
             id={offer.slug}
             className={`hairline-top ${
-              i % 2 === 1 ? "bg-sand" : ""
+              i % 2 === 1 ? "bg-accent-tint" : ""
             }`}
           >
             <div className="shell band-md">
@@ -49,6 +50,48 @@ export default async function OffresPage() {
                 </div>
                 <div className="max-w-[60ch]">
                   <p className="body-lg">{offer.summary}</p>
+
+                  <a
+                    href={`mailto:${site.email}?subject=${encodeURIComponent(
+                      `${offersSection.diagnosticSubject} — ${offer.title}`,
+                    )}`}
+                    className="pill pill-outline mt-[clamp(22px,2.6vw,30px)]"
+                  >
+                    {offersSection.diagnosticCta} <span aria-hidden>→</span>
+                  </a>
+
+                  {offer.bullets && offer.bullets.length > 0 ? (
+                    <div className="mt-[clamp(28px,3.4vw,40px)] border-t border-accent-line pt-[22px]">
+                      <p className="eyebrow-tight mb-[16px]">
+                        {offersSection.bulletsHeading}
+                      </p>
+                      <ul className="m-0 flex list-none flex-col gap-[10px] p-0">
+                        {offer.bullets.map((item) => (
+                          <li key={item} className="offer-bullet">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+
+                  {offer.note ? (
+                    <p className="mt-[18px] font-sans text-[14px] italic text-sage">
+                      {offer.note}
+                    </p>
+                  ) : null}
+
+                  {offer.caseStudy ? (
+                    <div className="mt-[clamp(24px,3vw,34px)] rounded-[12px] border border-accent-line bg-accent-tint p-[clamp(18px,2.2vw,26px)]">
+                      <p className="eyebrow-tight mb-2">Cas pratique</p>
+                      <p className="m-0 font-serif text-[clamp(19px,1.7vw,23px)] leading-[1.3] text-forest">
+                        {offer.caseStudy.title}
+                      </p>
+                      <p className="body-lg mt-2 text-[16px]">
+                        {offer.caseStudy.body}
+                      </p>
+                    </div>
+                  ) : null}
                 </div>
               </Reveal>
             </div>

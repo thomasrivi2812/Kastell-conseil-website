@@ -62,9 +62,21 @@ export async function Footer() {
           <p className="m-0 font-sans text-[13px] uppercase tracking-[0.12em] text-[rgba(226,240,248,0.55)]">
             {footer.copyright}
           </p>
-          <p className="m-0 font-sans text-[13px] uppercase tracking-[0.12em] text-[rgba(226,240,248,0.55)]">
-            {footer.mention}
-          </p>
+          {site.hatvp ? (
+            <a
+              href={site.hatvp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link hit-area m-0 font-sans text-[13px] uppercase tracking-[0.12em] text-[rgba(226,240,248,0.55)] hover:text-white"
+            >
+              {footer.mention}
+              <span className="sr-only"> (nouvelle fenêtre)</span>
+            </a>
+          ) : (
+            <p className="m-0 font-sans text-[13px] uppercase tracking-[0.12em] text-[rgba(226,240,248,0.55)]">
+              {footer.mention}
+            </p>
+          )}
         </div>
       </div>
     </footer>

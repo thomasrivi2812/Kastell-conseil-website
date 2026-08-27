@@ -263,6 +263,29 @@
     border-color: #192924;
   }
 
+  /*
+   * Puces des offres : le vert clair de la charte sert de repère visuel.
+   * Le marqueur est décoratif — le texte reste au contraste habituel.
+   */
+  .offer-bullet {
+    position: relative;
+    padding-left: 22px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #2f3835;
+  }
+
+  .offer-bullet::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #8fafae;
+  }
+
   /* ---- cartes offres ---- */
   .offer-card {
     position: relative;

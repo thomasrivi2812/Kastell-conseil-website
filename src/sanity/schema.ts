@@ -25,6 +25,13 @@ const parametres: SchemaTypeDefinition = {
       ...texte,
       description: "C'est ce profil qui alimente la rubrique actualités.",
     },
+    {
+      name: "hatvp",
+      title: "Profil HATVP",
+      ...texte,
+      description:
+        "Lien vers la fiche du répertoire des représentants d'intérêts. Laisser vide retire le lien du pied de page.",
+    },
   ],
   preview: { prepare: () => ({ title: "Paramètres du site" }) },
 };
@@ -163,6 +170,29 @@ const offres: SchemaTypeDefinition = {
               ...texte,
               description: "Sans accent ni espace, sert d'ancre dans l'URL.",
             },
+            {
+              name: "prestations",
+              title: "Ce que Kastell fait pour vous",
+              type: "array",
+              of: [{ type: "string" }],
+            },
+            {
+              name: "note",
+              title: "Mention complémentaire",
+              ...texte,
+              description: "Facultatif. Exemple : « Formation animée sur un module d'une journée. »",
+            },
+            {
+              name: "casPratique",
+              title: "Cas pratique",
+              type: "object",
+              description:
+                "Facultatif : le bloc n'apparaît sur le site que s'il est renseigné.",
+              fields: [
+                { name: "title", title: "Titre", ...texte },
+                { name: "body", title: "Récit", ...paragraphe },
+              ],
+            },
           ],
           preview: { select: { title: "titre", subtitle: "resume" } },
         },
@@ -230,6 +260,13 @@ const apropos: SchemaTypeDefinition = {
             { name: "contexte", title: "Contexte", ...paragraphe },
             { name: "lien", title: "Lien", ...texte },
             { name: "cta", title: "Libellé du lien", ...texte },
+            {
+              name: "objectifs",
+              title: "Objectifs",
+              type: "array",
+              of: [{ type: "string" }],
+              description: "Facultatif : liste numérotée sous le contexte.",
+            },
           ],
           preview: { select: { title: "titre", subtitle: "categorie" } },
         },

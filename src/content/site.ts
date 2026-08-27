@@ -2,10 +2,12 @@ export const site = {
   name: "Kastell Conseil",
   /** Domaine de production — sert aussi à robots.txt, au sitemap et à l'OpenGraph. */
   url: "https://kastell-conseils.fr",
-  tagline: "Conseil & lobbying engagé",
+  tagline: "Ancrage territorial, influence nationale",
+  /** Profil HATVP de Léa — à renseigner, lié depuis le pied de page. */
+  hatvp: "",
   /** Domaine au pluriel depuis le changement de nom de domaine. */
   email: "contact@kastell-conseils.fr",
-  city: "Rennes, Bretagne",
+  city: "Lamballe, Bretagne",
   /** Page entreprise. */
   linkedin: "#",
   /** Profil personnel : c'est lui qui alimente la section actualités. */
@@ -17,7 +19,8 @@ export const site = {
 
 export const hero = {
   /** Le mot-symbole porte le nom : ce titre est la promesse seule. */
-  promise: "Peser dans le débat public.",
+  promise:
+    "Peser dans le débat public. Influencer les décisions. Où que vous soyez.",
   cta: "Découvrir nos offres",
 } as const;
 
@@ -31,15 +34,17 @@ export const vision = {
   backdrop: "",
   eyebrow: "Notre vision",
   title:
-    "Une passerelle entre le monde politique et les entreprises des territoires.",
+    "« L'interface entre les entreprises ancrées dans les territoires et les lieux de décisions »",
   paragraphs: [
-    "Les décisions qui façonnent la transition écologique se prennent à Rennes, à Paris et à Bruxelles. Les entreprises qui la mettent en œuvre, elles, travaillent au plus près du terrain. Kastell Conseil existe pour relier les deux.",
-    "Nous portons vos enjeux avec méthode : comprendre le calendrier politique, construire un argumentaire solide, identifier les bons interlocuteurs et engager un dialogue durable. Sans esbroufe, avec une exigence de transparence et de conformité.",
-    "Proximité, expertise, engagement : trois principes qui structurent chacune de nos missions.",
+    "L'économie française se construit dans les territoires. Les décisions structurantes qui en dessinent l'avenir se prennent ailleurs. Pendant longtemps, influencer la décision publique signifiait être à Paris ou à Bruxelles, héritage d'un modèle de décision centralisé.",
+    "Mais l'influence publique ne s'arrête pas au périphérique. À mesure que les centres de décision se diversifient, l'influence doit se rapprocher du terrain. Depuis les Côtes-d'Armor, Kastell crée un dialogue entre les lieux où naissent les projets et les lieux où se prennent les décisions.",
+    "Où que vous soyez, Kastell met sa connaissance des réalités locales, du monde économique et des institutions publiques au service de vos enjeux d'influence : lever des obstacles législatifs et réglementaires qui freinent votre activité, accroître votre visibilité sur votre territoire et au-delà, renforcer votre ancrage et votre dialogue avec vos parties prenantes, obtenir des financements publics pour développer vos projets.",
+    "Parce que l'influence ne s'improvise pas, nous travaillons chaque enjeu avec méthode. Comprendre les agendas politiques, identifier les interlocuteurs clés, construire les bons arguments et inscrire un dialogue dans la durée : une approche exigeante, transparente et conforme aux règles applicables aux représentants d'intérêts.",
+    "Comprendre au plus près, conseiller avec expertise, agir pour une influence utile et responsable : trois principes qui guident chacune de nos missions.",
   ],
   stats: [
-    { value: "15 ans", label: "d'expérience institutionnelle" },
-    { value: "Rennes", label: "Paris · Bruxelles" },
+    { value: "10 ans", label: "d'expérience institutionnelle" },
+    { value: "Lamballe", label: "Paris · Bruxelles" },
   ],
 } as const;
 
@@ -53,48 +58,115 @@ export const nav = [
 export const offersSection = {
   eyebrow: "Offres",
   ctaAll: "Toutes nos offres",
-  pageTitle: "Quatre terrains d'intervention.",
+  pageTitle: "Six terrains d'intervention.",
   pageIntro:
     "Chaque mission part du même point : comprendre où se prend la décision, à quel moment, et par qui. Le reste — argumentaire, interlocuteurs, calendrier — en découle.",
   backLabel: "Retour",
   backCta: "Revenir à l'accueil",
+  /** Libellé et préfixe d'objet du courriel de prise de rendez-vous. */
+  diagnosticCta: "Prendre rendez-vous pour un pré-diagnostic",
+  diagnosticSubject: "Pré-diagnostic",
+  bulletsHeading: "Ce que Kastell fait pour vous",
 } as const;
 
+/**
+ * `caseStudy` reste vide tant qu'aucun cas pratique n'est publiable : le bloc
+ * n'apparaît que s'il est renseigné, offre par offre.
+ */
 export const offers = [
   {
     index: "01",
-    slug: "affaires-publiques",
-    title: "Affaires publiques",
+    slug: "lobbying-institutionnel",
+    title: "Lobbying institutionnel",
     summary:
-      "Veille législative, lecture du calendrier institutionnel, stratégie d'influence.",
+      "Influencer les décisions publiques pour conquérir de nouveaux marchés et protéger vos activités.",
+    bullets: [
+      "Suivi de l'activité politique, législative et réglementaire",
+      "Analyse et décryptage",
+      "Mapping de l'environnement institutionnel",
+      "Organisation de rendez-vous avec des décideurs politiques nationaux",
+      "Rédaction et négociation d'amendements et de propositions de loi",
+    ],
+    caseStudy: null,
   },
   {
     index: "02",
-    slug: "representation",
-    title: "Représentation d'intérêts",
+    slug: "ancrage-territorial",
+    title: "Ancrage territorial",
     summary:
-      "Portage de vos positions auprès des élus, administrations et collectivités.",
+      "Renforcer votre capacité d'influence au cœur des écosystèmes locaux.",
+    bullets: [
+      "Veille et intelligence territoriale",
+      "Création de coalitions et animation de réseaux",
+      "Mise en relation avec des décideurs locaux",
+      "Organisation d'événements locaux",
+    ],
+    caseStudy: null,
   },
   {
     index: "03",
-    slug: "communication",
-    title: "Communication d'influence",
-    summary: "Narratif, relations presse et prises de parole dirigeants.",
+    slug: "aides-et-financements-publics",
+    title: "Aides et financements publics",
+    summary:
+      "Vous orienter dans le millefeuille administratif et mobiliser des aides et financements publics pour développer vos projets.",
+    bullets: [
+      "Identification des aides et financements éligibles a priori pour votre projet",
+      "Conseil stratégique : positionnement, rendez-vous décideurs, messages",
+      "Préparation et dépôt des demandes auprès des organismes identifiés",
+      "Sécurisation institutionnelle jusqu'à l'obtention des financements",
+    ],
+    caseStudy: null,
   },
   {
     index: "04",
-    slug: "transition",
-    title: "Transition écologique",
+    slug: "communication-d-influence",
+    title: "Communication d'influence",
     summary:
-      "Énergie, agroalimentaire et mer : climat, eau, foncier, biodiversité.",
+      "Faire entendre votre voix et valoriser vos projets à impact dans une société exigeante à l'information abondante.",
+    bullets: [
+      "Analyse réputationnelle",
+      "Animation et structuration de réseaux",
+      "Négociation d'interviews dans les médias",
+      "Recherche de partenariats d'influence",
+      "Organisation d'événements",
+    ],
+    caseStudy: null,
+  },
+  {
+    index: "05",
+    slug: "audit-strategique",
+    title: "Audit stratégique d'affaires publiques",
+    summary:
+      "Trouver des leviers de compétitivité grâce à une stratégie d'affaires publiques efficace.",
+    bullets: [
+      "Diagnostic interne et échange sur vos priorités",
+      "Analyse de l'environnement économique, juridique et politique dans lequel agir",
+      "Cartographie des parties prenantes et priorisation des publics",
+      "Identification des messages clés",
+      "Analyse des leviers d'action",
+      "Construction d'une feuille de route opérationnelle",
+    ],
+    note: "Formation animée sur un module d'une journée.",
+    caseStudy: null,
+  },
+  {
+    index: "06",
+    slug: "communication-de-crise",
+    title: "Communication de crise",
+    summary:
+      "Protéger votre réputation dans un environnement crisogène où la perception compte souvent autant que la performance.",
+    bullets: [
+      "Veille sectorielle et détection des signaux faibles",
+      "Organisation et animation d'une cellule de crise",
+      "Mise en œuvre de la stratégie : matrices, procédures",
+      "Élaboration des messages clés",
+      "Gestion des relations presse de crise",
+      "Media training",
+    ],
+    caseStudy: null,
   },
 ] as const;
 
-/**
- * Logos clients. `file` est un chemin sous public/ SANS extension : le helper
- * findPublicAsset résout le format réel. Tant qu'un fichier manque, la tuile
- * affiche le nom du client à la place, comme dans la maquette.
- */
 export const clients = [
   { name: "Ville de Rennes", file: "brand/ville-de-rennes" },
   { name: "Région Bretagne", file: "brand/region-bretagne" },
@@ -105,20 +177,17 @@ export const clients = [
 
 export const founder = {
   name: "Léa de Lamotte",
-  role: "Conseil en affaires publiques · Rennes",
-  /**
-   * Texte à faire valider par Léa. Les paragraphes ajoutés développent la
-   * méthode et le positionnement : ils n'avancent aucun fait biographique qui
-   * ne figurait pas déjà sur le site — ni école, ni employeur, ni date.
-   */
+  role: "Conseil en affaires publiques · Lamballe · Paris · Bruxelles",
   bio: [
-    "Formée aux institutions et passée par les cabinets d'élus comme par la direction des affaires publiques d'un grand groupe, elle a fondé Kastell Conseil pour porter les enjeux des entreprises bretonnes engagées dans la transition écologique.",
-    "De ce double parcours, elle a gardé une conviction : on ne défend bien un dossier qu'en comprenant les contraintes de celui qui décide. Calendrier parlementaire, arbitrages budgétaires, équilibres locaux — autant de réalités qui déterminent ce qu'il est possible d'obtenir, et à quel moment.",
-    "C'est aussi ce qui l'a conduite à installer le cabinet en Bretagne plutôt qu'à Paris. Les dirigeants qu'elle accompagne connaissent leur filière mieux que quiconque ; ce qui leur manque, c'est le chemin jusqu'à la décision publique. Kastell Conseil parcourt ce chemin avec eux, de Rennes à Bruxelles.",
-    "Elle intervient personnellement sur chaque mission, de la note de cadrage à la rencontre des décideurs.",
+    "Formée au croisement de la décision publique, du plaidoyer environnemental et du conseil aux entreprises, Léa de Lamotte fonde Kastell Conseil avec une conviction : l'influence publique ne doit pas être réservée aux acteurs implantés dans les centres de décision.",
+    "Son parcours, de l'Assemblée nationale au conseil stratégique en passant par le milieu des ONG, lui permet de croiser plusieurs expertises : compréhension de la fabrique de la loi, communication d'influence, ancrage territorial et intelligence économique.",
+    "À travers Kastell, elle met son expertise au service de l'influence des entreprises et des acteurs économiques, avec une attention particulière portée à celles et ceux qui font vivre les territoires et portent les transformations de demain.",
+    "Elle intervient personnellement sur chaque mission, de la définition de la stratégie à la rencontre des décideurs.",
+    "Implanté en Bretagne, Kastell revendique une autre manière de pratiquer les affaires publiques, depuis les régions : partir du terrain pour mieux comprendre les enjeux des acteurs économiques, tout en maîtrisant les lieux de pouvoir et les mécanismes de décision. Elle co-fonde en 2026 le réseau Influence & Territoires, premier réseau professionnel dédié aux professionnels des affaires publiques installés en régions.",
   ],
   quote:
-    "« Peser dans le débat public ne s'improvise pas : cela se prépare, se documente et se construit dans le temps long. »",
+    "« L'influence publique ne doit pas être réservée aux acteurs implantés dans les centres de décision. »",
+  linkedinCta: "Me suivre sur LinkedIn",
   /** Déposer le portrait ici (4:5) — le placeholder du design s'affiche tant qu'il est absent. */
   photo: "/brand/fondatrice.png",
 } as const;
@@ -169,9 +238,15 @@ export const publications = [
   },
   {
     label: "Manifeste",
-    title: "Réseau Influence & Territoire",
+    title: "Réseau Influence & Territoires",
     context:
-      "[ Description du RIT — réseau professionnel co-fondé en 2026 ]",
+      "La décision publique reste très concentrée à Paris, créant une déconnexion avec les territoires où se déroule l'essentiel de l'activité économique et sociale — plus de 80 % des emplois privés. Plutôt que d'opposer Paris et les régions, le Réseau Influence & Territoires, collectif apartisan de consultants et de cabinets implantés en région, entend fluidifier le dialogue entre le niveau national et les réalités de terrain.",
+    objectives: [
+      "Valoriser l'expertise des professionnels des affaires publiques basés en territoires.",
+      "Structurer la profession via le partage d'outils, de méthodes et de retours d'expérience.",
+      "Rendre l'offre lisible pour les acteurs économiques locaux : PME, ETI, fédérations.",
+      "Porter une voix collective pour faire remonter les enjeux territoriaux dans les processus de décision nationaux.",
+    ],
     /* URL publique : le lien fourni pointait vers l'espace d'administration. */
     href: "https://www.linkedin.com/company/115801577/",
     cta: "Suivre le RIT sur LinkedIn",
@@ -200,7 +275,7 @@ export const news = {
 
 export const contact = {
   eyebrow: "Contact",
-  title: "Parlons de vos enjeux publics.",
+  title: "Parlons de vos enjeux.",
   intro:
     "Un premier échange de trente minutes suffit souvent à clarifier une stratégie.",
   mailCta: "Nous contacter par mail",
@@ -209,7 +284,7 @@ export const contact = {
 
 export const footer = {
   blurb:
-    "Conseil en affaires publiques, lobbying et communication d'influence. Rennes, Bretagne.",
+    "Conseil en affaires publiques, lobbying et communication d'influence. Lamballe, Bretagne.",
   navHeading: "Navigation",
   infoHeading: "Informations",
   contactHeading: "Contact",

@@ -21,17 +21,17 @@ const serif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Kastell Conseil — Conseil & lobbying engagé",
-    template: "%s — Kastell Conseil",
+    default: "Cabinet Kastell — Ancrage territorial, influence nationale",
+    template: "%s — Cabinet Kastell",
   },
   description:
-    "Conseil en affaires publiques, lobbying et communication d'influence. Une passerelle entre le monde politique et les entreprises des territoires. Rennes, Bretagne.",
+    "Cabinet de conseil en affaires publiques et lobbying. Kastell relie les entreprises ancrées dans les territoires aux lieux de décision, de Lamballe à Paris et Bruxelles.",
   openGraph: {
-    title: "Kastell Conseil — Conseil & lobbying engagé",
+    title: "Cabinet Kastell — Ancrage territorial, influence nationale",
     description:
-      "Conseil en affaires publiques, lobbying et communication d'influence. Rennes, Bretagne.",
+      "Peser dans le débat public. Influencer les décisions. Où que vous soyez.",
     url: "/",
-    siteName: "Kastell Conseil",
+    siteName: "Cabinet Kastell",
     locale: "fr_FR",
     type: "website",
   },

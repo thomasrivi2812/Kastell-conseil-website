@@ -52,19 +52,32 @@ function assembler(d: Donnees) {
   const ap = (d.apropos ?? {}) as Doc;
   const f = (d.piedDePage ?? {}) as Doc;
 
-  type Offre = { index: string; slug: string; title: string; summary: string };
+  type Offre = {
+    index: string;
+    slug: string;
+    title: string;
+    summary: string;
+    bullets?: readonly string[];
+    note?: string;
+    caseStudy?: { title: string; body: string } | null;
+  };
   type Publication = {
     label: string;
     title: string;
     context: string;
     href: string;
     cta: string;
+    /** Liste numérotée facultative, utilisée par le manifeste du RIT. */
+    objectives?: readonly string[];
   };
   const offresListe: Offre[] | undefined = (o.liste as Doc[] | undefined)?.map((item, i) => ({
     index: String(i + 1).padStart(2, "0"),
     slug: (item.ancre as string) || slug((item.titre as string) ?? `offre-${i + 1}`),
     title: (item.titre as string) ?? "",
     summary: (item.resume as string) ?? "",
+    bullets: (item.prestations as string[]) ?? [],
+    note: (item.note as string) ?? undefined,
+    caseStudy: (item.casPratique as { title: string; body: string } | null) ?? null,
   }));
 
   const presse = (ap.presse as Doc[] | undefined)?.map((item) => ({
@@ -83,6 +96,7 @@ function assembler(d: Donnees) {
       city: ou(p.ville as string, fichier.site.city),
       linkedin: ou(p.linkedin as string, fichier.site.linkedin),
       linkedinProfile: ou(p.linkedinProfil as string, fichier.site.linkedinProfile),
+      hatvp: ou(p.hatvp as string, fichier.site.hatvp),
     },
     hero: {
       promise: ou(a.promesse as string, fichier.hero.promise),
@@ -148,6 +162,7 @@ function assembler(d: Donnees) {
         context: (item.contexte as string) ?? "",
         href: (item.lien as string) ?? "#",
         cta: (item.cta as string) ?? "En savoir plus",
+        objectives: (item.objectifs as string[]) ?? undefined,
       })),
       fichier.publications as readonly Publication[] as Publication[],
     ),

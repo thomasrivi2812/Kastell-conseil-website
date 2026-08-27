@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
+import { site } from "@/content/site";
 import { getContent } from "@/sanity/content";
 
 export async function APropos() {
@@ -40,6 +41,19 @@ export async function APropos() {
                   {founder.quote}
                 </p>
               </blockquote>
+
+              <a
+                href={site.linkedinProfile}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="press-link mt-[clamp(20px,2.4vw,28px)] inline-flex items-center gap-2 rounded-full border border-[rgba(226,240,248,0.4)] px-6 py-3 font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-white hover:border-white hover:bg-[rgba(226,240,248,0.1)]"
+              >
+                {founder.linkedinCta}
+                <span className="inline-block" aria-hidden>
+                  ↗
+                </span>
+                <span className="sr-only"> (nouvelle fenêtre)</span>
+              </a>
             </Reveal>
           </div>
 
@@ -129,6 +143,13 @@ export async function APropos() {
                   <p className="m-0 mb-2.5 max-w-[46ch] text-[15px] leading-[1.6] text-[rgba(226,240,248,0.72)]">
                     {item.context}
                   </p>
+                  {item.objectives?.length ? (
+                    <ol className="m-0 mb-2.5 flex max-w-[46ch] list-decimal flex-col gap-1.5 pl-[18px] text-[15px] leading-[1.55] text-[rgba(226,240,248,0.72)] marker:text-frost">
+                      {item.objectives.map((objectif) => (
+                        <li key={objectif}>{objectif}</li>
+                      ))}
+                    </ol>
+                  ) : null}
                   <a
                     href={item.href}
                     target="_blank"
