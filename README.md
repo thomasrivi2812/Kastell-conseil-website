@@ -116,6 +116,23 @@ derrière un masque, 144 → 112 Ko). Next 16 refusant toute qualité non décla
 elle est listée dans `images.qualities` de `next.config.mjs` ; sans cela le
 `quality` est ignoré en silence.
 
+### Palette et vert clair
+
+Le vert clair de la charte est décliné en trois rôles, chacun vérifié par la
+mesure plutôt que choisi à l'œil :
+
+| Jeton | Valeur | Rôle | Contraste |
+| --- | --- | --- | --- |
+| `accent` | `#8BB19F` | décoratif, et texte sur les bandeaux vert foncé | 6,42:1 sur `#192924` |
+| `sage` | `#4B7662` | texte d'accent sur fond clair | 4,90 sur bone, 4,50 sur sable |
+| `accent-tint` | `#EEF4F1` | fond de bande | texte forêt à 13,6:1 |
+
+`#4B7662` est **le plus clair** qui passe encore AA en texte sur les deux fonds
+clairs du site : le monter davantage ferait passer les intitulés de section sous
+le seuil. Le vert apparaît sur la bande « Notre vision », les bandes alternées
+de la page Offres, les puces des prestations, les filets de section et les
+survols. Le bandeau LinkedIn garde le sable, pour ne pas verdir toute la page.
+
 ### Logos des médias (presse)
 
 Même principe que les logos clients : chaque entrée de `press` porte un chemin

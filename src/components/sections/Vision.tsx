@@ -12,7 +12,7 @@ export async function Vision() {
   return (
     <section
       id="vision"
-      className="relative overflow-hidden border-t border-[rgba(25,41,36,0.12)] bg-sand"
+      className="relative overflow-hidden border-t border-[rgba(75,118,98,0.2)] bg-accent-tint"
     >
       {backdrop ? (
         <div aria-hidden className="vision-bg">

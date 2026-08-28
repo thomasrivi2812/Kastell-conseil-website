@@ -36,7 +36,7 @@ export async function APropos() {
               index={2}
               className="apropos-citation mt-[clamp(26px,3vw,38px)]"
             >
-              <blockquote className="m-0 border-l-2 border-sage pl-[clamp(18px,2vw,26px)]">
+              <blockquote className="m-0 border-l-2 border-accent pl-[clamp(18px,2vw,26px)]">
                 <p className="m-0 font-serif text-[clamp(19px,1.7vw,25px)] font-normal italic leading-[1.42] text-white">
                   {founder.quote}
                 </p>
@@ -98,18 +98,18 @@ export async function APropos() {
                     className="press-link flex items-center gap-[14px] text-[15px] leading-[1.5] text-[rgba(226,240,248,0.82)] hover:text-white"
                   >
                     {article.logoUrl ? (
-                      <span className="press-logo relative block h-[34px] w-[92px] shrink-0 overflow-hidden rounded-[6px] bg-bone">
+                      <span className="press-logo relative block h-[42px] w-[116px] shrink-0 overflow-hidden rounded-[8px] bg-bone">
                         <Image
                           src={article.logoUrl}
                           alt={article.outlet}
                           fill
-                          sizes="92px"
+                          sizes="116px"
                           unoptimized
-                          className="object-contain px-2 py-1.5"
+                          className="object-contain px-2.5 py-2"
                         />
                       </span>
                     ) : (
-                      <span className="flex h-[34px] w-[92px] shrink-0 items-center justify-center rounded-[6px] bg-[rgba(226,240,248,0.1)] px-1 text-center font-sans text-[10px] uppercase leading-[1.2] tracking-[0.08em] text-frost">
+                      <span className="flex h-[42px] w-[116px] shrink-0 items-center justify-center rounded-[8px] border border-[rgba(139,177,159,0.35)] bg-[rgba(139,177,159,0.12)] px-2 text-center font-sans text-[10px] uppercase leading-[1.25] tracking-[0.1em] text-accent">
                         {article.outlet}
                       </span>
                     )}
