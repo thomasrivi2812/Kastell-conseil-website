@@ -236,22 +236,41 @@ export const publications = [
     href: "https://www.linkedin.com/feed/update/urn:li:activity:7427385529794527232/",
     cta: "Voir le post LinkedIn",
   },
-  {
-    label: "Manifeste",
-    title: "Réseau Influence & Territoires",
-    context:
-      "La décision publique reste très concentrée à Paris, créant une déconnexion avec les territoires où se déroule l'essentiel de l'activité économique et sociale — plus de 80 % des emplois privés. Plutôt que d'opposer Paris et les régions, le Réseau Influence & Territoires, collectif apartisan de consultants et de cabinets implantés en région, entend fluidifier le dialogue entre le niveau national et les réalités de terrain.",
-    objectives: [
-      "Valoriser l'expertise des professionnels des affaires publiques basés en territoires.",
-      "Structurer la profession via le partage d'outils, de méthodes et de retours d'expérience.",
-      "Rendre l'offre lisible pour les acteurs économiques locaux : PME, ETI, fédérations.",
-      "Porter une voix collective pour faire remonter les enjeux territoriaux dans les processus de décision nationaux.",
-    ],
-    /* URL publique : le lien fourni pointait vers l'espace d'administration. */
-    href: "https://www.linkedin.com/company/115801577/",
-    cta: "Suivre le RIT sur LinkedIn",
-  },
 ] as const;
+
+/**
+ * Le manifeste du RIT occupe sa propre bande en fin de page : le texte est trop
+ * long pour la colonne « Nos publications », et le document mérite d'être
+ * présenté comme tel, couverture à l'appui.
+ *
+ * `coverUrl` reste vide tant qu'aucun visuel n'est téléversé : la couverture est
+ * alors composée dans la page à partir de `cover`, avec les fontes du site.
+ */
+export const manifesto = {
+  eyebrow: "Manifeste",
+  title: "Réseau Influence & Territoires",
+  intro:
+    "La décision publique reste très concentrée à Paris, créant une déconnexion avec les territoires où se déroule l'essentiel de l'activité économique et sociale — plus de 80 % des emplois privés. Plutôt que d'opposer Paris et les régions, le Réseau Influence & Territoires, collectif apartisan de consultants et de cabinets implantés en région, entend fluidifier le dialogue entre le niveau national et les réalités de terrain.",
+  objectivesHeading: "Quatre objectifs",
+  objectives: [
+    "Valoriser l'expertise des professionnels des affaires publiques basés en territoires.",
+    "Structurer la profession via le partage d'outils, de méthodes et de retours d'expérience.",
+    "Rendre l'offre lisible pour les acteurs économiques locaux : PME, ETI, fédérations.",
+    "Porter une voix collective pour faire remonter les enjeux territoriaux dans les processus de décision nationaux.",
+  ],
+  /* Repris mot pour mot du texte fourni : aucune mention ajoutée. */
+  tags: ["Apartisan", "Consultants en région"],
+  cta: "Suivre le RIT sur LinkedIn",
+  /* URL publique : le lien fourni pointait vers l'espace d'administration. */
+  href: "https://www.linkedin.com/company/115801577/",
+  coverUrl: "",
+  cover: {
+    lines: ["Réseau", "Influence", "& Territoires"],
+    subtitle:
+      "Collectif apartisan de consultants\nen affaires publiques implantés\nen région",
+    mark: "RIT",
+  },
+} as const;
 
 export const about = {
   eyebrow: "Présidente fondatrice",

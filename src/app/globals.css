@@ -40,7 +40,7 @@
   }
 
   a:hover {
-    color: #4b7662;
+    color: #456f5c;
   }
 
   input,
@@ -55,7 +55,7 @@
 
   /* The UA outline is near-black: invisible on the forest bands. */
   :where(a, button, [tabindex]):focus-visible {
-    outline: 2px solid #4b7662;
+    outline: 2px solid #456f5c;
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -120,7 +120,7 @@
   }
 
   .hairline-top {
-    border-top: 1px solid rgba(75, 118, 98, 0.2);
+    border-top: 1px solid rgba(69, 111, 92, 0.2);
   }
 
   .grid-auto {
@@ -134,8 +134,120 @@
     font-size: 17px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #4b7662;
+    color: #456f5c;
     margin: 0;
+  }
+
+  /* Intitulé précédé d'un filet, pour les blocs « document ». */
+  .eyebrow-rule {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #456f5c;
+    margin: 0;
+  }
+
+  .eyebrow-rule::before {
+    content: "";
+    width: 30px;
+    height: 2px;
+    background: #456f5c;
+    flex: none;
+  }
+
+  /* ---- couverture du manifeste ---- */
+  /*
+   * La couverture se dimensionne sur sa propre largeur, pas sur celle de la
+   * fenêtre : mêmes proportions dans la colonne du bureau et une fois la grille
+   * repliée sur mobile.
+   *
+   * Sa marge intérieure est en pourcentage, pas en cqw : un conteneur ne peut
+   * pas s'interroger lui-même, ses propres cqw retomberaient sur la fenêtre.
+   */
+  .manifeste-couv {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 500 / 707;
+    padding: 5.5%;
+    border-radius: 14px;
+    background: #faf9f6;
+    box-shadow:
+      0 2px 6px rgba(25, 41, 36, 0.06),
+      0 22px 48px rgba(25, 41, 36, 0.14);
+  }
+
+  .manifeste-couv-bloc {
+    background: #192924;
+    border-radius: 10px;
+    padding: 7cqw 6cqw 7.5cqw;
+  }
+
+  .manifeste-couv-titre {
+    margin: 0 0 4.5cqw;
+    font-family: var(--font-serif), "Instrument Serif", Georgia, serif;
+    font-size: 12cqw;
+    line-height: 1.02;
+    color: #faf9f6;
+  }
+
+  .manifeste-couv-sous {
+    margin: 0;
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 3.3cqw;
+    line-height: 1.45;
+    color: rgba(226, 240, 248, 0.75);
+  }
+
+  .manifeste-couv-carte {
+    flex: 1;
+    margin: 5cqw 0;
+    border-radius: 10px;
+    background:
+      url("/brand/manifeste-carte.svg") center / cover no-repeat,
+      #eef4f1;
+  }
+
+  /* Dans le flux, calée à droite : la marque reste sur la marge crème du bas. */
+  .manifeste-couv-marque {
+    align-self: flex-end;
+    margin: 0;
+    padding: 1.6cqw 3cqw;
+    border: 1.5px solid #192924;
+    border-radius: 4px;
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 4.2cqw;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #192924;
+  }
+
+  /* Numérotation verte des objectifs, alignée hors du texte. */
+  .manifeste-liste {
+    counter-reset: objectif;
+  }
+
+  .manifeste-liste > li {
+    position: relative;
+    padding-left: 34px;
+    counter-increment: objectif;
+  }
+
+  .manifeste-liste > li::before {
+    content: counter(objectif) ".";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #456f5c;
   }
 
   .eyebrow-tight {
@@ -144,7 +256,7 @@
     font-weight: 500;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: #4b7662;
+    color: #456f5c;
     margin: 0;
   }
 
@@ -297,7 +409,7 @@
   }
 
   .offer-card:hover .offer-title {
-    color: #4b7662;
+    color: #456f5c;
   }
 
   .offer-index {
@@ -305,7 +417,7 @@
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.2em;
-    color: #4b7662;
+    color: #456f5c;
   }
 
   .offer-title {

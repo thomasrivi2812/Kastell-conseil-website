@@ -166,6 +166,27 @@ function assembler(d: Donnees) {
       })),
       fichier.publications as readonly Publication[] as Publication[],
     ),
+    manifesto: {
+      ...fichier.manifesto,
+      eyebrow: ou(ap.manifesteIntitule as string, fichier.manifesto.eyebrow),
+      title: ou(ap.manifesteTitre as string, fichier.manifesto.title),
+      intro: ou(ap.manifesteIntro as string, fichier.manifesto.intro),
+      objectivesHeading: ou(
+        ap.manifesteObjectifsTitre as string,
+        fichier.manifesto.objectivesHeading,
+      ),
+      objectives: ou(
+        ap.manifesteObjectifs as string[],
+        fichier.manifesto.objectives as readonly string[] as string[],
+      ),
+      tags: ou(
+        ap.manifesteEtiquettes as string[],
+        fichier.manifesto.tags as readonly string[] as string[],
+      ),
+      cta: ou(ap.manifesteCta as string, fichier.manifesto.cta),
+      href: ou(ap.manifesteLien as string, fichier.manifesto.href),
+      coverUrl: imageUrl(ap.manifesteCouverture as never, 700) ?? fichier.manifesto.coverUrl,
+    },
     references: {
       ...fichier.references,
       eyebrow: ou(a.referencesIntitule as string, fichier.references.eyebrow),

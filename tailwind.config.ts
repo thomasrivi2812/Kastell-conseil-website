@@ -14,14 +14,14 @@ const config: Config = {
         graphite: "#2F3835",
         slate: "#2B322F",
         stone: "#4A5350",
-        sage: "#4B7662",
+        sage: "#456F5C",
         mist: "#8FAFAE",
         frost: "#B8CFCE",
         ice: "#E2F0F8",
         /*
          * Vert clair de la charte. Trois rôles distincts, chacun vérifié :
          *  accent      décoratif, et lisible sur le vert foncé (6,42:1)
-         *  sage        le plus clair passant AA en texte sur fond clair
+         *  sage        vert de texte, ≥ 4,97:1 sur les trois fonds clairs
          *  accent-tint fond de bande, texte forêt à 13,6:1
          */
         accent: "#8BB19F",

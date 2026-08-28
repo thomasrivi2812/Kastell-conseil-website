@@ -124,14 +124,37 @@ mesure plutôt que choisi à l'œil :
 | Jeton | Valeur | Rôle | Contraste |
 | --- | --- | --- | --- |
 | `accent` | `#8BB19F` | décoratif, et texte sur les bandeaux vert foncé | 6,42:1 sur `#192924` |
-| `sage` | `#4B7662` | texte d'accent sur fond clair | 4,90 sur bone, 4,50 sur sable |
+| `sage` | `#456F5C` | texte d'accent sur fond clair | 5,42 sur bone, 4,97 sur sable, 5,12 sur la teinte |
 | `accent-tint` | `#EEF4F1` | fond de bande | texte forêt à 13,6:1 |
 
-`#4B7662` est **le plus clair** qui passe encore AA en texte sur les deux fonds
-clairs du site : le monter davantage ferait passer les intitulés de section sous
-le seuil. Le vert apparaît sur la bande « Notre vision », les bandes alternées
-de la page Offres, les puces des prestations, les filets de section et les
-survols. Le bandeau LinkedIn garde le sable, pour ne pas verdir toute la page.
+La valeur précédente, `#4B7662`, tombait à 4,50:1 exactement sur le sable —
+le seuil AA, sans marge : la moindre superposition (le fondu d'apparition des
+sections suffit) la faisait basculer sous la barre. `#456F5C` tient ≥ 4,97:1 sur
+les trois fonds clairs du site, pour un écart de teinte imperceptible.
+
+Le vert apparaît sur la bande « Notre vision », les bandes alternées de la page
+Offres, la bande du manifeste, les puces des prestations, les filets de section
+et les survols. Le bandeau LinkedIn garde le sable, pour ne pas verdir toute la
+page.
+
+### Couverture du manifeste
+
+La bande « Manifeste » en fin de page d'accueil affiche une couverture de
+document. Tant qu'aucun fichier n'est fourni, elle est **composée dans la page**
+à partir de `manifesto.cover` : bloc vert foncé, titre en Instrument Serif,
+motif cartographique, marque « RIT ». Elle hérite donc des fontes du site, reste
+nette à toute résolution et ne coûte aucun octet de plus.
+
+Ses proportions sont pilotées par des unités de conteneur (`cqw`), pas par la
+largeur de fenêtre : la couverture est identique dans la colonne du bureau et
+une fois la grille repliée sur mobile. Attention si vous la retouchez — un
+conteneur ne peut pas s'interroger lui-même, sa propre marge intérieure doit
+donc rester en pourcentage (`padding: 5.5%`), sans quoi les `cqw` retombent sur
+la fenêtre et divisent toutes les tailles filles.
+
+Pour poser une vraie couverture : téléverser l'image dans Sanity (À propos →
+Manifeste RIT → Couverture du document), ou renseigner `manifesto.coverUrl`.
+Format conseillé : portrait, environ 1000 × 1414 px.
 
 ### Logos des médias (presse)
 
@@ -258,16 +281,17 @@ studio ne vide aucune rubrique, ce qui permet de basculer progressivement.
 
 Cinq rubriques, dans l'ordre du site, sans bouton « créer » ni liste à
 parcourir : Paramètres du site, Page d'accueil, Offres, À propos, Pied de page.
-Les schémas sont dans `src/sanity/schema.ts` ; leurs intitulés sont les
-étiquettes qu'elle lit.
+La rubrique « À propos » est découpée en quatre onglets : Fondatrice, Dans la
+presse, Nos publications, Manifeste RIT. Les schémas sont dans
+`src/sanity/schema.ts` ; leurs intitulés sont les étiquettes qu'elle lit.
 
 ## Couche de contenu
 
 **Aucun texte visible n'est écrit dans les composants.** Tout ce qui est
 rédactionnel vit dans `src/content/site.ts`, groupé par section : `hero`,
-`manifeste`, `offersSection`, `offers`, `about`, `founder`, `press`,
-`publications`, `references`, `clients`, `testimonials`, `news`, `posts`,
-`contact`, `footer`, `legal`.
+`vision`, `offersSection`, `offers`, `about`, `founder`, `press`,
+`publications`, `manifesto`, `references`, `clients`, `testimonials`, `news`,
+`posts`, `contact`, `footer`, `legal`.
 
 C'est le point d'entrée d'un CMS : brancher une source externe se fait à cet
 endroit, sans toucher aux composants. Chaque groupe correspond à ce que serait
@@ -284,7 +308,7 @@ attendent le contenu réel :
 | Dates des articles de presse | `press` dans `src/content/site.ts` |
 | URL LinkedIn (page entreprise et profil de Léa) | `site.linkedin` / `site.linkedinProfile` |
 | Titre de la tribune et nom du média | `publications` dans `src/content/site.ts` |
-| Description du Réseau Influence & Territoire | `publications` |
+| Couverture du manifeste RIT | `manifesto.coverUrl`, ou l'image « Couverture du document » dans Sanity — voir ci-dessous |
 | Logos des médias (presse) | `public/brand/press/…` — voir ci-dessous |
 | Contenu des pages légales | `src/app/mentions-legales`, `confidentialite`, `cookies` |
 | Logos clients | déposer dans `public/brand/clients/` — voir ci-dessous |
