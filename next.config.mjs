@@ -8,6 +8,12 @@ const nextConfig = {
       { source: "/missions", destination: "/offres", permanent: true },
     ];
   },
+  // Le dossier public/ n'est pas embarqué par défaut dans les fonctions
+  // serveur : sans cela, la route du manifeste ne verrait pas le PDF à
+  // l'exécution et refuserait un document pourtant bien servi par le CDN.
+  outputFileTracingIncludes: {
+    "/api/manifeste": ["./public/documents/**"],
+  },
   images: {
     // Visuels servis par le CDN Sanity une fois le CMS branché.
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],

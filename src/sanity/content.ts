@@ -1,6 +1,6 @@
 import { cache } from "react";
 import * as fichier from "@/content/site";
-import { findPublicAsset } from "@/lib/asset";
+import { findPublicAsset, findPublicDocument } from "@/lib/asset";
 import { sanityClient } from "./client";
 import { imageUrl } from "./image";
 
@@ -16,7 +16,10 @@ const REQUETE = `{
   "parametres": *[_type == "parametres"][0],
   "accueil": *[_type == "accueil"][0],
   "offres": *[_type == "offres"][0],
-  "apropos": *[_type == "apropos"][0],
+  "apropos": *[_type == "apropos"][0]{
+    ...,
+    "manifesteFichierUrl": manifesteFichier.asset->url
+  },
   "piedDePage": *[_type == "piedDePage"][0]
 }`;
 
@@ -186,6 +189,16 @@ function assembler(d: Donnees) {
       cta: ou(ap.manifesteCta as string, fichier.manifesto.cta),
       href: ou(ap.manifesteLien as string, fichier.manifesto.href),
       coverUrl: imageUrl(ap.manifesteCouverture as never, 700) ?? fichier.manifesto.coverUrl,
+      download: {
+        ...fichier.manifesto.download,
+        cta: ou(ap.manifesteTelechargerCta as string, fichier.manifesto.download.cta),
+        /* Le fichier du studio prime sur celui du dépôt ; sans l'un ni l'autre,
+           la chaîne reste vide et le bouton ne s'affiche pas. */
+        fileUrl:
+          ou(ap.manifesteFichierUrl as string, "") ||
+          findPublicDocument(fichier.manifesto.download.file) ||
+          "",
+      },
     },
     references: {
       ...fichier.references,

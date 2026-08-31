@@ -302,6 +302,15 @@ const apropos: SchemaTypeDefinition = {
     },
     { name: "manifesteCta", title: "Libellé du bouton", group: "manifeste", ...texte },
     { name: "manifesteLien", title: "Lien du bouton", group: "manifeste", ...texte },
+    { name: "manifesteTelechargerCta", title: "Libellé du bouton de téléchargement", group: "manifeste", ...texte },
+    {
+      name: "manifesteFichier",
+      title: "Document à télécharger",
+      group: "manifeste",
+      type: "file",
+      description:
+        "Le PDF du manifeste. Sans fichier ici ni dans le dépôt, le bouton de téléchargement ne s'affiche pas.",
+    },
     {
       name: "manifesteCouverture",
       title: "Couverture du document",

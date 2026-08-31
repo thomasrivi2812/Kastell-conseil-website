@@ -156,6 +156,47 @@ Pour poser une vraie couverture : téléverser l'image dans Sanity (À propos �
 Manifeste RIT → Couverture du document), ou renseigner `manifesto.coverUrl`.
 Format conseillé : portrait, environ 1000 × 1414 px.
 
+### Téléchargement du manifeste contre adresse e-mail
+
+Le bouton « Télécharger le manifeste » n'apparaît **que si le document
+existe** : `public/documents/manifeste-rit.pdf` dans le dépôt, ou un fichier
+téléversé depuis le studio (À propos → Manifeste RIT → Document à télécharger),
+qui prend alors le dessus. Sans document, la bande garde son seul lien LinkedIn
+— mieux vaut pas de bouton qu'un bouton qui tombe sur un 404.
+
+Le formulaire ouvre une `<dialog>` native : le navigateur y assure le piège à
+focus, la touche Échap, l'inertie de l'arrière-plan et le retour du focus sur le
+bouton d'ouverture, ce qu'une réimplémentation manuelle rate presque toujours.
+
+`POST /api/manifeste` valide l'adresse, exige le consentement, écarte les robots
+par un champ leurre, limite le débit par IP, puis relaie l'adresse vers
+`MANIFESTE_WEBHOOK_URL` — n'importe quel service acceptant un POST JSON
+(Zapier, Make, Brevo, n8n). Charge utile :
+
+```json
+{ "email": "…", "document": "Manifeste Réseau Influence & Territoires", "date": "…" }
+```
+
+Sans cette variable d'environnement, l'adresse est seulement journalisée et le
+document est servi quand même : une intégration absente ne prive jamais un
+visiteur du document, et le relais en panne non plus.
+
+**Ce que ce formulaire ne fait pas.** Le PDF est servi depuis `public/` : une
+fois l'URL connue, elle est publique et partageable. C'est le compromis habituel
+de ce type de formulaire, et il est assumé — l'objectif est de qualifier des
+contacts, pas de protéger un document par ailleurs diffusé. Pour un vrai
+verrou, il faudrait sortir le fichier de `public/` et le servir derrière un
+jeton signé à durée limitée.
+
+La limitation de débit (5 demandes par minute et par IP) vit en mémoire de
+l'instance : sur une plateforme sans état elle ne survit pas au recyclage. C'est
+un garde-fou de première ligne, pas une protection anti-abus.
+
+Le traitement est décrit dans la page « Politique de confidentialité »
+(finalité, base légale — le consentement —, destinataires, durée). Ces
+rubriques comportent encore des crochets à compléter : prestataire d'envoi
+retenu et durées de conservation.
+
 ### Logos des médias (presse)
 
 Même principe que les logos clients : chaque entrée de `press` porte un chemin
@@ -309,6 +350,8 @@ attendent le contenu réel :
 | URL LinkedIn (page entreprise et profil de Léa) | `site.linkedin` / `site.linkedinProfile` |
 | Titre de la tribune et nom du média | `publications` dans `src/content/site.ts` |
 | Couverture du manifeste RIT | `manifesto.coverUrl`, ou l'image « Couverture du document » dans Sanity — voir ci-dessous |
+| PDF du manifeste RIT | `public/documents/manifeste-rit.pdf`, ou le fichier téléversé dans Sanity — voir ci-dessous |
+| Destination des adresses e-mail collectées | variable `MANIFESTE_WEBHOOK_URL` — voir ci-dessous |
 | Logos des médias (presse) | `public/brand/press/…` — voir ci-dessous |
 | Contenu des pages légales | `src/app/mentions-legales`, `confidentialite`, `cookies` |
 | Logos clients | déposer dans `public/brand/clients/` — voir ci-dessous |

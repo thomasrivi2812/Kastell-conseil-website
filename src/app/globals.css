@@ -227,6 +227,146 @@
     color: #192924;
   }
 
+  /* ---- boîte de dialogue du téléchargement ---- */
+  .modale {
+    width: min(520px, calc(100vw - 32px));
+    max-height: calc(100vh - 48px);
+    overflow: auto;
+    padding: clamp(26px, 4vw, 40px);
+    border: none;
+    border-radius: 16px;
+    background: #faf9f6;
+    color: #1a1e1c;
+    box-shadow: 0 24px 60px rgba(25, 41, 36, 0.28);
+  }
+
+  .modale::backdrop {
+    background: rgba(15, 26, 23, 0.55);
+  }
+
+  .modale-fermer-zone {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 0 4px;
+  }
+
+  .modale-fermer {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    margin: -8px -8px 0 0;
+    border-radius: 999px;
+    font-size: 22px;
+    line-height: 1;
+    color: #4a5350;
+  }
+
+  .modale-fermer:hover {
+    background: #f2efea;
+    color: #192924;
+  }
+
+  .modale-titre {
+    margin: 0 0 10px;
+    font-family: var(--font-serif), "Instrument Serif", Georgia, serif;
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: #192924;
+  }
+
+  .modale-intro {
+    margin: 0 0 24px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #2f3835;
+  }
+
+  .modale-label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #456f5c;
+  }
+
+  .modale-champ {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1px solid rgba(25, 41, 36, 0.28);
+    border-radius: 10px;
+    background: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    color: #1a1e1c;
+  }
+
+  .modale-champ:focus {
+    outline: 2px solid #192924;
+    outline-offset: 1px;
+  }
+
+  .modale-consentement {
+    display: flex;
+    gap: 12px;
+    margin: 18px 0 24px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #2f3835;
+    cursor: pointer;
+  }
+
+  .modale-consentement input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: #192924;
+  }
+
+  .modale-envoyer {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .modale-envoyer:disabled {
+    opacity: 0.6;
+  }
+
+  .modale-message {
+    margin: 14px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #456f5c;
+  }
+
+  .modale-message.est-erreur {
+    color: #97331f;
+  }
+
+  .modale-message:empty {
+    display: none;
+  }
+
+  .modale-note {
+    margin: 22px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid rgba(25, 41, 36, 0.12);
+    font-size: 13px;
+    line-height: 1.55;
+    color: #666f6c;
+  }
+
+  .modale-lien {
+    color: #456f5c;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
   /* Numérotation verte des objectifs, alignée hors du texte. */
   .manifeste-liste {
     counter-reset: objectif;

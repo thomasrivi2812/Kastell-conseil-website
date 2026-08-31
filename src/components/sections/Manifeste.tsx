@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
+import { TelechargerManifeste } from "@/components/TelechargerManifeste";
 import { getContent } from "@/sanity/content";
 
 /**
@@ -88,16 +89,23 @@ export async function Manifeste() {
               ))}
             </ol>
 
-            <a
-              href={manifesto.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pill pill-solid"
-            >
-              {manifesto.cta}
-              <span aria-hidden>↗</span>
-              <span className="sr-only"> (nouvelle fenêtre)</span>
-            </a>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+              {/* Le bouton de téléchargement n'existe que si le document
+                  existe : sinon le lien LinkedIn reprend l'appel principal. */}
+              {manifesto.download.fileUrl ? (
+                <TelechargerManifeste textes={manifesto.download} />
+              ) : null}
+              <a
+                href={manifesto.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={manifesto.download.fileUrl ? "pill pill-outline" : "pill pill-solid"}
+              >
+                {manifesto.cta}
+                <span aria-hidden>↗</span>
+                <span className="sr-only"> (nouvelle fenêtre)</span>
+              </a>
+            </div>
           </Reveal>
         </div>
       </div>

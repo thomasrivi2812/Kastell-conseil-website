@@ -264,6 +264,29 @@ export const manifesto = {
   /* URL publique : le lien fourni pointait vers l'espace d'administration. */
   href: "https://www.linkedin.com/company/115801577/",
   coverUrl: "",
+  /**
+   * Téléchargement contre adresse e-mail. Le bouton n'apparaît que si le
+   * document existe : soit `public/documents/manifeste-rit.pdf` dans le dépôt,
+   * soit un fichier téléversé depuis le studio, qui prend alors le dessus.
+   */
+  download: {
+    cta: "Télécharger le manifeste",
+    /* Chemin sous public/, sans extension. */
+    file: "documents/manifeste-rit",
+    fileUrl: "",
+    modalTitle: "Recevoir le manifeste",
+    modalIntro:
+      "Indiquez votre adresse e-mail : le document se télécharge aussitôt et nous vous tiendrons informé des travaux du réseau.",
+    emailLabel: "Adresse e-mail professionnelle",
+    consent:
+      "J'accepte que Kastell Conseil conserve mon adresse pour m'adresser ses publications. Je peux me désinscrire à tout moment.",
+    submit: "Recevoir le document",
+    submitting: "Envoi…",
+    success: "Merci, le téléchargement démarre.",
+    error: "L'envoi n'a pas abouti. Réessayez ou écrivez-nous directement.",
+    privacyNote: "Vos données ne sont ni revendues ni transmises à des tiers.",
+    privacyLink: "Politique de confidentialité",
+  },
   cover: {
     lines: ["Réseau", "Influence", "& Territoires"],
     subtitle:
