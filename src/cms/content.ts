@@ -1,27 +1,22 @@
 import { cache } from "react";
 import * as fichier from "@/content/site";
 import { findPublicAsset, findPublicDocument } from "@/lib/asset";
-import { sanityClient } from "./client";
-import { imageUrl } from "./image";
+import { lireContenuWordPress } from "./client";
+import { isWordPressConfigured } from "./env";
 
 /**
- * Contenu du site, Sanity par-dessus les valeurs du dépôt.
+ * Contenu du site, WordPress par-dessus les valeurs du dépôt.
  *
- * La fusion se fait champ par champ : une fiche à moitié remplie dans le studio
- * ne vide jamais une rubrique, et si Sanity est injoignable le site sert ce
- * qu'il a. C'est ce qui permet de brancher le CMS progressivement.
+ * La fusion se fait champ par champ : une fiche à moitié remplie dans
+ * l'administration ne vide jamais une rubrique, et si WordPress est injoignable
+ * le site sert ce qu'il a. C'est ce qui permet de brancher le CMS
+ * progressivement — et ce qui garantit qu'une panne du back-office ne met pas
+ * le site public à terre.
+ *
+ * L'extension WordPress rend délibérément la même enveloppe que l'ancienne
+ * requête Sanity : les noms de champs ci-dessous sont le contrat entre les deux
+ * moitiés, et cette fonction n'a pas eu à changer lors de la bascule.
  */
-
-const REQUETE = `{
-  "parametres": *[_type == "parametres"][0],
-  "accueil": *[_type == "accueil"][0],
-  "offres": *[_type == "offres"][0],
-  "apropos": *[_type == "apropos"][0]{
-    ...,
-    "manifesteFichierUrl": manifesteFichier.asset->url
-  },
-  "piedDePage": *[_type == "piedDePage"][0]
-}`;
 
 /** Retient la valeur du CMS seulement si elle est réellement renseignée. */
 const ou = <T,>(cms: T | null | undefined, repli: T): T => {
@@ -83,11 +78,15 @@ function assembler(d: Donnees) {
     caseStudy: (item.casPratique as { title: string; body: string } | null) ?? null,
   }));
 
+  /** Les visuels arrivent de WordPress en URL absolues : rien à construire. */
+  const visuel = (valeur: unknown): string | null =>
+    typeof valeur === "string" && valeur.length > 0 ? valeur : null;
+
   const presse = (ap.presse as Doc[] | undefined)?.map((item) => ({
     outlet: (item.media as string) ?? "",
     title: (item.titre as string) ?? "",
     href: (item.lien as string) ?? "#",
-    logoUrl: imageUrl(item.logo as never, 240),
+    logoUrl: visuel(item.logo),
   }));
 
   return {
@@ -105,7 +104,7 @@ function assembler(d: Donnees) {
       promise: ou(a.promesse as string, fichier.hero.promise),
       cta: ou(a.herosCta as string, fichier.hero.cta),
       illustration:
-        imageUrl(a.herosVisuel as never, 1400) ?? "/brand/manifeste-carte.svg",
+        visuel(a.herosVisuel) ?? "/brand/manifeste-carte.svg",
     },
     vision: {
       eyebrow: ou(a.visionIntitule as string, fichier.vision.eyebrow),
@@ -147,7 +146,7 @@ function assembler(d: Donnees) {
       role: ou(ap.role as string, fichier.founder.role),
       bio: ou(ap.biographie as string[], fichier.founder.bio as readonly string[] as string[]),
       quote: ou(ap.citation as string, fichier.founder.quote),
-      photoUrl: imageUrl(ap.portrait as never, 900) ?? findPublicAsset("brand/fondatrice"),
+      photoUrl: visuel(ap.portrait) ?? findPublicAsset("brand/fondatrice"),
     },
     press: ou(
       presse,
@@ -188,14 +187,14 @@ function assembler(d: Donnees) {
       ),
       cta: ou(ap.manifesteCta as string, fichier.manifesto.cta),
       href: ou(ap.manifesteLien as string, fichier.manifesto.href),
-      coverUrl: imageUrl(ap.manifesteCouverture as never, 700) ?? fichier.manifesto.coverUrl,
+      coverUrl: visuel(ap.manifesteCouverture) ?? fichier.manifesto.coverUrl,
       download: {
         ...fichier.manifesto.download,
         cta: ou(ap.manifesteTelechargerCta as string, fichier.manifesto.download.cta),
         /* Le fichier du studio prime sur celui du dépôt ; sans l'un ni l'autre,
            la chaîne reste vide et le bouton ne s'affiche pas. */
         fileUrl:
-          ou(ap.manifesteFichierUrl as string, "") ||
+          ou(ap.manifesteFichier as string, "") ||
           findPublicDocument(fichier.manifesto.download.file) ||
           "",
       },
@@ -208,7 +207,7 @@ function assembler(d: Donnees) {
     clients: ou(
       (a.clients as Doc[] | undefined)?.map((c) => ({
         name: (c.nom as string) ?? "",
-        logoUrl: imageUrl(c.logo as never, 320),
+        logoUrl: visuel(c.logo),
       })),
       fichier.clients.map((c) => ({
         name: c.name,
@@ -253,17 +252,13 @@ function assembler(d: Donnees) {
 export type Contenu = ReturnType<typeof assembler>;
 
 export const getContent = cache(async (): Promise<Contenu> => {
-  if (!sanityClient) return assembler({});
+  if (!isWordPressConfigured) return assembler({});
   try {
-    const data = await sanityClient.fetch<Donnees>(
-      REQUETE,
-      {},
-      { next: { revalidate: 60, tags: ["contenu"] } },
-    );
-    return assembler(data ?? {});
-  } catch (error) {
+    const donnees = await lireContenuWordPress<Donnees>();
+    return assembler(donnees ?? {});
+  } catch (erreur) {
     // Le site reste debout si le CMS tombe : on sert le contenu du dépôt.
-    console.error("[sanity] lecture impossible, repli sur le contenu du dépôt", error);
+    console.error("[wordpress] lecture impossible, repli sur le contenu du dépôt", erreur);
     return assembler({});
   }
 });

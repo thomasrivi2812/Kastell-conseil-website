@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { getContent } from "@/sanity/content";
+import { getContent } from "@/cms/content";
 
 export async function News() {
   const { founder, news, posts, site } = await getContent();

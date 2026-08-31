@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { legal, nav } from "@/content/site";
-import { getContent } from "@/sanity/content";
+import { getContent } from "@/cms/content";
 
 const linkClass =
   "footer-link hit-area text-[15px] text-[rgba(226,240,248,0.82)] hover:text-white";

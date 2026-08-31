@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/Reveal";
-import { getContent } from "@/sanity/content";
+import { getContent } from "@/cms/content";
 
 export async function Contact() {
   const { contact, site } = await getContent();

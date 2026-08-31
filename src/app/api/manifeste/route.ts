@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getContent } from "@/sanity/content";
+import { getContent } from "@/cms/content";
 
 /**
  * Téléchargement du manifeste contre adresse e-mail.

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { TelechargerManifeste } from "@/components/TelechargerManifeste";
-import { getContent } from "@/sanity/content";
+import { getContent } from "@/cms/content";
 
 /**
  * Bande de fin de page : le manifeste du RIT présenté comme un document, sa

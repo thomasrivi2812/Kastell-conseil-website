@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { vision as reglages } from "@/content/site";
 import { findPublicAsset } from "@/lib/asset";
-import { getContent } from "@/sanity/content";
+import { getContent } from "@/cms/content";
 
 /** Fond optionnel : réglage du dépôt, vide par défaut depuis que la carte sert au héros. */
 const backdrop = reglages.backdrop ? findPublicAsset(reglages.backdrop) : null;

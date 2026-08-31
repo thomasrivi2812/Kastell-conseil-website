@@ -30,11 +30,14 @@ sortie `.next`.
 ## Structure
 
 ```
-src/app/            routes (/ et /missions) + layout et styles globaux
-src/components/     Header, Footer, Reveal
+src/app/            routes (/ et /offres) + layout et styles globaux
+src/components/     Header, Footer, Reveal, modale de téléchargement
 src/components/sections/   sections de la page d'accueil
-src/content/site.ts textes, navigation, missions, témoignages, posts
-public/brand/       logos et marque (PNG d'origine)
+src/content/site.ts textes de repli : tout le rédactionnel du site
+src/cms/            lecture WordPress et fusion avec le contenu du dépôt
+public/brand/       logos et marque
+public/documents/   documents téléchargeables
+wordpress/          extension WordPress : modèle de contenu et route REST
 ```
 
 Les valeurs de la maquette (couleurs, `clamp()`, interlignages) sont
@@ -152,15 +155,15 @@ conteneur ne peut pas s'interroger lui-même, sa propre marge intérieure doit
 donc rester en pourcentage (`padding: 5.5%`), sans quoi les `cqw` retombent sur
 la fenêtre et divisent toutes les tailles filles.
 
-Pour poser une vraie couverture : téléverser l'image dans Sanity (À propos →
-Manifeste RIT → Couverture du document), ou renseigner `manifesto.coverUrl`.
+Pour poser une vraie couverture : téléverser l'image dans WordPress (À propos →
+« Manifeste — couverture »), ou renseigner `manifesto.coverUrl`.
 Format conseillé : portrait, environ 1000 × 1414 px.
 
 ### Téléchargement du manifeste contre adresse e-mail
 
 Le bouton « Télécharger le manifeste » n'apparaît **que si le document
 existe** : `public/documents/manifeste-rit.pdf` dans le dépôt, ou un fichier
-téléversé depuis le studio (À propos → Manifeste RIT → Document à télécharger),
+téléversé depuis WordPress (À propos → « Manifeste — document à télécharger »),
 qui prend alors le dessus. Sans document, la bande garde son seul lien LinkedIn
 — mieux vaut pas de bouton qu'un bouton qui tombe sur un 404.
 
@@ -265,66 +268,102 @@ la mise en page, et la hauteur de chaque section reste identique à l'artboard.
 `prefers-reduced-motion: reduce` les neutralise toutes, y compris la dérive du
 filigrane du héros.
 
-## CMS (Sanity)
+## CMS (WordPress headless)
 
-Léa modifie le contenu, jamais le code. Le studio est hébergé par Sanity sur
-une URL dédiée : elle s'y connecte par e-mail, remplit des formulaires en
-français et clique sur **Publier**.
+WordPress ne sert **aucune page**. Il sert des données, que Next va chercher au
+build et à la revalidation, puis rend en HTML statique sur Vercel. Google, les
+crawlers d'IA et les visiteurs ne voient jamais WordPress.
 
-> Le studio n'est pas servi par Next : Sanity 6 ne se compile ni avec Turbopack
-> ni avec webpack à l'intérieur de Next 16. L'hébergement Sanity est gratuit,
-> officiel, et évite d'embarquer un back-office dans le site vitrine.
+```
+WordPress (back-office)  ──▶  /wp-json/kastell/v1/contenu  ──▶  Next sur Vercel  ──▶  HTML
+        ▲                                                            │
+        └──────────── webhook /api/revalidate ◀──────────────────────┘
+```
 
-### Mise en route (une seule fois, sans terminal)
+L'extension qui fait tout ce travail est dans `wordpress/kastell-contenu/` :
+elle déclare le modèle de contenu, fabrique l'administration et expose une route
+d'agrégation. Voir son `LISEZ-MOI.md` pour l'installation.
 
-`sanity login` et `sanity deploy` exigent un terminal. Le studio se construit
-aussi en statique (`npm run studio:build`), donc **Vercel peut le déployer comme
-n'importe quel site** — tout se fait depuis le navigateur, avec les deux outils
-déjà en place.
+### Le contrat entre les deux moitiés
 
-1. **Projet Sanity** — sur [sanity.io/manage](https://sanity.io/manage),
-   *Create new project*, dataset `production`. Relever l'identifiant (`Project ID`).
-2. **Studio sur Vercel** — nouveau projet Vercel, **même dépôt GitHub** :
-   - Framework preset : `Other`
-   - Build command : `npm run studio:build`
-   - Output directory : `dist`
-   - Variables : `SANITY_STUDIO_PROJECT_ID`, `SANITY_STUDIO_DATASET=production`
+La route WordPress rend **exactement l'enveloppe** que produisait auparavant la
+requête Sanity — `parametres`, `accueil`, `offres`, `apropos`, `piedDePage`,
+avec les mêmes noms de champs. C'est ce qui a permis de changer de back sans
+toucher une ligne des composants : seule la couche de lecture a changé, la
+fusion (`src/cms/content.ts`) est restée identique.
 
-   L'URL obtenue est le lien à donner à Léa.
-3. **CORS** — dans Sanity, *API → CORS origins*, ajouter l'URL du studio avec
-   *Allow credentials*. Sans cette étape le studio s'affiche mais reste vide :
-   le navigateur bloque ses appels à l'API.
-4. **Léa** — *Members → Invite*, rôle **Editor** (pas Administrator : inutile
-   qu'elle puisse supprimer le dataset).
-5. **Site** — dans le projet Vercel existant, ajouter
-   `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET=production` et
-   `SANITY_REVALIDATE_SECRET` (`openssl rand -hex 32`), puis redéployer.
-6. **Webhook** *(optionnel)* — Sanity *API → Webhooks*, URL
-   `https://<domaine>/api/revalidate`, méthode POST, en-tête
-   `x-kastell-secret` valant le même secret. Sans lui les modifications
-   apparaissent en moins d'une minute ; avec lui, immédiatement.
+Ce contrat est aussi ce qu'il faut respecter si le back change encore.
 
-> Le build du studio recopie `public/` dans sa sortie, soit ~7 Mo d'images du
-> site embarquées pour rien. Sans conséquence — c'est un déploiement séparé —
-> mais ça alourdit ses builds.
+### Mise en route
 
-### Tant que rien n'est branché
+1. **Installer WordPress** sur un hébergement mutualisé ou managé. Idéalement un
+   sous-domaine discret : `admin.kastell-conseils.fr`.
+2. **Déposer l'extension** — copier `wordpress/kastell-contenu/` dans
+   `wp-content/plugins/`, puis l'activer. Aucune autre extension n'est requise :
+   ni ACF, ni WPGraphQL.
+3. **Renseigner deux constantes** dans `wp-config.php`, au-dessus de la ligne
+   `/* That's all, stop editing! */` :
 
-`isSanityConfigured` est faux sans identifiant de projet : le site sert le
-contenu de `src/content/site.ts`. **Rien ne casse avant la mise en route, et
-rien ne casse non plus si Sanity devient injoignable** — `getContent()` rattrape
-l'erreur et retombe sur le dépôt.
+   ```php
+   define( 'KASTELL_SITE_URL', 'https://kastell-conseils.fr' );
+   define( 'KASTELL_SECRET', '…' ); // openssl rand -hex 32
+   ```
 
-La fusion se fait **champ par champ** : une fiche à moitié remplie dans le
-studio ne vide aucune rubrique, ce qui permet de basculer progressivement.
+4. **Créer le compte de Léa** — rôle **Éditeur**, pas Administrateur.
+5. **Côté Vercel** — ajouter `WORDPRESS_API_URL` (l'adresse WordPress, sans
+   barre oblique finale) et `REVALIDATE_SECRET` (la même valeur que
+   `KASTELL_SECRET`), puis redéployer.
+
+Vérification : `https://<wordpress>/wp-json/kastell/v1/contenu` doit rendre du
+JSON. Si oui, le site le lit.
 
 ### Ce que voit Léa
 
-Cinq rubriques, dans l'ordre du site, sans bouton « créer » ni liste à
-parcourir : Paramètres du site, Page d'accueil, Offres, À propos, Pied de page.
-La rubrique « À propos » est découpée en quatre onglets : Fondatrice, Dans la
-presse, Nos publications, Manifeste RIT. Les schémas sont dans
-`src/sanity/schema.ts` ; leurs intitulés sont les étiquettes qu'elle lit.
+Un menu unique, **Contenu du site**, avec les rubriques dans l'ordre du site.
+Les cinq rubriques uniques mènent droit à leur formulaire — pas de liste à
+parcourir, pas de bouton « ajouter » à côté duquel se tromper. Les listes
+(offres, clients, témoignages, actualités, presse, publications) sont des listes
+WordPress ordinaires, réordonnables par le champ « ordre ».
+
+Les listes de texte (paragraphes, prestations, objectifs) se saisissent **une
+ligne par élément** dans un simple champ multiligne : WordPress n'a pas de champ
+répétable sans extension payante, et une ligne par élément se comprend sans
+explication.
+
+Le modèle est déclaré une seule fois, dans `wordpress/kastell-contenu/inc/schema.php` :
+l'administration, l'enregistrement et la route REST en dérivent tous. Ajouter un
+champ là-bas suffit à le voir apparaître partout.
+
+### Tant que rien n'est branché
+
+`isWordPressConfigured` est faux sans `WORDPRESS_API_URL` : le site sert le
+contenu de `src/content/site.ts`. **Rien ne casse avant la mise en route, et
+rien ne casse non plus si WordPress devient injoignable** — `getContent()`
+rattrape l'erreur, journalise et retombe sur le dépôt. Vérifié : WordPress
+éteint, le build passe et la page répond 200 avec le contenu du dépôt.
+
+La fusion se fait **champ par champ** : une fiche à moitié remplie ne vide
+aucune rubrique. Vérifié aussi : avec un WordPress où un seul champ est
+renseigné, ce champ est repris et tout le reste — les six offres, la biographie,
+la presse, le manifeste, le pied de page — reste celui du dépôt.
+
+### Ce qu'il faut surveiller côté référencement
+
+L'extension pose déjà trois garde-fous, parce que le piège classique du
+WordPress headless est le contenu dupliqué :
+
+- `noindex, nofollow` sur toutes les pages WordPress ;
+- un `robots.txt` qui interdit tout sur le domaine du back-office ;
+- une redirection des visiteurs non connectés vers le vrai site.
+
+Restent deux points **à faire à la main** :
+
+- **Désactiver le sitemap de Yoast** ou de Rank Math si vous les installez. Il
+  listerait des URL WordPress qui n'existent pas sur le site public. Le sitemap
+  qui fait foi est `src/app/sitemap.ts`.
+- **Reporter les redirections dans `next.config.mjs`.** Les extensions de
+  redirection WordPress ne s'exécutent jamais : leur code ne tourne pas sur le
+  domaine public.
 
 ## Couche de contenu
 
@@ -349,8 +388,8 @@ attendent le contenu réel :
 | Dates des articles de presse | `press` dans `src/content/site.ts` |
 | URL LinkedIn (page entreprise et profil de Léa) | `site.linkedin` / `site.linkedinProfile` |
 | Titre de la tribune et nom du média | `publications` dans `src/content/site.ts` |
-| Couverture du manifeste RIT | `manifesto.coverUrl`, ou l'image « Couverture du document » dans Sanity — voir ci-dessous |
-| PDF du manifeste RIT | `public/documents/manifeste-rit.pdf`, ou le fichier téléversé dans Sanity — voir ci-dessous |
+| Couverture du manifeste RIT | `manifesto.coverUrl`, ou l'image « Manifeste — couverture » dans WordPress — voir ci-dessous |
+| PDF du manifeste RIT | `public/documents/manifeste-rit.pdf`, ou le fichier téléversé dans WordPress — voir ci-dessous |
 | Destination des adresses e-mail collectées | variable `MANIFESTE_WEBHOOK_URL` — voir ci-dessous |
 | Logos des médias (presse) | `public/brand/press/…` — voir ci-dessous |
 | Contenu des pages légales | `src/app/mentions-legales`, `confidentialite`, `cookies` |

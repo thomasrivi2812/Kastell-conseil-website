@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { Contact } from "@/components/sections/Contact";
 import { Reveal } from "@/components/Reveal";
 import { site } from "@/content/site";
-import { getContent } from "@/sanity/content";
+import { getContent } from "@/cms/content";
 
 export const metadata: Metadata = {
   title: "Offres",

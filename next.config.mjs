@@ -1,3 +1,12 @@
+/**
+ * L'hôte de la médiathèque se déduit de WORDPRESS_API_URL : sans cela, il
+ * faudrait tenir deux réglages en accord, et l'optimiseur d'images refuserait
+ * silencieusement les visuels le jour où l'un des deux dérive.
+ */
+const hoteWordPress = process.env.WORDPRESS_API_URL
+  ? new URL(process.env.WORDPRESS_API_URL)
+  : null;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -15,10 +24,13 @@ const nextConfig = {
     "/api/manifeste": ["./public/documents/**"],
   },
   images: {
-    // Visuels servis par le CDN Sanity une fois le CMS branché.
-    remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
-    // Next 16 rejette toute qualité non déclarée. 55 sert au visuel de fond du
-    // manifeste : masqué et à 20 % d'opacité, la compression y est invisible.
+    // Visuels servis par la médiathèque WordPress. L'hôte est déduit de la même
+    // variable que l'API : une seule valeur à renseigner, pas deux à accorder.
+    remotePatterns: hoteWordPress
+      ? [{ protocol: hoteWordPress.protocol.replace(":", ""), hostname: hoteWordPress.hostname }]
+      : [],
+    // Next 16 rejette toute qualité non déclarée. 55 sert aux visuels de fond :
+    // masqués et à faible opacité, la compression y est invisible.
     qualities: [55, 75],
   },
 };

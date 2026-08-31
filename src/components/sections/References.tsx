@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { site } from "@/content/site";
-import { getContent } from "@/sanity/content";
+import { getContent } from "@/cms/content";
 
 export async function References() {
   const { clients: logos, references, testimonials } = await getContent();
