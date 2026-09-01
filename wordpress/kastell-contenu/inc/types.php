@@ -15,7 +15,13 @@ function kastell_enregistrer_types() {
 		'publicly_queryable'  => false,
 		'exclude_from_search' => true,
 		'show_ui'             => true,
-		'show_in_menu'        => 'kastell-contenu',
+		/*
+		 * WordPress ajoute lui-même une entrée de menu par type quand on lui
+		 * en désigne un parent. Elle doublonnerait avec la liste ordonnée que
+		 * construit kastell_menu(), et avec des intitulés différents. On lui
+		 * laisse donc les écrans d'édition, mais pas le menu.
+		 */
+		'show_in_menu'        => false,
 		'show_in_rest'        => false,
 		'has_archive'         => false,
 		'rewrite'             => false,
@@ -74,6 +80,18 @@ function kastell_menu() {
 		3
 	);
 
+	/* Première entrée explicite : sans elle WordPress en fabrique une qui
+	   reprend le nom du menu, et la renommer après coup revient à écraser une
+	   entrée dont on ne maîtrise pas le rang. */
+	add_submenu_page(
+		'kastell-contenu',
+		'Vue d’ensemble',
+		'Vue d’ensemble',
+		'edit_posts',
+		'kastell-contenu',
+		'kastell_page_accueil'
+	);
+
 	/* Chaque rubrique unique mène droit à son formulaire : pas de liste à
 	   parcourir, pas de bouton « ajouter » à côté duquel se tromper. */
 	foreach ( kastell_singletons() as $type => $def ) {
@@ -100,12 +118,7 @@ function kastell_menu() {
 		);
 	}
 
-	/* La première entrée reprend le nom du menu par défaut ; on la nomme pour
-	   qu'elle se distingue des rubriques qui la suivent. */
-	global $submenu;
-	if ( isset( $submenu['kastell-contenu'][0][0] ) ) {
-		$submenu['kastell-contenu'][0][0] = 'Vue d’ensemble';
-	}
+
 }
 add_action( 'admin_menu', 'kastell_menu' );
 

@@ -33,10 +33,13 @@ du JSON.
 
 ## Ce que voit l'éditrice
 
-Un menu unique, **Contenu du site**, et rien d'autre : pour un compte Éditeur,
-les entrées natives de WordPress — Articles, Pages, Commentaires, Outils — sont
-retirées. « Articles » à côté d'« Actualités » ne peut que faire saisir du
-contenu à un endroit dont le site ne lit rien. Les administrateurs gardent tout.
+Un menu unique, **Contenu du site**, et rien d'autre. Les rubriques natives —
+Articles, Pages, Commentaires, Tableau de bord — sont retirées **pour tout le
+monde** : cette installation ne sert aucune page, elles n'y produisent rien de
+visible, et les laisser revient à offrir d'écrire un article à côté
+d'« Actualités LinkedIn » sans qu'il apparaisse jamais. Un administrateur garde
+l'accès par l'URL directe (`wp-admin/edit.php`) si le besoin s'en présentait ;
+« Outils » ne disparaît que pour les éditeurs.
 
 La première page est une **vue d'ensemble** : une carte par rubrique, avec ce
 qu'elle alimente sur le site et, pour les listes, le nombre d'éléments. Après
@@ -108,6 +111,22 @@ Les boutons « Mettre le site à jour » et « Voir l'aperçu » sont **toujours
 affichés**, désactivés quand `KASTELL_SITE_URL` ou `KASTELL_SECRET` manquent
 dans `wp-config.php`, avec le texte exact à coller. Les masquer laisserait
 chercher une fonction qui existe pourtant, sans jamais dire ce qui lui manque.
+
+## Le menu ne se construit qu'à un seul endroit
+
+`register_post_type` avec un `show_in_menu` désignant un parent fait ajouter par
+WordPress **sa propre entrée** pour chaque type, avec ses propres intitulés. Le
+menu se retrouvait alors en double, une fois avec les libellés de WordPress, une
+fois avec ceux de `kastell_menu()`.
+
+Les types sont donc déclarés `show_in_menu => false` : ils gardent leurs écrans
+d'édition, mais n'apparaissent pas d'eux-mêmes. La liste est construite une
+seule fois, dans `kastell_menu()`, dans l'ordre du site.
+
+Pour la même raison la première entrée est déclarée explicitement. WordPress en
+fabrique une d'office qui reprend le nom du menu ; la renommer après coup, par
+son rang, revenait à écraser la première rubrique — c'est ainsi que
+« Paramètres » avait disparu au profit de « Vue d'ensemble ».
 
 ## Choix à connaître avant de modifier
 

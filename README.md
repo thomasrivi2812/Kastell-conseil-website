@@ -320,10 +320,10 @@ JSON. Si oui, le site le lit.
 
 ### Ce que voit Léa
 
-Un menu unique, **Contenu du site**, et rien d'autre : pour un compte Éditeur,
-les entrées natives — Articles, Pages, Commentaires, Outils — sont retirées.
-« Articles » à côté d'« Actualités » ne peut que faire saisir du contenu à un
-endroit dont le site ne lit rien.
+Un menu unique, **Contenu du site**, et rien d'autre. Articles, Pages,
+Commentaires et Tableau de bord sont retirés pour tout le monde : cette
+installation ne sert aucune page, et les laisser revient à offrir d'écrire un
+article à côté d'« Actualités LinkedIn » sans qu'il apparaisse jamais.
 
 La première page est une **vue d'ensemble** : une carte par rubrique, ce qu'elle
 alimente sur le site, le nombre d'éléments pour les listes. C'est là qu'arrive

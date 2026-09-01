@@ -489,21 +489,47 @@ add_action( 'wp_ajax_kastell_ordre', 'kastell_enregistrer_ordre' );
  * ---------------------------------------------------------------------- */
 
 /**
- * L'éditrice ne voit que le contenu du site.
+ * On retire les rubriques natives, pour tout le monde.
  *
- * « Articles » à côté d'« Actualités », « Pages » alors qu'aucune page n'est
- * servie : ces entrées natives n'ont ici aucun sens et ne peuvent que faire
- * saisir du contenu au mauvais endroit. Les administrateurs gardent tout.
+ * Cette installation ne sert aucune page : « Articles », « Pages » et
+ * « Commentaires » n'y produisent rien de visible. Les laisser, c'est offrir
+ * d'écrire un article à côté d'« Actualités LinkedIn » et de ne jamais le voir
+ * apparaître.
+ *
+ * Elles étaient jusqu'ici masquées aux seuls éditeurs, ce qui rendait la chose
+ * invisible depuis un compte administrateur — la personne qui installe ne
+ * pouvait pas vérifier ce qu'elle livrait. Un administrateur garde l'accès par
+ * l'URL directe (wp-admin/edit.php) si le besoin s'en présentait.
  */
 function kastell_alleger_le_menu() {
-	if ( current_user_can( 'manage_options' ) ) {
-		return;
-	}
-	foreach ( array( 'edit.php', 'edit-comments.php', 'tools.php', 'index.php' ) as $page ) {
+	foreach ( array( 'edit.php', 'edit-comments.php', 'index.php' ) as $page ) {
 		remove_menu_page( $page );
+	}
+	remove_menu_page( 'edit.php?post_type=page' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		remove_menu_page( 'tools.php' );
 	}
 }
 add_action( 'admin_menu', 'kastell_alleger_le_menu', 999 );
+
+/** Les commentaires n'ont pas de sens sur un back-office sans pages. */
+function kastell_sans_commentaires() {
+	foreach ( get_post_types() as $type ) {
+		if ( post_type_supports( $type, 'comments' ) ) {
+			remove_post_type_support( $type, 'comments' );
+			remove_post_type_support( $type, 'trackbacks' );
+		}
+	}
+}
+add_action( 'init', 'kastell_sans_commentaires', 100 );
+
+function kastell_barre_sans_commentaires( $barre ) {
+	$barre->remove_node( 'comments' );
+	$barre->remove_node( 'new-post' );
+	$barre->remove_node( 'new-page' );
+}
+add_action( 'admin_bar_menu', 'kastell_barre_sans_commentaires', 999 );
 
 /** Après connexion, on arrive sur le contenu, pas sur le tableau de bord vide. */
 function kastell_redirection_connexion( $url, $demande, $utilisateur ) {
