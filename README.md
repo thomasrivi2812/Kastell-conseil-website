@@ -375,6 +375,48 @@ aucune rubrique. Vérifié aussi : avec un WordPress où un seul champ est
 renseigné, ce champ est repris et tout le reste — les six offres, la biographie,
 la presse, le manifeste, le pied de page — reste celui du dépôt.
 
+### Quand une modification n'apparaît pas
+
+Le repli sur le contenu du dépôt est **silencieux par conception** : c'est ce
+qui garde le site debout quand WordPress tombe, mais cela rend le diagnostic
+impossible à l'œil — une page qui affiche l'ancien texte ressemble en tout
+point à une page qui affiche le bon.
+
+Une seule URL répond :
+
+```
+https://kastell-conseils.fr/api/diagnostic?secret=<REVALIDATE_SECRET>
+```
+
+Elle dit si la variable est présente sur ce déploiement, si WordPress répond,
+en combien de temps, et **combien d'éléments il voit dans chaque liste**. Il
+suffit de comparer ces nombres à ce qu'affiche le site.
+
+| Réponse | Ce que ça veut dire |
+| --- | --- |
+| `non configuré` | `WORDPRESS_API_URL` absente de ce déploiement — l'ajouter puis **redéployer** |
+| `joignable: false`, statut 401/403 | WordPress refuse la lecture anonyme : protection du site ou extension de sécurité |
+| `joignable: false`, `fetch failed` | adresse erronée ou site éteint |
+| `joignable: true` mais les nombres ne collent pas | la page servie est antérieure : recharger deux fois |
+
+Deux causes ne se voient pas ici et sont à écarter côté WordPress : la fiche
+restée **en brouillon** (la route ne rend que le contenu publié), et le webhook
+non configuré (la modification apparaît alors en moins d'une minute, pas
+instantanément).
+
+### Le piège du déploiement antérieur
+
+Les pages de contenu déclarent `export const revalidate = 60`. Ce n'est pas
+redondant avec la période portée par la requête au CMS : une page construite
+alors que `WORDPRESS_API_URL` n'était pas encore renseignée **ne comporte
+aucune requête**, donc aucune période de revalidation. Elle reste alors figée
+pour toujours, et brancher le CMS ensuite ne change rien tant qu'on n'a pas
+redéployé — WordPress répond correctement, le site ignore simplement qu'il doit
+se relire.
+
+C'est visible dans la sortie de `npm run build` : sans la déclaration explicite
+et sans CMS, la colonne *Revalidate* de `/` était vide.
+
 ### Ce qu'il faut surveiller côté référencement
 
 L'extension pose déjà trois garde-fous, parce que le piège classique du
