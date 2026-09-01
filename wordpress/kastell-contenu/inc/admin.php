@@ -58,9 +58,17 @@ function kastell_page_accueil() {
 	echo '<h2>Liaison avec le site</h2>';
 	if ( $lie ) {
 		printf(
-			'<p>Site public : <a href="%1$s" target="_blank" rel="noopener">%1$s</a>. Les modifications publiées ici y apparaissent immédiatement.</p>',
+			'<p>Site public : <a href="%1$s" target="_blank" rel="noopener">%1$s</a>.</p>',
 			esc_url( KASTELL_SITE_URL )
 		);
+		$apercu = kastell_lien_apercu();
+		if ( $apercu ) {
+			printf(
+				'<p><a href="%s" class="button button-primary" target="_blank" rel="noopener">Voir l’aperçu du site</a></p>',
+				esc_url( $apercu )
+			);
+			echo '<p class="description">L’aperçu relit WordPress à chaque affichage : vos modifications s’y voient aussitôt. Le site public, lui, se rafraîchit tout seul en moins d’une minute. Ce raccourci reste disponible en haut de chaque écran.</p>';
+		}
 	} else {
 		echo '<p class="kastell-alerte">La constante <code>KASTELL_SITE_URL</code> n’est pas définie dans <code>wp-config.php</code>. Le site fonctionne, mais vos modifications peuvent mettre jusqu’à une minute à s’afficher au lieu d’être immédiates.</p>';
 	}
@@ -112,6 +120,65 @@ function kastell_bilan_import() {
 		isset( $_GET['fiches'] ) ? (int) $_GET['fiches'] : 0
 	);
 }
+
+/* -------------------------------------------------------------------------
+ * Aperçu du site
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Lien vers l'aperçu, sans exposer le secret.
+ *
+ * Le site est servi en pages pré-rendues : une modification met jusqu'à une
+ * minute à s'y voir. L'aperçu bascule le navigateur en lecture directe. Le
+ * secret est ajouté par la redirection, côté serveur, plutôt que d'être écrit
+ * dans le HTML de chaque écran d'administration.
+ */
+function kastell_lien_apercu() {
+	if ( ! defined( 'KASTELL_SITE_URL' ) || ! defined( 'KASTELL_SECRET' ) ) {
+		return '';
+	}
+	return wp_nonce_url( admin_url( 'admin-post.php?action=kastell_apercu' ), 'kastell_apercu' );
+}
+
+function kastell_rediriger_apercu() {
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		wp_die( 'Droits insuffisants.' );
+	}
+	check_admin_referer( 'kastell_apercu' );
+	if ( ! defined( 'KASTELL_SITE_URL' ) || ! defined( 'KASTELL_SECRET' ) ) {
+		wp_die( 'L’aperçu demande KASTELL_SITE_URL et KASTELL_SECRET dans wp-config.php.' );
+	}
+
+	$url = add_query_arg(
+		'secret',
+		rawurlencode( KASTELL_SECRET ),
+		rtrim( KASTELL_SITE_URL, '/' ) . '/api/apercu'
+	);
+	/* Destination hors du site WordPress : wp_safe_redirect la refuserait. */
+	wp_redirect( $url, 302 );
+	exit;
+}
+add_action( 'admin_post_kastell_apercu', 'kastell_rediriger_apercu' );
+
+/** Raccourci permanent dans la barre d'administration. */
+function kastell_barre_admin( $barre ) {
+	if ( ! is_admin() || ! current_user_can( 'edit_posts' ) ) {
+		return;
+	}
+	$lien = kastell_lien_apercu();
+	if ( ! $lien ) {
+		return;
+	}
+	$barre->add_node(
+		array(
+			'id'    => 'kastell-apercu',
+			'title' => 'Voir l’aperçu du site',
+			'href'  => $lien,
+			'meta'  => array( 'target' => '_blank', 'title' => 'Ouvre le site en lecture directe de WordPress' ),
+		)
+	);
+}
+add_action( 'admin_bar_menu', 'kastell_barre_admin', 80 );
 
 /* -------------------------------------------------------------------------
  * Écrans d'édition

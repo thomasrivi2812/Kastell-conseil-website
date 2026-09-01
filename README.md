@@ -375,6 +375,35 @@ aucune rubrique. Vérifié aussi : avec un WordPress où un seul champ est
 renseigné, ce champ est repris et tout le reste — les six offres, la biographie,
 la presse, le manifeste, le pied de page — reste celui du dépôt.
 
+### Voir une modification sans attendre
+
+Le site est servi en pages pré-rendues, rafraîchies chaque minute. C'est ce qui
+le rend rapide et robuste, mais cela impose d'attendre pour constater l'effet
+d'une modification. Deux mécanismes s'en chargent :
+
+**Le webhook**, pour le site public. WordPress prévient Next à chaque
+publication, Next purge le cache, le visiteur suivant voit la nouvelle version.
+Il faut pour cela les deux constantes de `wp-config.php`. Sans elles, le
+rafraîchissement automatique d'une minute prend le relais.
+
+**Le mode aperçu**, pour vérifier soi-même. Un bouton **Voir l'aperçu du site**
+figure sur la vue d'ensemble et en haut de chaque écran d'administration. Il
+pose un cookie qui, *pour ce navigateur seulement*, fait relire WordPress à
+chaque affichage. Les autres visiteurs continuent de recevoir la version
+pré-rendue.
+
+Un bandeau le rappelle en bas de page, avec un lien pour en sortir. Sans lui on
+oublie qu'on est dans un mode particulier : le site paraît se mettre à jour
+instantanément pour tout le monde, et la première personne à qui on montre le
+lien voit autre chose.
+
+Le secret n'est pas écrit dans le HTML de l'administration : le bouton passe par
+une redirection WordPress qui l'ajoute côté serveur.
+
+Aucun de ces deux mécanismes ne demande de redéploiement. **Un seul
+redéploiement reste nécessaire**, celui qui suit l'ajout de
+`WORDPRESS_API_URL` — voir le piège décrit plus bas.
+
 ### Quand une modification n'apparaît pas
 
 Le repli sur le contenu du dépôt est **silencieux par conception** : c'est ce

@@ -227,6 +227,49 @@
     color: #192924;
   }
 
+  /* ---- bandeau d'aperçu ---- */
+  /*
+   * Fixé en bas plutôt qu'en haut : en haut il décalerait l'en-tête collant et
+   * fausserait précisément ce qu'on est en train de vérifier.
+   */
+  .bandeau-apercu {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: calc(100vw - 32px);
+    padding: 12px 18px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #192924;
+    color: #faf9f6;
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+    box-shadow: 0 8px 28px rgba(15, 26, 23, 0.32);
+  }
+
+  .bandeau-apercu strong {
+    font-weight: 600;
+  }
+
+  .bandeau-apercu a {
+    flex: none;
+    padding: 6px 14px;
+    border: 1px solid rgba(226, 240, 248, 0.45);
+    border-radius: 999px;
+    color: #faf9f6;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .bandeau-apercu a:hover {
+    background: rgba(226, 240, 248, 0.14);
+  }
+
   /* ---- boîte de dialogue du téléchargement ---- */
   .modale {
     width: min(520px, calc(100vw - 32px));

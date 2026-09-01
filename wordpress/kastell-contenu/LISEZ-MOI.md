@@ -112,6 +112,11 @@ dépôt — pas d'erreur, juste l'ancien texte qui persiste.
 rend exactement ce qu'affiche le site. Rien de plus sensible que la page
 d'accueil elle-même.
 
+**L'aperçu passe par une redirection.** Le bouton « Voir l'aperçu du site »
+pointe sur `admin-post.php`, qui ajoute le secret côté serveur avant de
+rediriger. Écrire le lien complet dans la page mettrait le secret dans le HTML
+de chaque écran d'administration.
+
 **Le webhook est non bloquant.** Enregistrer un article n'attend pas la réponse
 du site et n'échoue pas si celui-ci est indisponible. Sans webhook, les
 modifications apparaissent en moins d'une minute au lieu d'immédiatement.

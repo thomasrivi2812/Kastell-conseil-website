@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { BandeauApercu } from "@/components/BandeauApercu";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -48,6 +49,7 @@ export default function RootLayout({
         <a href="#contenu" className="skip-link">
           Aller au contenu
         </a>
+        <BandeauApercu />
         {children}
       </body>
     </html>
