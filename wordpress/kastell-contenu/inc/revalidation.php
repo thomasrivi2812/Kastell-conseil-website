@@ -6,9 +6,8 @@
  * ce signal, une modification n'apparaîtrait qu'au bout d'une minute — le délai
  * de revalidation du site. Rien de cassé sans lui, seulement plus lent.
  *
- * Les deux constantes se posent dans wp-config.php :
- *   define( 'KASTELL_SITE_URL', 'https://kastell-conseils.fr' );
- *   define( 'KASTELL_SECRET', '…' );  // la même valeur que côté Vercel
+ * L'adresse et le secret se renseignent dans l'administration, rubrique
+ * « Contenu du site » (voir inc/reglages.php).
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,20 +31,20 @@ function kastell_prevenir_le_site( $post_id, $post = null ) {
 	if ( ! in_array( $type, kastell_types_suivis(), true ) ) {
 		return;
 	}
-	if ( ! defined( 'KASTELL_SITE_URL' ) || ! defined( 'KASTELL_SECRET' ) ) {
+	if ( ! kastell_est_lie() ) {
 		return;
 	}
 
 	/* Envoi non bloquant : l'enregistrement d'un article ne doit pas attendre
 	   la réponse d'un service tiers, ni échouer si celui-ci est indisponible. */
 	wp_remote_post(
-		rtrim( KASTELL_SITE_URL, '/' ) . '/api/revalidate',
+		kastell_site_url() . '/api/revalidate',
 		array(
 			'timeout'  => 5,
 			'blocking' => false,
 			'headers'  => array(
 				'content-type'     => 'application/json',
-				'x-kastell-secret' => KASTELL_SECRET,
+				'x-kastell-secret' => kastell_secret(),
 			),
 			'body'     => wp_json_encode( array( 'type' => $type ) ),
 		)

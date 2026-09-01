@@ -8,13 +8,14 @@ statique sur Vercel.
 
 1. Copier le dossier `kastell-contenu/` dans `wp-content/plugins/`.
 2. L'activer dans *Extensions*.
-3. Ajouter deux constantes dans `wp-config.php`, **au-dessus** de la ligne
-   `/* That's all, stop editing! */` :
+3. Ouvrir **Contenu du site** et renseigner, dans le formulaire en bas de page :
+   l'**adresse du site public** et le **secret partagé** — la valeur de
+   `REVALIDATE_SECRET` côté Vercel, recopiée à l'identique.
 
-   ```php
-   define( 'KASTELL_SITE_URL', 'https://kastell-conseils.fr' );
-   define( 'KASTELL_SECRET', '…' ); // même valeur que REVALIDATE_SECRET côté Vercel
-   ```
+   Rien à modifier dans les fichiers. Un hébergement qui préfère sortir le
+   secret de la base de données peut toujours définir `KASTELL_SITE_URL` et
+   `KASTELL_SECRET` dans `wp-config.php` : les constantes gardent la priorité et
+   le formulaire se masque alors.
 
 Aucune autre extension n'est nécessaire : ni ACF, ni WPGraphQL. Le modèle de
 contenu, l'administration et la route REST sont fournis ici.
@@ -122,6 +123,15 @@ dépôt — pas d'erreur, juste l'ancien texte qui persiste.
 **Lecture publique assumée.** La route ne demande pas d'authentification : elle
 rend exactement ce qu'affiche le site. Rien de plus sensible que la page
 d'accueil elle-même.
+
+**Le secret ne se réaffiche jamais.** Le champ du formulaire reste vide et ne
+remplace la valeur enregistrée que s'il est rempli. Le réafficher le mettrait
+dans le HTML de la page à chaque visite sans rien apporter : personne n'a besoin
+de le relire, seulement de le remplacer.
+
+**Le formulaire est réservé aux administrateurs.** C'est un réglage
+d'installation, pas du contenu. Un compte Éditeur voit l'état de la liaison mais
+ne peut pas la modifier.
 
 **L'aperçu passe par une redirection.** Le bouton « Voir l'aperçu du site »
 pointe sur `admin-post.php`, qui ajoute le secret côté serveur avant de

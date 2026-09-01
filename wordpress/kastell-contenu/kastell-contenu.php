@@ -2,7 +2,7 @@
 /**
  * Plugin Name:  Kastell — contenu du site
  * Description:  Modèle de contenu et route d'agrégation pour le site Next.js de Kastell Conseil. WordPress ne sert aucune page : il ne sert que des données.
- * Version:      1.2.0
+ * Version:      1.3.0
  * Requires PHP: 7.4
  * Author:        Kastell Conseil
  * Text Domain:  kastell
@@ -12,8 +12,9 @@ defined( 'ABSPATH' ) || exit;
 
 /* Affichée sur la vue d'ensemble : sans elle, impossible de savoir quelle
    version est réellement installée quand un bouton attendu n'apparaît pas. */
-const KASTELL_VERSION = '1.2.0';
+const KASTELL_VERSION = '1.3.0';
 
+require_once __DIR__ . '/inc/reglages.php';
 require_once __DIR__ . '/inc/schema.php';
 require_once __DIR__ . '/inc/types.php';
 require_once __DIR__ . '/inc/metaboxes.php';
@@ -47,8 +48,9 @@ function kastell_rediriger_le_front() {
 	if ( is_user_logged_in() ) {
 		return;
 	}
-	if ( defined( 'KASTELL_SITE_URL' ) ) {
-		wp_safe_redirect( KASTELL_SITE_URL, 302 );
+	$site = kastell_site_url();
+	if ( $site ) {
+		wp_redirect( $site, 302 );
 		exit;
 	}
 }

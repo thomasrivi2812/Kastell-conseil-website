@@ -301,13 +301,13 @@ Ce contrat est aussi ce qu'il faut respecter si le back change encore.
 2. **Déposer l'extension** — copier `wordpress/kastell-contenu/` dans
    `wp-content/plugins/`, puis l'activer. Aucune autre extension n'est requise :
    ni ACF, ni WPGraphQL.
-3. **Renseigner deux constantes** dans `wp-config.php`, au-dessus de la ligne
-   `/* That's all, stop editing! */` :
+3. **Renseigner la liaison** dans l'administration : *Contenu du site*, en bas
+   de page, l'adresse du site public et le secret partagé (`openssl rand -hex
+   32`, la même valeur que `REVALIDATE_SECRET` côté Vercel).
 
-   ```php
-   define( 'KASTELL_SITE_URL', 'https://kastell-conseils.fr' );
-   define( 'KASTELL_SECRET', '…' ); // openssl rand -hex 32
-   ```
+   Aucun fichier à modifier. Les constantes `KASTELL_SITE_URL` et
+   `KASTELL_SECRET` de `wp-config.php` restent reconnues et gardent la
+   priorité, pour un hébergement qui préfère sortir le secret de la base.
 
 4. **Créer le compte de Léa** — rôle **Éditeur**, pas Administrateur.
 5. **Côté Vercel** — ajouter `WORDPRESS_API_URL` (l'adresse WordPress, sans
@@ -383,8 +383,7 @@ d'une modification. Deux mécanismes s'en chargent :
 
 **Le bouton « Mettre le site à jour »**, sur la vue d'ensemble et en haut de
 chaque écran d'administration. Il est toujours affiché, désactivé et accompagné
-de ce qui lui manque quand les constantes de `wp-config.php` ne sont pas
-posées ; la vue d'ensemble indique aussi la version de l'extension installée. Il purge le cache du site et attend la réponse,
+du formulaire à remplir quand la liaison n'est pas renseignée ; la vue d'ensemble indique aussi la version de l'extension installée. Il purge le cache du site et attend la réponse,
 ce qui en fait aussi le test de la liaison : un secret mal recopié ou une
 adresse erronée s'y voient tout de suite, au lieu de se traduire par « le site
 ne se met pas à jour ».

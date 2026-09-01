@@ -21,7 +21,7 @@ function kastell_definition( $type ) {
  * ---------------------------------------------------------------------- */
 
 function kastell_page_accueil() {
-	$lie = defined( 'KASTELL_SITE_URL' );
+	$lie = kastell_est_lie();
 
 	echo '<div class="wrap kastell-accueil">';
 	echo '<h1>Contenu du site</h1>';
@@ -58,8 +58,8 @@ function kastell_page_accueil() {
 
 	echo '<h2>Liaison avec le site</h2>';
 
-	$url_ok    = defined( 'KASTELL_SITE_URL' );
-	$secret_ok = defined( 'KASTELL_SECRET' );
+	$url_ok    = '' !== kastell_site_url();
+	$secret_ok = '' !== kastell_secret();
 	$maj       = kastell_lien_maj();
 	$apercu    = kastell_lien_apercu();
 
@@ -79,7 +79,7 @@ function kastell_page_accueil() {
 	if ( $maj ) {
 		printf(
 			'<p>Site public : <a href="%1$s" target="_blank" rel="noopener">%1$s</a>.</p>',
-			esc_url( KASTELL_SITE_URL )
+			esc_url( kastell_site_url() )
 		);
 		$derniere = (int) get_option( 'kastell_derniere_maj', 0 );
 		if ( $derniere ) {
@@ -102,32 +102,31 @@ function kastell_page_accueil() {
 }
 
 /**
- * Ce qui manque, et où l'écrire.
+ * Ce qui manque, et de quoi le renseigner sur place.
  *
- * Les deux boutons dépendent de constantes posées dans un fichier auquel
- * l'éditrice n'a pas accès. Dire lesquelles manquent, et montrer exactement le
- * texte à coller, évite l'aller-retour.
+ * La version précédente donnait un extrait de wp-config.php à coller. C'est la
+ * bonne pratique WordPress, mais elle suppose un accès au système de fichiers
+ * que la personne qui gère le contenu n'a pas : les boutons restaient inactifs
+ * faute de pouvoir ouvrir un fichier.
  */
 function kastell_expliquer_constantes( $url_ok, $secret_ok ) {
 	$manquantes = array();
 	if ( ! $url_ok ) {
-		$manquantes[] = 'KASTELL_SITE_URL';
+		$manquantes[] = 'l’adresse du site public';
 	}
 	if ( ! $secret_ok ) {
-		$manquantes[] = 'KASTELL_SECRET';
+		$manquantes[] = 'le secret partagé';
 	}
 
 	echo '<div class="kastell-alerte">';
 	printf(
-		'<p><strong>Ces deux boutons sont inactifs</strong> parce que %s manque dans <code>wp-config.php</code>.</p>',
-		esc_html( implode( ' et ', $manquantes ) )
+		'<p><strong>Ces deux boutons sont inactifs</strong> : il manque %s. Renseignez-%s ci-dessous.</p>',
+		esc_html( implode( ' et ', $manquantes ) ),
+		count( $manquantes ) > 1 ? 'les' : 'le'
 	);
-	echo '<p>Ouvrez <code>wp-config.php</code> à la racine du site et collez ces deux lignes <strong>au-dessus</strong> de la ligne <code>/* That’s all, stop editing! */</code> :</p>';
-	echo '<pre>define( \'KASTELL_SITE_URL\', \'https://votre-site.fr\' );' . "\n"
-		. 'define( \'KASTELL_SECRET\',   \'le secret défini dans Vercel\' );</pre>';
-	echo '<p><code>KASTELL_SITE_URL</code> est l’adresse du site public, pas celle de WordPress. <code>KASTELL_SECRET</code> doit être identique au caractère près à la variable <code>REVALIDATE_SECRET</code> de Vercel.</p>';
-	echo '<p>Sans ces lignes le site fonctionne quand même : vos modifications s’y affichent en moins d’une minute, au lieu d’être poussées d’un clic.</p>';
+	echo '<p>Sans cela le site fonctionne quand même : vos modifications s’y affichent en moins d’une minute, au lieu d’être poussées d’un clic.</p>';
 	echo '</div>';
+	kastell_formulaire_reglages();
 }
 
 /** Rappel discret sur tous les écrans, tant que la liaison n'est pas faite. */
@@ -135,7 +134,7 @@ function kastell_avis_constantes() {
 	if ( ! current_user_can( 'edit_posts' ) ) {
 		return;
 	}
-	if ( defined( 'KASTELL_SITE_URL' ) && defined( 'KASTELL_SECRET' ) ) {
+	if ( kastell_est_lie() ) {
 		return;
 	}
 	$ecran = get_current_screen();
@@ -146,7 +145,7 @@ function kastell_avis_constantes() {
 		return;
 	}
 	printf(
-		'<div class="notice notice-warning"><p>Les boutons « Mettre le site à jour » et « Voir l’aperçu » sont inactifs : il manque des constantes dans <code>wp-config.php</code>. <a href="%s">Voir ce qu’il faut ajouter</a>.</p></div>',
+		'<div class="notice notice-warning"><p>Les boutons « Mettre le site à jour » et « Voir l’aperçu » sont inactifs : la liaison avec le site n’est pas renseignée. <a href="%s">La renseigner</a>.</p></div>',
 		esc_url( admin_url( 'admin.php?page=kastell-contenu' ) )
 	);
 }
@@ -207,7 +206,7 @@ function kastell_bilan_import() {
  * dans le HTML de chaque écran d'administration.
  */
 function kastell_lien_apercu() {
-	if ( ! defined( 'KASTELL_SITE_URL' ) || ! defined( 'KASTELL_SECRET' ) ) {
+	if ( ! kastell_est_lie() ) {
 		return '';
 	}
 	return wp_nonce_url( admin_url( 'admin-post.php?action=kastell_apercu' ), 'kastell_apercu' );
@@ -218,14 +217,14 @@ function kastell_rediriger_apercu() {
 		wp_die( 'Droits insuffisants.' );
 	}
 	check_admin_referer( 'kastell_apercu' );
-	if ( ! defined( 'KASTELL_SITE_URL' ) || ! defined( 'KASTELL_SECRET' ) ) {
-		wp_die( 'L’aperçu demande KASTELL_SITE_URL et KASTELL_SECRET dans wp-config.php.' );
+	if ( ! kastell_est_lie() ) {
+		wp_die( 'La liaison avec le site n’est pas renseignée.' );
 	}
 
 	$url = add_query_arg(
 		'secret',
-		rawurlencode( KASTELL_SECRET ),
-		rtrim( KASTELL_SITE_URL, '/' ) . '/api/apercu'
+		rawurlencode( kastell_secret() ),
+		kastell_site_url() . '/api/apercu'
 	);
 	/* Destination hors du site WordPress : wp_safe_redirect la refuserait. */
 	wp_redirect( $url, 302 );
@@ -286,19 +285,19 @@ function kastell_forcer_maj() {
 
 	$retour = admin_url( 'admin.php?page=kastell-contenu' );
 
-	if ( ! defined( 'KASTELL_SITE_URL' ) || ! defined( 'KASTELL_SECRET' ) ) {
+	if ( ! kastell_est_lie() ) {
 		wp_safe_redirect( add_query_arg( 'kastell_maj', 'constantes', $retour ) );
 		exit;
 	}
 
 	$reponse = wp_remote_post(
-		rtrim( KASTELL_SITE_URL, '/' ) . '/api/revalidate',
+		kastell_site_url() . '/api/revalidate',
 		array(
 			'timeout'  => 15,
 			'blocking' => true,
 			'headers'  => array(
 				'content-type'     => 'application/json',
-				'x-kastell-secret' => KASTELL_SECRET,
+				'x-kastell-secret' => kastell_secret(),
 			),
 			'body'     => wp_json_encode( array( 'origine' => 'bouton' ) ),
 		)
@@ -335,9 +334,9 @@ function kastell_bilan_maj() {
 
 	$messages = array(
 		'ok'          => array( 'success', 'Le site est à jour. Rechargez-le pour voir vos modifications.' ),
-		'secret'      => array( 'error', 'Le site a refusé la demande : la constante <code>KASTELL_SECRET</code> de <code>wp-config.php</code> ne correspond pas à la variable <code>REVALIDATE_SECRET</code> de Vercel.' ),
-		'constantes'  => array( 'error', 'Les constantes <code>KASTELL_SITE_URL</code> et <code>KASTELL_SECRET</code> manquent dans <code>wp-config.php</code>.' ),
-		'injoignable' => array( 'error', 'Le site n’a pas répondu. Vérifiez l’adresse indiquée dans <code>KASTELL_SITE_URL</code>.' ),
+		'secret'      => array( 'error', 'Le site a refusé la demande : le secret enregistré ici ne correspond pas à la variable <code>REVALIDATE_SECRET</code> de Vercel.' ),
+		'constantes'  => array( 'error', 'La liaison avec le site n’est pas renseignée.' ),
+		'injoignable' => array( 'error', 'Le site n’a pas répondu. Vérifiez l’adresse du site public.' ),
 		'erreur'      => array( 'error', 'Le site a répondu, mais pas ce qui était attendu.' ),
 	);
 	if ( ! isset( $messages[ $etat ] ) ) {
@@ -356,7 +355,7 @@ function kastell_bilan_maj() {
 
 /** Lien signé vers l'action, ou chaîne vide si la liaison n'est pas configurée. */
 function kastell_lien_maj() {
-	if ( ! defined( 'KASTELL_SITE_URL' ) || ! defined( 'KASTELL_SECRET' ) ) {
+	if ( ! kastell_est_lie() ) {
 		return '';
 	}
 	return wp_nonce_url( admin_url( 'admin-post.php?action=kastell_maj' ), 'kastell_maj' );
@@ -537,6 +536,9 @@ function kastell_admin_assets( $hook ) {
 		. '.kastell-carte span{display:block;color:#50575e;font-size:13px;line-height:1.5}'
 		. '.kastell-alerte{padding:2px 16px;margin:0 0 20px;background:#fcf9e8;border-left:4px solid #dba617;max-width:80ch}'
 		. '.kastell-alerte pre{padding:10px 12px;background:#fff;border:1px solid #dcdcde;overflow-x:auto}'
+		. '.kastell-reglages{margin:0 0 26px}'
+		. '.kastell-reglages label{display:block;margin-bottom:5px}'
+		. '.kastell-reglages .description{display:block;margin-top:5px}'
 		. '.kastell-aide{margin:14px 0 4px;max-width:80ch}'
 		. '.kastell-vignette{max-width:110px;max-height:38px;width:auto;height:auto}'
 		. '.kastell-vide{color:#a7aaad}'
