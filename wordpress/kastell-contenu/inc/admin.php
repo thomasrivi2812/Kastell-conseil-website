@@ -57,37 +57,100 @@ function kastell_page_accueil() {
 	echo '</div>';
 
 	echo '<h2>Liaison avec le site</h2>';
-	if ( $lie ) {
+
+	$url_ok    = defined( 'KASTELL_SITE_URL' );
+	$secret_ok = defined( 'KASTELL_SECRET' );
+	$maj       = kastell_lien_maj();
+	$apercu    = kastell_lien_apercu();
+
+	/* Les boutons sont toujours affichés, désactivés le cas échéant : les
+	   masquer quand la configuration manque laisse chercher une fonction qui
+	   existe pourtant, sans jamais dire ce qui lui manque. */
+	echo '<p class="kastell-actions">';
+	if ( $maj ) {
+		printf( '<a href="%s" class="button button-primary button-hero">Mettre le site à jour</a>', esc_url( $maj ) );
+		printf( '<a href="%s" class="button button-hero" target="_blank" rel="noopener">Voir l’aperçu du site</a>', esc_url( $apercu ) );
+	} else {
+		echo '<span class="button button-primary button-hero disabled" aria-disabled="true">Mettre le site à jour</span>';
+		echo '<span class="button button-hero disabled" aria-disabled="true">Voir l’aperçu du site</span>';
+	}
+	echo '</p>';
+
+	if ( $maj ) {
 		printf(
 			'<p>Site public : <a href="%1$s" target="_blank" rel="noopener">%1$s</a>.</p>',
 			esc_url( KASTELL_SITE_URL )
 		);
-		$maj    = kastell_lien_maj();
-		$apercu = kastell_lien_apercu();
-		if ( $maj ) {
-			echo '<p class="kastell-actions">';
-			printf( '<a href="%s" class="button button-primary button-hero">Mettre le site à jour</a>', esc_url( $maj ) );
-			printf( '<a href="%s" class="button button-hero" target="_blank" rel="noopener">Voir l’aperçu du site</a>', esc_url( $apercu ) );
-			echo '</p>';
-
-			$derniere = (int) get_option( 'kastell_derniere_maj', 0 );
-			if ( $derniere ) {
-				printf(
-					'<p class="description">Dernière mise à jour poussée il y a %s.</p>',
-					esc_html( human_time_diff( $derniere ) )
-				);
-			}
-			echo '<p class="description"><strong>Mettre le site à jour</strong> pousse vos modifications sur le site public tout de suite. Ce n’est pas obligatoire : le site se rafraîchit aussi tout seul en moins d’une minute. <strong>L’aperçu</strong> montre le résultat dans votre navigateur seulement, sans rien changer pour les visiteurs. Les deux raccourcis restent disponibles en haut de chaque écran.</p>';
+		$derniere = (int) get_option( 'kastell_derniere_maj', 0 );
+		if ( $derniere ) {
+			printf(
+				'<p class="description">Dernière mise à jour poussée il y a %s.</p>',
+				esc_html( human_time_diff( $derniere ) )
+			);
 		}
+		echo '<p class="description"><strong>Mettre le site à jour</strong> pousse vos modifications sur le site public tout de suite. Ce n’est pas obligatoire : le site se rafraîchit aussi tout seul en moins d’une minute. <strong>L’aperçu</strong> montre le résultat dans votre navigateur seulement, sans rien changer pour les visiteurs. Les deux raccourcis restent disponibles en haut de chaque écran.</p>';
 	} else {
-		echo '<p class="kastell-alerte">La constante <code>KASTELL_SITE_URL</code> n’est pas définie dans <code>wp-config.php</code>. Le site fonctionne, mais vos modifications peuvent mettre jusqu’à une minute à s’afficher au lieu d’être immédiates.</p>';
+		kastell_expliquer_constantes( $url_ok, $secret_ok );
 	}
+
 	printf(
-		'<p class="description">Vérification technique : <a href="%1$s" target="_blank" rel="noopener">%1$s</a> doit afficher du texte en JSON.</p>',
-		esc_url( rest_url( 'kastell/v1/contenu' ) )
+		'<p class="description">Vérification technique : <a href="%1$s" target="_blank" rel="noopener">%1$s</a> doit afficher du texte en JSON. Extension version %2$s.</p>',
+		esc_url( rest_url( 'kastell/v1/contenu' ) ),
+		esc_html( KASTELL_VERSION )
 	);
 	echo '</div>';
 }
+
+/**
+ * Ce qui manque, et où l'écrire.
+ *
+ * Les deux boutons dépendent de constantes posées dans un fichier auquel
+ * l'éditrice n'a pas accès. Dire lesquelles manquent, et montrer exactement le
+ * texte à coller, évite l'aller-retour.
+ */
+function kastell_expliquer_constantes( $url_ok, $secret_ok ) {
+	$manquantes = array();
+	if ( ! $url_ok ) {
+		$manquantes[] = 'KASTELL_SITE_URL';
+	}
+	if ( ! $secret_ok ) {
+		$manquantes[] = 'KASTELL_SECRET';
+	}
+
+	echo '<div class="kastell-alerte">';
+	printf(
+		'<p><strong>Ces deux boutons sont inactifs</strong> parce que %s manque dans <code>wp-config.php</code>.</p>',
+		esc_html( implode( ' et ', $manquantes ) )
+	);
+	echo '<p>Ouvrez <code>wp-config.php</code> à la racine du site et collez ces deux lignes <strong>au-dessus</strong> de la ligne <code>/* That’s all, stop editing! */</code> :</p>';
+	echo '<pre>define( \'KASTELL_SITE_URL\', \'https://votre-site.fr\' );' . "\n"
+		. 'define( \'KASTELL_SECRET\',   \'le secret défini dans Vercel\' );</pre>';
+	echo '<p><code>KASTELL_SITE_URL</code> est l’adresse du site public, pas celle de WordPress. <code>KASTELL_SECRET</code> doit être identique au caractère près à la variable <code>REVALIDATE_SECRET</code> de Vercel.</p>';
+	echo '<p>Sans ces lignes le site fonctionne quand même : vos modifications s’y affichent en moins d’une minute, au lieu d’être poussées d’un clic.</p>';
+	echo '</div>';
+}
+
+/** Rappel discret sur tous les écrans, tant que la liaison n'est pas faite. */
+function kastell_avis_constantes() {
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		return;
+	}
+	if ( defined( 'KASTELL_SITE_URL' ) && defined( 'KASTELL_SECRET' ) ) {
+		return;
+	}
+	$ecran = get_current_screen();
+	if ( $ecran && 'toplevel_page_kastell-contenu' === $ecran->id ) {
+		return; // la vue d'ensemble l'explique déjà en détail
+	}
+	if ( ! $ecran || ! kastell_definition( $ecran->post_type ) ) {
+		return;
+	}
+	printf(
+		'<div class="notice notice-warning"><p>Les boutons « Mettre le site à jour » et « Voir l’aperçu » sont inactifs : il manque des constantes dans <code>wp-config.php</code>. <a href="%s">Voir ce qu’il faut ajouter</a>.</p></div>',
+		esc_url( admin_url( 'admin.php?page=kastell-contenu' ) )
+	);
+}
+add_action( 'all_admin_notices', 'kastell_avis_constantes' );
 
 /**
  * Proposition d'import, tant que rien n'a été saisi.
@@ -472,7 +535,8 @@ function kastell_admin_assets( $hook ) {
 		. '.kastell-carte strong{display:block;margin-bottom:5px;font-size:14px}'
 		. '.kastell-carte em{font-style:normal;color:#646970;font-weight:400}'
 		. '.kastell-carte span{display:block;color:#50575e;font-size:13px;line-height:1.5}'
-		. '.kastell-alerte{padding:10px 14px;background:#fcf9e8;border-left:4px solid #dba617}'
+		. '.kastell-alerte{padding:2px 16px;margin:0 0 20px;background:#fcf9e8;border-left:4px solid #dba617;max-width:80ch}'
+		. '.kastell-alerte pre{padding:10px 12px;background:#fff;border:1px solid #dcdcde;overflow-x:auto}'
 		. '.kastell-aide{margin:14px 0 4px;max-width:80ch}'
 		. '.kastell-vignette{max-width:110px;max-height:38px;width:auto;height:auto}'
 		. '.kastell-vide{color:#a7aaad}'

@@ -382,7 +382,9 @@ le rend rapide et robuste, mais cela impose d'attendre pour constater l'effet
 d'une modification. Deux mécanismes s'en chargent :
 
 **Le bouton « Mettre le site à jour »**, sur la vue d'ensemble et en haut de
-chaque écran d'administration. Il purge le cache du site et attend la réponse,
+chaque écran d'administration. Il est toujours affiché, désactivé et accompagné
+de ce qui lui manque quand les constantes de `wp-config.php` ne sont pas
+posées ; la vue d'ensemble indique aussi la version de l'extension installée. Il purge le cache du site et attend la réponse,
 ce qui en fait aussi le test de la liaison : un secret mal recopié ou une
 adresse erronée s'y voient tout de suite, au lieu de se traduire par « le site
 ne se met pas à jour ».

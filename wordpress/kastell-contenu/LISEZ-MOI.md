@@ -97,6 +97,17 @@ Le modifier directement se perdrait à la prochaine génération.
 réponse REST en dérivent : ajouter un champ là-bas suffit à le voir apparaître
 partout. Ne pas dupliquer la liste des champs ailleurs.
 
+## Si un bouton attendu n'apparaît pas
+
+La vue d'ensemble affiche en bas le **numéro de version** de l'extension. C'est
+le premier point à vérifier : sans lui, rien ne distingue une fonction absente
+d'une version pas encore téléversée.
+
+Les boutons « Mettre le site à jour » et « Voir l'aperçu » sont **toujours
+affichés**, désactivés quand `KASTELL_SITE_URL` ou `KASTELL_SECRET` manquent
+dans `wp-config.php`, avec le texte exact à coller. Les masquer laisserait
+chercher une fonction qui existe pourtant, sans jamais dire ce qui lui manque.
+
 ## Choix à connaître avant de modifier
 
 **Une seule route, pas cinq.** Le site fait un appel et reçoit les cinq
