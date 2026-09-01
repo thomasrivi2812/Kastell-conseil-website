@@ -23,6 +23,7 @@ function kastell_singletons() {
 			'titre'  => 'Paramètres du site',
 			'menu'   => 'Paramètres',
 			'cle'    => 'parametres',
+			'aide'   => 'Les coordonnées du cabinet. Elles alimentent le pied de page, le bouton « Échanger avec nous » et les liens LinkedIn de tout le site.',
 			'champs' => array(
 				'nom'           => array( 'texte', 'Nom du cabinet' ),
 				'url'           => array( 'texte', 'Adresse du site', 'Avec https://' ),
@@ -37,6 +38,7 @@ function kastell_singletons() {
 			'titre'  => 'Page d’accueil',
 			'menu'   => 'Accueil',
 			'cle'    => 'accueil',
+			'aide'   => 'Les textes de la page d’accueil, dans l’ordre où ils apparaissent : la promesse en haut de page, la section « Notre vision », puis les intitulés des sections suivantes. Les logos clients, témoignages, chiffres et actualités se gèrent dans leurs propres rubriques.',
 			'champs' => array(
 				'promesse'           => array( 'texte', 'Promesse (héros)' ),
 				'herosCta'           => array( 'texte', 'Libellé du bouton du héros' ),
@@ -57,6 +59,7 @@ function kastell_singletons() {
 			'titre'  => 'Offres — présentation',
 			'menu'   => 'Offres : présentation',
 			'cle'    => 'offres',
+			'aide'   => 'L’en-tête de la page Offres. Les offres elles-mêmes se gèrent dans la rubrique « Offres ».',
 			'champs' => array(
 				'intitule'  => array( 'texte', 'Intitulé de section' ),
 				'titrePage' => array( 'paragraphe', 'Titre de la page Offres' ),
@@ -67,6 +70,7 @@ function kastell_singletons() {
 			'titre'  => 'À propos',
 			'menu'   => 'À propos',
 			'cle'    => 'apropos',
+			'aide'   => 'La présentation de Léa et le bloc « Manifeste » en bas de la page d’accueil. Les retombées presse et les publications se gèrent dans leurs propres rubriques.',
 			'champs' => array(
 				'intitule'                => array( 'texte', 'Intitulé de section' ),
 				'nom'                     => array( 'texte', 'Nom' ),
@@ -93,6 +97,7 @@ function kastell_singletons() {
 			'titre'  => 'Pied de page',
 			'menu'   => 'Pied de page',
 			'cle'    => 'piedDePage',
+			'aide'   => 'Les trois lignes de texte du bas de page.',
 			'champs' => array(
 				'accroche'  => array( 'paragraphe', 'Phrase de présentation' ),
 				'copyright' => array( 'texte', 'Mention de copyright' ),
@@ -117,6 +122,9 @@ function kastell_collections() {
 			'rubrique'    => 'offres',
 			'liste'       => 'liste',
 			'titre_champ' => 'titre',
+			'titre_label' => 'Titre de l’offre',
+			'aide'        => 'Les six offres, telles qu’elles apparaissent sur la page Offres et en aperçu sur l’accueil. Glissez-déposez les lignes pour changer leur ordre.',
+			'colonnes'    => array( 'resume' => 'Résumé' ),
 			'champs'      => array(
 				'resume'           => array( 'paragraphe', 'Résumé' ),
 				'ancre'            => array( 'texte', 'Identifiant de lien', 'Sans accent ni espace. Laisser vide pour le déduire du titre.' ),
@@ -132,6 +140,9 @@ function kastell_collections() {
 			'rubrique'    => 'accueil',
 			'liste'       => 'visionChiffres',
 			'titre_champ' => 'valeur',
+			'titre_label' => 'Le chiffre (ex. 10 ans)',
+			'aide'        => 'Les chiffres affichés dans la section « Notre vision » de l’accueil.',
+			'colonnes'    => array( 'libelle' => 'Légende' ),
 			'champs'      => array( 'libelle' => array( 'texte', 'Légende' ) ),
 		),
 		'k_client' => array(
@@ -140,6 +151,9 @@ function kastell_collections() {
 			'rubrique'    => 'accueil',
 			'liste'       => 'clients',
 			'titre_champ' => 'nom',
+			'titre_label' => 'Nom du client',
+			'aide'        => 'Les logos de la bande « Références » sur l’accueil. Sans logo, le nom s’affiche en toutes lettres.',
+			'colonnes'    => array( 'logo' => 'Logo' ),
 			'champs'      => array( 'logo' => array( 'image', 'Logo' ) ),
 		),
 		'k_temoignage' => array(
@@ -148,17 +162,23 @@ function kastell_collections() {
 			'rubrique'    => 'accueil',
 			'liste'       => 'temoignages',
 			'titre_champ' => 'auteur',
+			'titre_label' => 'Auteur (Nom · fonction, organisation)',
+			'aide'        => 'Affichés sous les logos clients. Laisser la rubrique vide masque le bloc.',
+			'colonnes'    => array( 'citation' => 'Citation' ),
 			'champs'      => array( 'citation' => array( 'paragraphe', 'Citation' ) ),
 		),
 		'k_post' => array(
-			'titre'       => 'Actualités',
+			'titre'       => 'Actualités LinkedIn',
 			'singulier'   => 'Actualité',
 			'rubrique'    => 'accueil',
 			'liste'       => 'posts',
 			'titre_champ' => 'date',
+			'titre_label' => 'Date affichée (ex. 12 août 2026)',
+			'aide'        => 'Les posts LinkedIn mis en avant sur l’accueil, dans la bande « Sur LinkedIn ». Le titre de la fiche est la date telle qu’elle s’affichera : écrivez-la en toutes lettres.',
+			'colonnes'    => array( 'extrait' => 'Extrait' ),
 			'champs'      => array(
-				'extrait' => array( 'paragraphe', 'Extrait' ),
-				'lien'    => array( 'texte', 'Lien vers le post' ),
+				'extrait' => array( 'paragraphe', 'Extrait du post', 'Les premières lignes du post, telles qu’elles s’afficheront sur la carte.' ),
+				'lien'    => array( 'texte', 'Lien vers le post LinkedIn', 'Sur LinkedIn : bouton « … » du post → « Copier le lien du post ».' ),
 			),
 		),
 		'k_presse' => array(
@@ -167,10 +187,13 @@ function kastell_collections() {
 			'rubrique'    => 'apropos',
 			'liste'       => 'presse',
 			'titre_champ' => 'titre',
+			'titre_label' => 'Titre de l’article',
+			'aide'        => 'Les articles parus sur Kastell, affichés dans « Dans la presse » sur l’accueil. Glissez-déposez pour changer leur ordre.',
+			'colonnes'    => array( 'media' => 'Média', 'logo' => 'Logo' ),
 			'champs'      => array(
-				'media' => array( 'texte', 'Média' ),
+				'media' => array( 'texte', 'Nom du média', 'Ex. Ouest-France. Affiché si aucun logo n’est fourni.' ),
 				'lien'  => array( 'texte', 'Lien vers l’article' ),
-				'logo'  => array( 'image', 'Logo du média' ),
+				'logo'  => array( 'image', 'Logo du média', 'Facultatif. Fond transparent de préférence ; il s’affiche sur une pastille claire.' ),
 			),
 		),
 		'k_publication' => array(
@@ -179,6 +202,9 @@ function kastell_collections() {
 			'rubrique'    => 'apropos',
 			'liste'       => 'publications',
 			'titre_champ' => 'titre',
+			'titre_label' => 'Titre de la publication',
+			'aide'        => 'Tribunes et prises de parole, affichées dans « Nos publications » sur l’accueil.',
+			'colonnes'    => array( 'categorie' => 'Catégorie' ),
 			'champs'      => array(
 				'categorie' => array( 'texte', 'Catégorie', 'Tribune, Manifeste…' ),
 				'contexte'  => array( 'paragraphe', 'Contexte' ),

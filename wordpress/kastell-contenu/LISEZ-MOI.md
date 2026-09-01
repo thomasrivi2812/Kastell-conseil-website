@@ -22,9 +22,24 @@ contenu, l'administration et la route REST sont fournis ici.
 Vérification : `https://<votre-wordpress>/wp-json/kastell/v1/contenu` doit rendre
 du JSON.
 
+4. **Récupérer les textes du site** — ouvrir *Contenu du site*, cliquer sur
+   **Récupérer les textes du site**. Les rubriques se remplissent avec ce que le
+   site affiche déjà : il ne reste qu'à modifier, au lieu de tout saisir.
+
+   L'opération ne remplit que les champs vides et n'ajoute des fiches que dans
+   les listes vides. La relancer ne peut rien écraser — elle sert d'ailleurs à
+   compléter après coup ce qui serait resté vide.
+
 ## Ce que voit l'éditrice
 
-Un menu unique, **Contenu du site** :
+Un menu unique, **Contenu du site**, et rien d'autre : pour un compte Éditeur,
+les entrées natives de WordPress — Articles, Pages, Commentaires, Outils — sont
+retirées. « Articles » à côté d'« Actualités » ne peut que faire saisir du
+contenu à un endroit dont le site ne lit rien. Les administrateurs gardent tout.
+
+La première page est une **vue d'ensemble** : une carte par rubrique, avec ce
+qu'elle alimente sur le site et, pour les listes, le nombre d'éléments. Après
+connexion, un compte Éditeur y arrive directement.
 
 | Rubrique | Nature |
 | --- | --- |
@@ -44,7 +59,16 @@ Un menu unique, **Contenu du site** :
 Les rubriques uniques mènent droit à leur formulaire : pas de liste à parcourir,
 pas de bouton « ajouter » à côté duquel se tromper.
 
-Les listes se réordonnent par le champ **ordre** (encadré « Attributs »).
+Les listes se réordonnent en **déplaçant les lignes** à la souris : le nouvel
+ordre est enregistré aussitôt. Le champ « ordre » de WordPress suppose de
+comprendre qu'un nombre plus petit remonte, et de renuméroter à la main dès
+qu'on insère un élément ; déplacer la ligne dit la même chose sans rien à
+comprendre.
+
+Chaque écran porte un **rappel de ce qu'il alimente** sur le site, et le champ
+titre porte le nom de ce qu'il contient vraiment : « Nom du client », « Titre de
+l'article », « Date affichée » — jamais le « Saisir le titre » de WordPress, qui
+ne dit rien de ce qu'on attend.
 
 Les listes de texte — paragraphes d'une biographie, prestations d'une offre,
 objectifs du manifeste — se saisissent **une ligne par élément**. WordPress n'a
@@ -54,13 +78,20 @@ comprend sans explication.
 ## Comment c'est construit
 
 ```
-kastell-contenu.php   amorçage, noindex, redirection du front
-inc/schema.php        le modèle de contenu, déclaré une seule fois
-inc/types.php         types de contenu et menu d'administration
-inc/metaboxes.php     moteur de formulaire générique
-inc/rest.php          route d'agrégation /wp-json/kastell/v1/contenu
-inc/revalidation.php  webhook vers le site à chaque publication
+kastell-contenu.php    amorçage, noindex, redirection du front
+inc/schema.php         le modèle de contenu, déclaré une seule fois
+inc/types.php          types de contenu et menu d'administration
+inc/metaboxes.php      moteur de formulaire générique
+inc/admin.php          ergonomie : vue d'ensemble, colonnes, tri, nettoyage
+inc/import.php         récupération des textes du site
+inc/rest.php           route d'agrégation /wp-json/kastell/v1/contenu
+inc/revalidation.php   webhook vers le site à chaque publication
+contenu-initial.json   les textes du dépôt, pour l'import
 ```
+
+`contenu-initial.json` est **généré**, pas écrit à la main :
+`outils/generer-contenu-initial.mjs` le produit depuis `src/content/site.ts`.
+Le modifier directement se perdrait à la prochaine génération.
 
 **Tout part de `inc/schema.php`.** L'administration, l'enregistrement et la
 réponse REST en dérivent : ajouter un champ là-bas suffit à le voir apparaître
@@ -92,3 +123,13 @@ site public.
 
 Si vous installez Yoast ou Rank Math pour leurs champs SEO, **désactivez leur
 sitemap** : il listerait des URL WordPress qui n'existent pas publiquement.
+
+**L'import ne peut rien écraser.** Il ne remplit qu'un champ vide et n'alimente
+qu'une liste vide. C'est ce qui permet de le proposer sans avertissement anxieux
+et de le relancer pour compléter après coup.
+
+**Les logos ont un repli par le nom.** Un client ajouté dans WordPress sans
+logo ne fait pas disparaître le fichier déjà présent dans le dépôt : le site le
+retrouve à partir du nom (« Ville de Rennes » → `brand/ville-de-rennes.svg`).
+Sans ce repli, alimenter la liste côté CMS remplacerait la liste du dépôt en
+entier, logos compris.

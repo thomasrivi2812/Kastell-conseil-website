@@ -319,16 +319,44 @@ JSON. Si oui, le site le lit.
 
 ### Ce que voit Léa
 
-Un menu unique, **Contenu du site**, avec les rubriques dans l'ordre du site.
-Les cinq rubriques uniques mènent droit à leur formulaire — pas de liste à
-parcourir, pas de bouton « ajouter » à côté duquel se tromper. Les listes
-(offres, clients, témoignages, actualités, presse, publications) sont des listes
-WordPress ordinaires, réordonnables par le champ « ordre ».
+Un menu unique, **Contenu du site**, et rien d'autre : pour un compte Éditeur,
+les entrées natives — Articles, Pages, Commentaires, Outils — sont retirées.
+« Articles » à côté d'« Actualités » ne peut que faire saisir du contenu à un
+endroit dont le site ne lit rien.
+
+La première page est une **vue d'ensemble** : une carte par rubrique, ce qu'elle
+alimente sur le site, le nombre d'éléments pour les listes. C'est là qu'arrive
+un compte Éditeur après connexion.
+
+Les cinq rubriques uniques mènent droit à leur formulaire. Les listes se
+réordonnent en **déplaçant les lignes** à la souris. Chaque écran porte un
+rappel de ce qu'il alimente, et le champ titre porte le nom de ce qu'il contient
+vraiment — « Nom du client », « Titre de l'article » — jamais le « Saisir le
+titre » de WordPress.
 
 Les listes de texte (paragraphes, prestations, objectifs) se saisissent **une
-ligne par élément** dans un simple champ multiligne : WordPress n'a pas de champ
-répétable sans extension payante, et une ligne par élément se comprend sans
-explication.
+ligne par élément** : WordPress n'a pas de champ répétable sans extension
+payante, et une ligne par élément se comprend sans explication.
+
+### Récupérer les textes du site
+
+Un back-office vide est indéchiffrable : on ne peut pas modifier un texte qu'on
+ne voit pas. Le bouton **Récupérer les textes du site**, sur la vue d'ensemble,
+verse dans WordPress tout ce que `src/content/site.ts` contient déjà.
+
+Le fichier `wordpress/kastell-contenu/contenu-initial.json` est **généré**, pas
+écrit à la main :
+
+```bash
+npx tsc src/content/site.ts --outDir .tmp-contenu --target es2022 \
+  --module esnext --moduleResolution bundler
+node outils/generer-contenu-initial.mjs .tmp-contenu/site.js
+```
+
+À relancer si les textes du dépôt changent avant la mise en route de WordPress.
+
+L'import ne remplit qu'un champ vide et n'alimente qu'une liste vide : le
+relancer ne peut rien écraser, et sert à compléter après coup.
 
 Le modèle est déclaré une seule fois, dans `wordpress/kastell-contenu/inc/schema.php` :
 l'administration, l'enregistrement et la route REST en dérivent tous. Ajouter un

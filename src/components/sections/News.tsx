@@ -31,9 +31,11 @@ export async function News() {
           index={1}
           className="grid gap-[clamp(18px,2vw,28px)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))]"
         >
-          {posts.map((post) => (
+          {/* La date ne fait pas une clé : deux posts publiés le même jour la
+              partagent, et React confondrait alors les deux cartes. */}
+          {posts.map((post, i) => (
             <a
-              key={post.date}
+              key={`${post.date}-${i}`}
               href={post.href}
               className="news-card flex flex-col rounded-[14px] border border-[rgba(25,41,36,0.14)] bg-white p-[clamp(20px,2.2vw,26px)] hover:border-sage"
             >

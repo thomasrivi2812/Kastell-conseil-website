@@ -13,6 +13,8 @@ defined( 'ABSPATH' ) || exit;
 require_once __DIR__ . '/inc/schema.php';
 require_once __DIR__ . '/inc/types.php';
 require_once __DIR__ . '/inc/metaboxes.php';
+require_once __DIR__ . '/inc/admin.php';
+require_once __DIR__ . '/inc/import.php';
 require_once __DIR__ . '/inc/rest.php';
 require_once __DIR__ . '/inc/revalidation.php';
 

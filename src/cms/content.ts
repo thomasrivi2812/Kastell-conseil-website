@@ -82,11 +82,23 @@ function assembler(d: Donnees) {
   const visuel = (valeur: unknown): string | null =>
     typeof valeur === "string" && valeur.length > 0 ? valeur : null;
 
+  /**
+   * Logo d'un client ou d'un média, avec repli sur le dépôt.
+   *
+   * La fusion se fait par liste : dès qu'une liste existe côté CMS, elle
+   * remplace celle du dépôt en entier. Sans ce repli, ajouter un client dans
+   * WordPress sans téléverser son logo ferait disparaître le fichier déjà
+   * présent dans le dépôt, et le nom s'afficherait en toutes lettres à sa
+   * place. On rattrape donc le fichier par le nom.
+   */
+  const logo = (nom: string, fourni: unknown, dossier: string): string | null =>
+    visuel(fourni) ?? findPublicAsset(`${dossier}/${slug(nom)}`);
+
   const presse = (ap.presse as Doc[] | undefined)?.map((item) => ({
     outlet: (item.media as string) ?? "",
     title: (item.titre as string) ?? "",
     href: (item.lien as string) ?? "#",
-    logoUrl: visuel(item.logo),
+    logoUrl: logo((item.media as string) ?? "", item.logo, "brand/press"),
   }));
 
   return {
@@ -207,7 +219,7 @@ function assembler(d: Donnees) {
     clients: ou(
       (a.clients as Doc[] | undefined)?.map((c) => ({
         name: (c.nom as string) ?? "",
-        logoUrl: visuel(c.logo),
+        logoUrl: logo((c.nom as string) ?? "", c.logo, "brand"),
       })),
       fichier.clients.map((c) => ({
         name: c.name,

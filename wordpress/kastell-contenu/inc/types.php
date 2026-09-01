@@ -69,7 +69,7 @@ function kastell_menu() {
 		'Contenu du site',
 		'edit_posts',
 		'kastell-contenu',
-		'__return_null',
+		'kastell_page_accueil',
 		'dashicons-admin-site-alt3',
 		3
 	);
@@ -100,7 +100,12 @@ function kastell_menu() {
 		);
 	}
 
-	remove_submenu_page( 'kastell-contenu', 'kastell-contenu' );
+	/* La première entrée reprend le nom du menu par défaut ; on la nomme pour
+	   qu'elle se distingue des rubriques qui la suivent. */
+	global $submenu;
+	if ( isset( $submenu['kastell-contenu'][0][0] ) ) {
+		$submenu['kastell-contenu'][0][0] = 'Vue d’ensemble';
+	}
 }
 add_action( 'admin_menu', 'kastell_menu' );
 
