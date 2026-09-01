@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { nav } from "@/content/site";
 
 /** Hauteur commune aux deux logos ; la largeur suit leur rapport d'origine. */
@@ -27,6 +27,48 @@ export function Header() {
   const [heroVisible, setHeroVisible] = useState(true);
   const pastHero = !isHome || !heroVisible;
   const ref = useRef<HTMLElement>(null);
+
+  /**
+   * Menu repliable en petit écran.
+   *
+   * La navigation en ligne se repliait sur trois rangs sous 500 px : le header
+   * occupait alors 132 px en permanence — près d'un cinquième d'un écran de
+   * téléphone — pour des liens de 15 px de haut, très en deçà de ce qu'un
+   * pouce peut viser.
+   */
+  const [menuOuvert, setMenuOuvert] = useState(false);
+  const idMenu = useId();
+  const bouton = useRef<HTMLButtonElement>(null);
+
+  const fermer = useCallback(() => setMenuOuvert(false), []);
+
+  /* Une navigation refermerait le menu sur la page suivante seulement : on le
+     ferme au changement de route, y compris vers une ancre de la même page. */
+  useEffect(() => {
+    setMenuOuvert(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOuvert) return;
+    const surTouche = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOuvert(false);
+        bouton.current?.focus();
+      }
+    };
+    const surClic = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setMenuOuvert(false);
+    };
+    document.addEventListener("keydown", surTouche);
+    document.addEventListener("pointerdown", surClic);
+    /* La page derrière ne défile pas pendant que le panneau est ouvert. */
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", surTouche);
+      document.removeEventListener("pointerdown", surClic);
+      document.body.style.overflow = "";
+    };
+  }, [menuOuvert]);
 
   useEffect(() => {
     if (!isHome || typeof IntersectionObserver === "undefined") return;
@@ -80,13 +122,16 @@ export function Header() {
     <header
       ref={ref}
       data-scrolled={scrolled}
-      className="site-header sticky top-0 z-50 border-b border-[rgba(25,41,36,0.10)] bg-[rgba(250,249,246,0.92)] backdrop-blur-[10px]"
+      className="site-header sticky top-0 z-50 relative border-b border-[rgba(25,41,36,0.10)] bg-[rgba(250,249,246,0.92)] backdrop-blur-[10px]"
     >
-      <div className="shell flex items-center justify-between gap-8 py-[18px]">
+      {/* Moins de marge verticale en petit écran : le bouton de menu est plus
+          haut que le logo et fixait la hauteur du bandeau, qui reste affiché en
+          permanence. */}
+      <div className="shell flex items-center justify-between gap-8 py-[13px] min-[860px]:py-[18px]">
         <Link
           href="/#top"
           aria-label="Kastell — Conseil & lobbying engagé, retour à l'accueil"
-          className="logo-swap relative block shrink-0"
+          className="logo-swap hit-area relative block shrink-0"
           style={{
             height: LOGO_H,
             width: pastHero ? WORDMARK_W : MARK_W,
@@ -116,7 +161,7 @@ export function Header() {
           />
         </Link>
 
-        <nav className="flex flex-wrap items-center justify-end gap-[clamp(16px,2.2vw,34px)]">
+        <nav className="hidden items-center justify-end gap-[clamp(16px,2.2vw,34px)] min-[860px]:flex">
           {nav.map((item) => (
             <Link
               key={item.href}
@@ -128,6 +173,42 @@ export function Header() {
           ))}
           <Link href="/#contact" className="nav-cta">
             Échanger avec nous
+          </Link>
+        </nav>
+
+        <button
+          ref={bouton}
+          type="button"
+          className="menu-bouton min-[860px]:hidden"
+          aria-expanded={menuOuvert}
+          aria-controls={idMenu}
+          onClick={() => setMenuOuvert((v) => !v)}
+        >
+          <span className="menu-barres" data-ouvert={menuOuvert} aria-hidden>
+            <span />
+            <span />
+          </span>
+          <span className="sr-only">{menuOuvert ? "Fermer le menu" : "Ouvrir le menu"}</span>
+        </button>
+      </div>
+
+      {/* Positionné hors du flux : le panneau ne doit pas changer la hauteur
+          du header, qui sert de décalage aux ancres. */}
+      <div
+        id={idMenu}
+        className="menu-panneau min-[860px]:hidden"
+        data-ouvert={menuOuvert}
+        hidden={!menuOuvert}
+      >
+        <nav className="shell flex flex-col py-2">
+          {nav.map((item) => (
+            <Link key={item.href} href={item.href} className="menu-lien" onClick={fermer}>
+              {item.label}
+            </Link>
+          ))}
+          <Link href="/#contact" className="menu-cta" onClick={fermer}>
+            Échanger avec nous
+            <span aria-hidden>→</span>
           </Link>
         </nav>
       </div>

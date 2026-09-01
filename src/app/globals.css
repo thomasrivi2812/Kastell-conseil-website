@@ -227,6 +227,124 @@
     color: #192924;
   }
 
+  /* ---- menu repliable ---- */
+  .menu-bouton {
+    display: grid;
+    place-items: center;
+    /* 48 px : une cible qu'un pouce atteint sans viser. */
+    width: 48px;
+    height: 48px;
+    margin-right: -10px;
+    border-radius: 999px;
+    color: #192924;
+  }
+
+  .menu-bouton:hover {
+    background: rgba(25, 41, 36, 0.06);
+  }
+
+  .menu-barres {
+    display: block;
+    position: relative;
+    width: 22px;
+    height: 14px;
+  }
+
+  .menu-barres span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition:
+      transform 220ms cubic-bezier(0.2, 0, 0, 1),
+      top 180ms cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .menu-barres span:first-child {
+    top: 0;
+  }
+
+  .menu-barres span:last-child {
+    top: 12px;
+  }
+
+  /* Les deux barres deviennent la croix de fermeture. */
+  .menu-barres[data-ouvert="true"] span {
+    top: 6px;
+  }
+
+  .menu-barres[data-ouvert="true"] span:first-child {
+    transform: rotate(45deg);
+  }
+
+  .menu-barres[data-ouvert="true"] span:last-child {
+    transform: rotate(-45deg);
+  }
+
+  .menu-panneau {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: calc(100dvh - 100%);
+    overflow-y: auto;
+    padding-bottom: 18px;
+    /* Opaque, et non translucide comme la barre : le texte de la page
+       défilerait derrière les liens. */
+    background: #faf9f6;
+    border-bottom: 1px solid rgba(25, 41, 36, 0.12);
+    box-shadow: 0 18px 34px rgba(25, 41, 36, 0.12);
+    animation: menu-ouvre 200ms cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  @keyframes menu-ouvre {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+
+  .menu-lien {
+    display: flex;
+    align-items: center;
+    /* 56 px de haut : la hauteur de rang confortable sur téléphone. */
+    min-height: 56px;
+    border-bottom: 1px solid rgba(25, 41, 36, 0.1);
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: #192924;
+  }
+
+  .menu-lien:hover {
+    color: #35752b;
+  }
+
+  .menu-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 54px;
+    margin-top: 18px;
+    border-radius: 999px;
+    background: #192924;
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #faf9f6;
+  }
+
+  .menu-cta:hover {
+    background: #0f1a17;
+    color: #faf9f6;
+  }
+
   /* ---- bandeau d'aperçu ---- */
   /*
    * Fixé en bas plutôt qu'en haut : en haut il décalerait l'en-tête collant et
@@ -597,7 +715,9 @@
 
   .offer-index {
     font-family: var(--font-sans), "Instrument Sans", sans-serif;
-    font-size: 12px;
+    /* Un repère, pas du corps de texte — mais 12 px reste petit sur un écran
+       tenu à bout de bras. */
+    font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.2em;
     color: #35752B;
@@ -911,6 +1031,14 @@
     scroll-behavior: auto;
   }
 
+  .menu-panneau {
+    animation: none;
+  }
+
+  .menu-barres span {
+    transition: none;
+  }
+
   .reveal,
   .reveal.is-visible {
     opacity: 1;
@@ -944,5 +1072,37 @@
 
   .apropos-citation {
     order: 1;
+  }
+}
+
+/*
+ * Zone de visée élargie sous 860 px : on y vise au pouce, pas à la souris.
+ * Hors @layer — Tailwind purge les règles d'une couche dont le sélecteur
+ * n'apparaît que dans une media query.
+ */
+@media (max-width: 859px) {
+  .hit-area::after {
+    inset: -12px -8px;
+  }
+}
+
+/*
+ * Sans JavaScript, le bouton de menu ne fait rien et la navigation devient
+ * injoignable en petit écran. On rend alors le panneau à plat, dans le flux :
+ * le bandeau est plus haut, mais le site reste parcourable.
+ */
+@media (scripting: none) and (max-width: 859px) {
+  .menu-bouton {
+    display: none;
+  }
+
+  .menu-panneau,
+  .menu-panneau[hidden] {
+    display: block;
+    position: static;
+    max-height: none;
+    animation: none;
+    box-shadow: none;
+    border-bottom: 0;
   }
 }

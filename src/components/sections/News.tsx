@@ -21,7 +21,7 @@ export async function News() {
           </div>
           <a
             href={site.linkedinProfile}
-            className="pill pill-outline px-[22px] py-[10px] text-[12px]"
+            className="pill pill-outline px-[22px] py-[13px] text-[12px]"
           >
             {news.followCta} <span aria-hidden>↗</span>
           </a>
