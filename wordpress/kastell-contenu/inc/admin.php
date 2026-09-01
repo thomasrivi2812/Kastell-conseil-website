@@ -28,6 +28,7 @@ function kastell_page_accueil() {
 	echo '<p class="kastell-chapo">Chaque encadré ci-dessous correspond à une partie du site. Modifiez, cliquez sur <strong>Mettre à jour</strong> : le site se met à jour tout seul en moins d’une minute.</p>';
 
 	kastell_bilan_import();
+	kastell_bilan_maj();
 	kastell_bloc_import();
 
 	echo '<h2>Les textes</h2><div class="kastell-cartes">';
@@ -61,13 +62,22 @@ function kastell_page_accueil() {
 			'<p>Site public : <a href="%1$s" target="_blank" rel="noopener">%1$s</a>.</p>',
 			esc_url( KASTELL_SITE_URL )
 		);
+		$maj    = kastell_lien_maj();
 		$apercu = kastell_lien_apercu();
-		if ( $apercu ) {
-			printf(
-				'<p><a href="%s" class="button button-primary" target="_blank" rel="noopener">Voir l’aperçu du site</a></p>',
-				esc_url( $apercu )
-			);
-			echo '<p class="description">L’aperçu relit WordPress à chaque affichage : vos modifications s’y voient aussitôt. Le site public, lui, se rafraîchit tout seul en moins d’une minute. Ce raccourci reste disponible en haut de chaque écran.</p>';
+		if ( $maj ) {
+			echo '<p class="kastell-actions">';
+			printf( '<a href="%s" class="button button-primary button-hero">Mettre le site à jour</a>', esc_url( $maj ) );
+			printf( '<a href="%s" class="button button-hero" target="_blank" rel="noopener">Voir l’aperçu du site</a>', esc_url( $apercu ) );
+			echo '</p>';
+
+			$derniere = (int) get_option( 'kastell_derniere_maj', 0 );
+			if ( $derniere ) {
+				printf(
+					'<p class="description">Dernière mise à jour poussée il y a %s.</p>',
+					esc_html( human_time_diff( $derniere ) )
+				);
+			}
+			echo '<p class="description"><strong>Mettre le site à jour</strong> pousse vos modifications sur le site public tout de suite. Ce n’est pas obligatoire : le site se rafraîchit aussi tout seul en moins d’une minute. <strong>L’aperçu</strong> montre le résultat dans votre navigateur seulement, sans rien changer pour les visiteurs. Les deux raccourcis restent disponibles en haut de chaque écran.</p>';
 		}
 	} else {
 		echo '<p class="kastell-alerte">La constante <code>KASTELL_SITE_URL</code> n’est pas définie dans <code>wp-config.php</code>. Le site fonctionne, mais vos modifications peuvent mettre jusqu’à une minute à s’afficher au lieu d’être immédiates.</p>';
@@ -169,6 +179,18 @@ function kastell_barre_admin( $barre ) {
 	if ( ! $lien ) {
 		return;
 	}
+	$maj = kastell_lien_maj();
+	if ( $maj ) {
+		$barre->add_node(
+			array(
+				'id'    => 'kastell-maj',
+				'title' => 'Mettre le site à jour',
+				'href'  => $maj,
+				'meta'  => array( 'title' => 'Pousse vos modifications sur le site public, tout de suite' ),
+			)
+		);
+	}
+
 	$barre->add_node(
 		array(
 			'id'    => 'kastell-apercu',
@@ -179,6 +201,103 @@ function kastell_barre_admin( $barre ) {
 	);
 }
 add_action( 'admin_bar_menu', 'kastell_barre_admin', 80 );
+
+/* -------------------------------------------------------------------------
+ * Mise à jour du site à la demande
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Purge le cache du site, sur commande.
+ *
+ * Le webhook fait déjà ce travail à chaque publication, mais il est envoyé
+ * sans attendre la réponse : s'il échoue, personne ne le sait. Ce bouton fait
+ * le même appel en attendant le résultat, ce qui en fait aussi le test de la
+ * liaison — un secret mal recopié ou une mauvaise adresse s'y voient tout de
+ * suite, au lieu de se traduire par « le site ne se met pas à jour ».
+ */
+function kastell_forcer_maj() {
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		wp_die( 'Droits insuffisants.' );
+	}
+	check_admin_referer( 'kastell_maj' );
+
+	$retour = admin_url( 'admin.php?page=kastell-contenu' );
+
+	if ( ! defined( 'KASTELL_SITE_URL' ) || ! defined( 'KASTELL_SECRET' ) ) {
+		wp_safe_redirect( add_query_arg( 'kastell_maj', 'constantes', $retour ) );
+		exit;
+	}
+
+	$reponse = wp_remote_post(
+		rtrim( KASTELL_SITE_URL, '/' ) . '/api/revalidate',
+		array(
+			'timeout'  => 15,
+			'blocking' => true,
+			'headers'  => array(
+				'content-type'     => 'application/json',
+				'x-kastell-secret' => KASTELL_SECRET,
+			),
+			'body'     => wp_json_encode( array( 'origine' => 'bouton' ) ),
+		)
+	);
+
+	if ( is_wp_error( $reponse ) ) {
+		$retour = add_query_arg(
+			array( 'kastell_maj' => 'injoignable', 'detail' => rawurlencode( $reponse->get_error_message() ) ),
+			$retour
+		);
+	} else {
+		$code   = (int) wp_remote_retrieve_response_code( $reponse );
+		$etat   = 200 === $code ? 'ok' : ( 401 === $code ? 'secret' : 'erreur' );
+		$retour = add_query_arg(
+			array( 'kastell_maj' => $etat, 'code' => $code ),
+			$retour
+		);
+		if ( 'ok' === $etat ) {
+			update_option( 'kastell_derniere_maj', time() );
+		}
+	}
+
+	wp_safe_redirect( $retour );
+	exit;
+}
+add_action( 'admin_post_kastell_maj', 'kastell_forcer_maj' );
+
+/** Compte rendu de la mise à jour, au retour. */
+function kastell_bilan_maj() {
+	$etat = isset( $_GET['kastell_maj'] ) ? sanitize_text_field( wp_unslash( $_GET['kastell_maj'] ) ) : '';
+	if ( ! $etat ) {
+		return;
+	}
+
+	$messages = array(
+		'ok'          => array( 'success', 'Le site est à jour. Rechargez-le pour voir vos modifications.' ),
+		'secret'      => array( 'error', 'Le site a refusé la demande : la constante <code>KASTELL_SECRET</code> de <code>wp-config.php</code> ne correspond pas à la variable <code>REVALIDATE_SECRET</code> de Vercel.' ),
+		'constantes'  => array( 'error', 'Les constantes <code>KASTELL_SITE_URL</code> et <code>KASTELL_SECRET</code> manquent dans <code>wp-config.php</code>.' ),
+		'injoignable' => array( 'error', 'Le site n’a pas répondu. Vérifiez l’adresse indiquée dans <code>KASTELL_SITE_URL</code>.' ),
+		'erreur'      => array( 'error', 'Le site a répondu, mais pas ce qui était attendu.' ),
+	);
+	if ( ! isset( $messages[ $etat ] ) ) {
+		return;
+	}
+
+	list( $genre, $texte ) = $messages[ $etat ];
+	if ( isset( $_GET['code'] ) && 'ok' !== $etat ) {
+		$texte .= ' (réponse ' . (int) $_GET['code'] . ')';
+	}
+	if ( isset( $_GET['detail'] ) && 'injoignable' === $etat ) {
+		$texte .= ' <br><small>' . esc_html( sanitize_text_field( wp_unslash( $_GET['detail'] ) ) ) . '</small>';
+	}
+	printf( '<div class="notice notice-%s"><p>%s</p></div>', esc_attr( $genre ), wp_kses_post( $texte ) );
+}
+
+/** Lien signé vers l'action, ou chaîne vide si la liaison n'est pas configurée. */
+function kastell_lien_maj() {
+	if ( ! defined( 'KASTELL_SITE_URL' ) || ! defined( 'KASTELL_SECRET' ) ) {
+		return '';
+	}
+	return wp_nonce_url( admin_url( 'admin-post.php?action=kastell_maj' ), 'kastell_maj' );
+}
 
 /* -------------------------------------------------------------------------
  * Écrans d'édition
@@ -359,6 +478,7 @@ function kastell_admin_assets( $hook ) {
 		. '.kastell-vide{color:#a7aaad}'
 		. '.kastell-import{padding:6px 16px 12px;margin:18px 0 26px}'
 		. '.kastell-import h2{margin:12px 0 6px}'
+		. '.kastell-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}'
 		. '.kastell-poignee td{cursor:move}'
 		. '.kastell-place{outline:2px dashed #2271b1;outline-offset:-2px}'
 	);

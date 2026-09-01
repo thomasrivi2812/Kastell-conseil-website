@@ -118,7 +118,10 @@ rediriger. Écrire le lien complet dans la page mettrait le secret dans le HTML
 de chaque écran d'administration.
 
 **Le webhook est non bloquant.** Enregistrer un article n'attend pas la réponse
-du site et n'échoue pas si celui-ci est indisponible. Sans webhook, les
+du site et n'échoue pas si celui-ci est indisponible. Contrepartie : quand il
+échoue, personne ne le sait. C'est la raison d'être du bouton « Mettre le site à
+jour », qui fait le même appel en attendant le résultat et rapporte l'erreur —
+secret mal recopié, adresse erronée, site éteint. Sans webhook ni bouton, les
 modifications apparaissent en moins d'une minute au lieu d'immédiatement.
 
 **WordPress est tenu hors des moteurs** : `noindex` sur toutes les pages,

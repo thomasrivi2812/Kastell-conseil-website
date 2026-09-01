@@ -381,10 +381,17 @@ Le site est servi en pages pré-rendues, rafraîchies chaque minute. C'est ce qu
 le rend rapide et robuste, mais cela impose d'attendre pour constater l'effet
 d'une modification. Deux mécanismes s'en chargent :
 
-**Le webhook**, pour le site public. WordPress prévient Next à chaque
-publication, Next purge le cache, le visiteur suivant voit la nouvelle version.
-Il faut pour cela les deux constantes de `wp-config.php`. Sans elles, le
-rafraîchissement automatique d'une minute prend le relais.
+**Le bouton « Mettre le site à jour »**, sur la vue d'ensemble et en haut de
+chaque écran d'administration. Il purge le cache du site et attend la réponse,
+ce qui en fait aussi le test de la liaison : un secret mal recopié ou une
+adresse erronée s'y voient tout de suite, au lieu de se traduire par « le site
+ne se met pas à jour ».
+
+**Le webhook**, automatique. WordPress prévient Next à chaque publication, sans
+attendre la réponse — l'enregistrement d'un article ne doit pas dépendre d'un
+service tiers. Contrepartie : s'il échoue, personne ne le sait, d'où le bouton
+ci-dessus. Sans les constantes de `wp-config.php`, le rafraîchissement
+automatique d'une minute prend le relais.
 
 **Le mode aperçu**, pour vérifier soi-même. Un bouton **Voir l'aperçu du site**
 figure sur la vue d'ensemble et en haut de chaque écran d'administration. Il
@@ -400,7 +407,12 @@ lien voit autre chose.
 Le secret n'est pas écrit dans le HTML de l'administration : le bouton passe par
 une redirection WordPress qui l'ajoute côté serveur.
 
-Aucun de ces deux mécanismes ne demande de redéploiement. **Un seul
+La purge invalide l'étiquette du contenu **et** le cache de route. La seule
+étiquette ne suffirait pas dans un cas : une page construite avant que le CMS ne
+soit renseigné ne comporte aucune requête, donc aucune étiquette à purger — le
+bouton répondrait « c'est fait » sans que rien ne change.
+
+Aucun de ces mécanismes ne demande de redéploiement. **Un seul
 redéploiement reste nécessaire**, celui qui suit l'ajout de
 `WORDPRESS_API_URL` — voir le piège décrit plus bas.
 

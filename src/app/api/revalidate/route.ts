@@ -1,4 +1,4 @@
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 /**
@@ -36,5 +36,14 @@ export async function POST(request: Request) {
 
   // Next 16 impose un profil d'expiration ; 0 = purge immédiate.
   revalidateTag("contenu", { expire: 0 });
+
+  /*
+   * La purge par étiquette ne suffit pas dans un cas : une page construite
+   * avant que le CMS ne soit renseigné ne comporte aucune requête, donc aucune
+   * étiquette à purger. Sans cette seconde ligne, le bouton « Mettre le site à
+   * jour » répondrait « c'est fait » sans que rien ne change.
+   */
+  revalidatePath("/", "layout");
+
   return NextResponse.json({ revalidated: true });
 }
