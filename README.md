@@ -121,19 +121,20 @@ elle est listée dans `images.qualities` de `next.config.mjs` ; sans cela le
 
 ### Palette et vert clair
 
-Le vert clair de la charte est décliné en trois rôles, chacun vérifié par la
+Le vert pousse de la charte est décliné en trois rôles, chacun vérifié par la
 mesure plutôt que choisi à l'œil :
 
 | Jeton | Valeur | Rôle | Contraste |
 | --- | --- | --- | --- |
-| `accent` | `#8BB19F` | décoratif, et texte sur les bandeaux vert foncé | 6,42:1 sur `#192924` |
-| `sage` | `#456F5C` | texte d'accent sur fond clair | 5,42 sur bone, 4,97 sur sable, 5,12 sur la teinte |
-| `accent-tint` | `#EEF4F1` | fond de bande | texte forêt à 13,6:1 |
+| `accent` | `#73C167` | décoratif, et texte sur les bandeaux vert foncé | 6,90:1 sur `#192924` |
+| `sage` | `#35752B` | texte d'accent sur fond clair | 5,35 sur bone, 4,91 sur sable, 5,17 sur la teinte |
+| `accent-tint` | `#F1F7F0` | fond de bande | texte forêt à 13,93:1 |
 
-La valeur précédente, `#4B7662`, tombait à 4,50:1 exactement sur le sable —
-le seuil AA, sans marge : la moindre superposition (le fondu d'apparition des
-sections suffit) la faisait basculer sous la barre. `#456F5C` tient ≥ 4,97:1 sur
-les trois fonds clairs du site, pour un écart de teinte imperceptible.
+La méthode compte autant que les valeurs : un vert plus vif est plus proche du
+fond clair, la saturation coûte donc du contraste. On ne choisit pas une couleur
+puis on espère — on pose la teinte et la saturation voulues, et on **cherche la
+clarté** qui satisfait le seuil. C'est ce qui donne le vert le plus lumineux
+possible sans descendre sous la limite de lisibilité.
 
 Le vert apparaît sur la bande « Notre vision », les bandes alternées de la page
 Offres, la bande du manifeste, les puces des prestations, les filets de section

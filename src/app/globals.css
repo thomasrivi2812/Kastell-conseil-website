@@ -40,7 +40,7 @@
   }
 
   a:hover {
-    color: #456f5c;
+    color: #35752B;
   }
 
   input,
@@ -55,7 +55,7 @@
 
   /* The UA outline is near-black: invisible on the forest bands. */
   :where(a, button, [tabindex]):focus-visible {
-    outline: 2px solid #456f5c;
+    outline: 2px solid #35752B;
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -120,7 +120,7 @@
   }
 
   .hairline-top {
-    border-top: 1px solid rgba(69, 111, 92, 0.2);
+    border-top: 1px solid rgba(53,117,43, 0.2);
   }
 
   .grid-auto {
@@ -134,7 +134,7 @@
     font-size: 17px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #456f5c;
+    color: #35752B;
     margin: 0;
   }
 
@@ -148,7 +148,7 @@
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #456f5c;
+    color: #35752B;
     margin: 0;
   }
 
@@ -156,7 +156,7 @@
     content: "";
     width: 30px;
     height: 2px;
-    background: #456f5c;
+    background: #35752B;
     flex: none;
   }
 
@@ -210,7 +210,7 @@
     border-radius: 10px;
     background:
       url("/brand/manifeste-carte.svg") center / cover no-repeat,
-      #eef4f1;
+      #F1F7F0;
   }
 
   /* Dans le flux, calée à droite : la marque reste sur la marge crème du bas. */
@@ -334,7 +334,7 @@
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #456f5c;
+    color: #35752B;
   }
 
   .modale-champ {
@@ -384,7 +384,7 @@
     margin: 14px 0 0;
     font-size: 14px;
     line-height: 1.5;
-    color: #456f5c;
+    color: #35752B;
   }
 
   .modale-message.est-erreur {
@@ -405,7 +405,7 @@
   }
 
   .modale-lien {
-    color: #456f5c;
+    color: #35752B;
     text-decoration: underline;
     text-underline-offset: 2px;
   }
@@ -430,7 +430,7 @@
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.04em;
-    color: #456f5c;
+    color: #35752B;
   }
 
   .eyebrow-tight {
@@ -439,7 +439,7 @@
     font-weight: 500;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: #456f5c;
+    color: #35752B;
     margin: 0;
   }
 
@@ -578,7 +578,7 @@
     width: 8px;
     height: 8px;
     border-radius: 999px;
-    background: #8bb19f;
+    background: #73C167;
   }
 
   /* ---- cartes offres ---- */
@@ -592,7 +592,7 @@
   }
 
   .offer-card:hover .offer-title {
-    color: #456f5c;
+    color: #35752B;
   }
 
   .offer-index {
@@ -600,7 +600,7 @@
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.2em;
-    color: #456f5c;
+    color: #35752B;
   }
 
   .offer-title {

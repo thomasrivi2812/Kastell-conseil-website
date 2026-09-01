@@ -109,7 +109,7 @@ export async function APropos() {
                         />
                       </span>
                     ) : (
-                      <span className="flex h-[42px] w-[116px] shrink-0 items-center justify-center rounded-[8px] border border-[rgba(139,177,159,0.35)] bg-[rgba(139,177,159,0.12)] px-2 text-center font-sans text-[10px] uppercase leading-[1.25] tracking-[0.1em] text-accent">
+                      <span className="flex h-[42px] w-[116px] shrink-0 items-center justify-center rounded-[8px] border border-[rgba(115,193,103,0.35)] bg-[rgba(115,193,103,0.12)] px-2 text-center font-sans text-[10px] uppercase leading-[1.25] tracking-[0.1em] text-accent">
                         {article.outlet}
                       </span>
                     )}

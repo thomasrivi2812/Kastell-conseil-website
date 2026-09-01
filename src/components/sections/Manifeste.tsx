@@ -67,7 +67,7 @@ export async function Manifeste() {
                 {manifesto.tags.map((tag) => (
                   <li
                     key={tag}
-                    className="rounded-full border border-[rgba(69,111,92,0.28)] bg-bone px-4 py-2 font-sans text-[12px] font-medium uppercase tracking-[0.12em] text-sage"
+                    className="rounded-full border border-[rgba(53,117,43,0.28)] bg-bone px-4 py-2 font-sans text-[12px] font-medium uppercase tracking-[0.12em] text-sage"
                   >
                     {tag}
                   </li>
