@@ -227,6 +227,154 @@
     color: #192924;
   }
 
+  /* ---- formulaire de contact ---- */
+  /*
+   * Posé sur la bande vert foncé : la carte est claire, pour que le formulaire
+   * se lise comme une zone de saisie et non comme du décor sur du sombre.
+   */
+  .formulaire-carte {
+    padding: clamp(24px, 3vw, 38px);
+    border-radius: 18px;
+    background: #faf9f6;
+    color: #1a1e1c;
+  }
+
+  .formulaire-titre {
+    margin: 0 0 clamp(20px, 2.4vw, 28px);
+    font-family: var(--font-serif), "Instrument Serif", Georgia, serif;
+    font-size: clamp(23px, 2.2vw, 29px);
+    font-weight: 400;
+    line-height: 1.2;
+    color: #192924;
+  }
+
+  .formulaire {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Les champs courts vont par deux, les longs prennent la largeur. */
+  .formulaire-large {
+    grid-column: 1 / -1;
+  }
+
+  .formulaire-champ {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 0;
+  }
+
+  .formulaire-champ label {
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #35752b;
+  }
+
+  .formulaire-aide {
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: #666f6c;
+  }
+
+  .formulaire input,
+  .formulaire select,
+  .formulaire textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid rgba(25, 41, 36, 0.26);
+    border-radius: 10px;
+    background: #ffffff;
+    font-family: inherit;
+    /* 16 px : en deçà, iOS agrandit la page au premier appui dans un champ. */
+    font-size: 16px;
+    line-height: 1.5;
+    color: #1a1e1c;
+  }
+
+  .formulaire textarea {
+    resize: vertical;
+    min-height: 128px;
+  }
+
+  .formulaire input:focus,
+  .formulaire select:focus,
+  .formulaire textarea:focus {
+    outline: 2px solid #192924;
+    outline-offset: 1px;
+  }
+
+  .formulaire-consentement {
+    display: flex;
+    gap: 12px;
+    margin: 4px 0 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #2f3835;
+    cursor: pointer;
+  }
+
+  .formulaire-consentement input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    padding: 0;
+    accent-color: #192924;
+  }
+
+  .formulaire-pied {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 22px;
+    margin-top: 4px;
+  }
+
+  .formulaire-pied button:disabled {
+    opacity: 0.6;
+  }
+
+  .formulaire-mention {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #666f6c;
+  }
+
+  .formulaire-lien {
+    color: #35752b;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .formulaire-message {
+    margin: 6px 0 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #35752b;
+  }
+
+  .formulaire-message.est-erreur {
+    color: #97331f;
+  }
+
+  .formulaire-replier {
+    margin-top: 14px;
+  }
+
+  .formulaire-succes {
+    margin: 0;
+    font-size: clamp(16px, 1.4vw, 18px);
+    line-height: 1.65;
+    color: #192924;
+  }
+
   /* ---- menu repliable ---- */
   .menu-bouton {
     display: grid;
@@ -1104,5 +1252,15 @@
     animation: none;
     box-shadow: none;
     border-bottom: 0;
+  }
+}
+
+/*
+ * Formulaire sur une colonne en petit écran. Hors @layer — Tailwind purge les
+ * règles d'une couche dont le sélecteur n'apparaît que dans une media query.
+ */
+@media (max-width: 560px) {
+  .formulaire {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

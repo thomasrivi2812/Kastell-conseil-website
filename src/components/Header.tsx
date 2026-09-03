@@ -36,28 +36,31 @@ export function Header() {
    * téléphone — pour des liens de 15 px de haut, très en deçà de ce qu'un
    * pouce peut viser.
    */
-  const [menuOuvert, setMenuOuvert] = useState(false);
+  /*
+   * On retient la route sur laquelle le menu a été ouvert, plutôt qu'un simple
+   * booléen : l'état se déduit alors au rendu et un changement de route referme
+   * le panneau sans effet de bord. Le remettre à zéro depuis un effet
+   * laisserait, le temps d'un rendu, un panneau ouvert par-dessus la page
+   * suivante. Les ancres de la page courante, elles, sont refermées par le
+   * gestionnaire de clic des liens.
+   */
+  const [ouvertSur, setOuvertSur] = useState<string | null>(null);
+  const menuOuvert = ouvertSur === pathname;
   const idMenu = useId();
   const bouton = useRef<HTMLButtonElement>(null);
 
-  const fermer = useCallback(() => setMenuOuvert(false), []);
-
-  /* Une navigation refermerait le menu sur la page suivante seulement : on le
-     ferme au changement de route, y compris vers une ancre de la même page. */
-  useEffect(() => {
-    setMenuOuvert(false);
-  }, [pathname]);
+  const fermer = useCallback(() => setOuvertSur(null), []);
 
   useEffect(() => {
     if (!menuOuvert) return;
     const surTouche = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setMenuOuvert(false);
+        setOuvertSur(null);
         bouton.current?.focus();
       }
     };
     const surClic = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setMenuOuvert(false);
+      if (ref.current && !ref.current.contains(e.target as Node)) setOuvertSur(null);
     };
     document.addEventListener("keydown", surTouche);
     document.addEventListener("pointerdown", surClic);
@@ -182,7 +185,7 @@ export function Header() {
           className="menu-bouton min-[860px]:hidden"
           aria-expanded={menuOuvert}
           aria-controls={idMenu}
-          onClick={() => setMenuOuvert((v) => !v)}
+          onClick={() => setOuvertSur(menuOuvert ? null : pathname)}
         >
           <span className="menu-barres" data-ouvert={menuOuvert} aria-hidden>
             <span />

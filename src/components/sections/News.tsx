@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { getContent } from "@/cms/content";
+import { estUtile } from "@/lib/lien";
 
 export async function News() {
   const { founder, news, posts, site } = await getContent();
+  const profil = estUtile(site.linkedinProfile) ? site.linkedinProfile : null;
   return (
     <section className="hairline-top bg-sand">
       <div className="shell band-md">
@@ -19,12 +21,17 @@ export async function News() {
               {news.heading}
             </h2>
           </div>
-          <a
-            href={site.linkedinProfile}
-            className="pill pill-outline px-[22px] py-[13px] text-[12px]"
-          >
-            {news.followCta} <span aria-hidden>↗</span>
-          </a>
+          {profil ? (
+            <a
+              href={profil}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pill pill-outline px-[22px] py-[13px] text-[12px]"
+            >
+              {news.followCta} <span aria-hidden>↗</span>
+              <span className="sr-only"> (nouvelle fenêtre)</span>
+            </a>
+          ) : null}
         </Reveal>
 
         <Reveal
@@ -33,11 +40,20 @@ export async function News() {
         >
           {/* La date ne fait pas une clé : deux posts publiés le même jour la
               partagent, et React confondrait alors les deux cartes. */}
-          {posts.map((post, i) => (
-            <a
+          {posts.map((post, i) => {
+            /* Sans lien vers le post, la carte reste une carte : la rendre
+               cliquable n'aboutirait qu'à faire remonter la page. */
+            const lien = estUtile(post.href) ? post.href : null;
+            const Boite = lien ? "a" : "div";
+            return (
+            <Boite
               key={`${post.date}-${i}`}
-              href={post.href}
-              className="news-card flex flex-col rounded-[14px] border border-[rgba(25,41,36,0.14)] bg-white p-[clamp(20px,2.2vw,26px)] hover:border-sage"
+              {...(lien
+                ? { href: lien, target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+              className={`news-card flex flex-col rounded-[14px] border border-[rgba(25,41,36,0.14)] bg-white p-[clamp(20px,2.2vw,26px)] ${
+                lien ? "hover:border-sage" : ""
+              }`}
             >
               <div className="mb-5 flex items-center gap-3">
                 <Image
@@ -73,11 +89,15 @@ export async function News() {
                 {news.previewLabel}
               </span>
 
-              <span className="mt-[22px] font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-forest">
-                {news.postCta} <span aria-hidden>→</span>
-              </span>
-            </a>
-          ))}
+              {lien ? (
+                <span className="mt-[22px] font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-forest">
+                  {news.postCta} <span aria-hidden>→</span>
+                  <span className="sr-only"> (nouvelle fenêtre)</span>
+                </span>
+              ) : null}
+            </Boite>
+            );
+          })}
         </Reveal>
       </div>
     </section>

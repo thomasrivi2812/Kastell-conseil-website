@@ -322,6 +322,33 @@ export const contact = {
     "Un premier échange de trente minutes suffit souvent à clarifier une stratégie.",
   mailCta: "Nous contacter par mail",
   linkedinCta: "Nous contacter sur LinkedIn",
+  /** Libellés du formulaire. */
+  form: {
+    heading: "Écrire au cabinet",
+    nom: "Nom et prénom",
+    organisation: "Organisation",
+    organisationAide: "Facultatif",
+    email: "Adresse e-mail",
+    telephone: "Téléphone",
+    telephoneAide: "Facultatif",
+    objet: "Votre sujet",
+    objetDefaut: "Je ne sais pas encore",
+    objetAutre: "Autre sujet",
+    message: "Votre besoin en quelques lignes",
+    consentement:
+      "J'accepte que Kastell Conseil traite ces informations pour répondre à ma demande.",
+    envoyer: "Envoyer le message",
+    envoi: "Envoi…",
+    succes:
+      "Message reçu. Léa de Lamotte vous répond en général dans la journée ouvrée.",
+    erreur:
+      "L'envoi n'a pas abouti. Écrivez-nous directement, votre message est conservé ci-dessous.",
+    indisponible:
+      "Le formulaire n'est pas encore relié à une boîte de réception. Écrivez-nous directement — votre message est repris dans le courriel.",
+    replierMail: "Ouvrir mon logiciel de messagerie",
+    confidentialite: "Politique de confidentialité",
+    obligatoire: "Champs obligatoires",
+  },
 } as const;
 
 export const footer = {

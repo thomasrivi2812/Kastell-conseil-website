@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { legal, nav } from "@/content/site";
 import { getContent } from "@/cms/content";
+import { estUtile } from "@/lib/lien";
 
 const linkClass =
   "footer-link hit-area text-[15px] text-[rgba(226,240,248,0.82)] hover:text-white";
@@ -42,7 +43,7 @@ export async function Footer() {
 
           <div className="flex flex-col gap-[18px] min-[860px]:gap-3">
             <p className={headingClass}>{footer.infoHeading}</p>
-            {legal.map((item) => (
+            {legal.filter((item) => estUtile(item.href)).map((item) => (
               <a key={item.label} href={item.href} className={linkClass}>
                 {item.label}
               </a>

@@ -160,6 +160,40 @@ Pour poser une vraie couverture : téléverser l'image dans WordPress (À propos
 « Manifeste — couverture »), ou renseigner `manifesto.coverUrl`.
 Format conseillé : portrait, environ 1000 × 1414 px.
 
+### Formulaire de contact
+
+`POST /api/contact` valide la saisie, exige le consentement, écarte les robots
+par un champ leurre et limite le débit à quatre demandes par minute et par IP,
+puis relaie vers `CONTACT_WEBHOOK_URL` — Brevo, Zapier, Make, n8n, tout service
+acceptant un POST JSON. Charge utile :
+
+```json
+{ "nom": "…", "email": "…", "organisation": "…", "telephone": "…",
+  "objet": "…", "message": "…", "date": "…", "source": "…" }
+```
+
+**Il n'y a ici aucun repli acceptable côté serveur** : contrairement au
+téléchargement du manifeste, une demande perdue est un client perdu. Quand la
+destination n'est pas configurée (501) ou que le relais échoue (502), la route
+le dit franchement et le formulaire propose au visiteur d'**ouvrir son logiciel
+de messagerie avec le message déjà rédigé**, saisie conservée à l'écran. Le
+visiteur repart toujours avec un moyen d'aboutir, jamais avec l'illusion que
+c'est parti.
+
+La liste des sujets est alimentée par les intitulés des offres : un visiteur qui
+vient de les lire retrouve les mêmes mots, et la demande arrive qualifiée.
+
+### Liens non renseignés
+
+Les URL encore inconnues sont notées `#` dans le contenu. `estUtile()`
+(`src/lib/lien.ts`) sert à ne pas les rendre : un bouton vers `#` ne fait rien
+sinon remonter la page, et le visiteur croit à une panne.
+
+Trois boutons LinkedIn et les cartes d'actualités en dépendaient. Ils
+apparaissent dès que `site.linkedin`, `site.linkedinProfile` et les liens de
+`posts` portent de vraies adresses — sans quoi la carte d'actualité reste une
+carte, et le bouton n'existe pas.
+
 ### Téléchargement du manifeste contre adresse e-mail
 
 Le bouton « Télécharger le manifeste » n'apparaît **que si le document
@@ -499,10 +533,11 @@ attendent le contenu réel :
 | --- | --- |
 | Visuel de fond du manifeste | déposer `public/brand/manifeste.jpg` (ou .png/.webp) — voir ci-dessous |
 | Dates des articles de presse | `press` dans `src/content/site.ts` |
-| URL LinkedIn (page entreprise et profil de Léa) | `site.linkedin` / `site.linkedinProfile` |
+| URL LinkedIn (page entreprise et profil de Léa) | `site.linkedin` / `site.linkedinProfile` — tant qu'elles valent `#`, les boutons LinkedIn ne s'affichent pas |
 | Titre de la tribune et nom du média | `publications` dans `src/content/site.ts` |
 | Couverture du manifeste RIT | `manifesto.coverUrl`, ou l'image « Manifeste — couverture » dans WordPress — voir ci-dessous |
 | PDF du manifeste RIT | `public/documents/manifeste-rit.pdf`, ou le fichier téléversé dans WordPress — voir ci-dessous |
+| Destination des demandes de contact | variable `CONTACT_WEBHOOK_URL` — **indispensable avant la mise en ligne** |
 | Destination des adresses e-mail collectées | variable `MANIFESTE_WEBHOOK_URL` — voir ci-dessous |
 | Logos des médias (presse) | `public/brand/press/…` — voir ci-dessous |
 | Contenu des pages légales | `src/app/mentions-legales`, `confidentialite`, `cookies` |

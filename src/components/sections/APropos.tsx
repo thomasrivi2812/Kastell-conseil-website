@@ -2,10 +2,12 @@ import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { site } from "@/content/site";
 import { getContent } from "@/cms/content";
+import { estUtile } from "@/lib/lien";
 
 export async function APropos() {
   const { about, founder, press, publications } = await getContent();
   const portrait = founder.photoUrl;
+  const profil = estUtile(site.linkedinProfile) ? site.linkedinProfile : null;
   return (
     <section id="apropos" className="band-dark">
       <div className="shell band-lg">
@@ -42,18 +44,20 @@ export async function APropos() {
                 </p>
               </blockquote>
 
-              <a
-                href={site.linkedinProfile}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="press-link mt-[clamp(20px,2.4vw,28px)] inline-flex items-center gap-2 rounded-full border border-[rgba(226,240,248,0.4)] px-6 py-3 font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-white hover:border-white hover:bg-[rgba(226,240,248,0.1)]"
-              >
-                {founder.linkedinCta}
-                <span className="inline-block" aria-hidden>
-                  ↗
-                </span>
-                <span className="sr-only"> (nouvelle fenêtre)</span>
-              </a>
+              {profil ? (
+                <a
+                  href={profil}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="press-link mt-[clamp(20px,2.4vw,28px)] inline-flex items-center gap-2 rounded-full border border-[rgba(226,240,248,0.4)] px-6 py-3 font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-white hover:border-white hover:bg-[rgba(226,240,248,0.1)]"
+                >
+                  {founder.linkedinCta}
+                  <span className="inline-block" aria-hidden>
+                    ↗
+                  </span>
+                  <span className="sr-only"> (nouvelle fenêtre)</span>
+                </a>
+              ) : null}
             </Reveal>
           </div>
 
