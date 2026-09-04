@@ -188,6 +188,9 @@ Deux services sont reconnus, choisis par la clé présente : `BREVO_API_KEY`
 domaine **authentifié** chez le service, sinon l'envoi est refusé : un serveur
 ne peut pas envoyer un courriel tout seul, sans quoi il part en indésirable.
 
+`CONTACT_DESTINATAIRE` ne sert qu'à écrire ailleurs qu'à l'adresse de contact du
+site : à ne pas créer autrement, Vercel refusant une valeur vide.
+
 À défaut de clé, `CONTACT_WEBHOOK_URL` prend le relais pour qui préfère un
 scénario Zapier ou Make. Charge utile :
 
