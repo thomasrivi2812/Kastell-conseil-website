@@ -322,6 +322,20 @@ export const contact = {
     "Un premier échange de trente minutes suffit souvent à clarifier une stratégie.",
   mailCta: "Nous contacter par mail",
   linkedinCta: "Nous contacter sur LinkedIn",
+  /** Bande de fin de page d'accueil : une invitation, pas un formulaire. */
+  bande: {
+    title: "Un premier échange ?",
+    intro:
+      "Trente minutes suffisent souvent à y voir clair sur un dossier. Écrivez-nous, Léa de Lamotte vous répond elle-même.",
+    cta: "Me contacter",
+  },
+  /** En-tête de la page dédiée. */
+  page: {
+    eyebrow: "Contact",
+    title: "Me contacter",
+    intro:
+      "Décrivez votre situation en quelques lignes : nous revenons vers vous sous un jour ouvré pour convenir d'un premier échange.",
+  },
   /** Libellés du formulaire. */
   form: {
     heading: "Écrire au cabinet",

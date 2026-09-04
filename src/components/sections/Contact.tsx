@@ -3,7 +3,7 @@ import { Reveal } from "@/components/Reveal";
 import { getContent } from "@/cms/content";
 import { estUtile } from "@/lib/lien";
 
-export async function Contact() {
+export async function Contact({ titre = true }: { titre?: boolean } = {}) {
   const { contact, site, offers } = await getContent();
   const linkedin = estUtile(site.linkedin) ? site.linkedin : null;
   /* Les intitulés d'offres alimentent la liste des sujets : un visiteur qui
@@ -15,17 +15,25 @@ export async function Contact() {
       <div className="shell py-[clamp(60px,9vw,130px)]">
         <div className="grid items-start gap-[clamp(38px,5vw,80px)] [grid-template-columns:minmax(300px,0.9fr)_minmax(340px,1.1fr)] max-[900px]:[grid-template-columns:1fr]">
           <Reveal className="flex flex-col items-start">
-            <p className="m-0 mb-[clamp(24px,3vw,40px)] font-sans text-[12px] font-medium uppercase tracking-[0.24em] text-mist">
-              {contact.eyebrow}
-            </p>
-            <h2 className="h2-contact">{contact.title}</h2>
-            <p className="mb-[clamp(28px,3.5vw,40px)] mt-[26px] max-w-[42ch] text-[clamp(16px,1.25vw,19px)] leading-[1.7] text-[rgba(226,240,248,0.78)]">
-              {contact.intro}
-            </p>
+            {/* Sur la page dédiée, le titre est déjà porté par le <h1> : le
+                répéter ici créerait deux titres pour un même propos. */}
+            {titre ? (
+              <>
+                <p className="m-0 mb-[clamp(24px,3vw,40px)] font-sans text-[12px] font-medium uppercase tracking-[0.24em] text-mist">
+                  {contact.eyebrow}
+                </p>
+                <h2 className="h2-contact">{contact.title}</h2>
+                <p className="mb-[clamp(28px,3.5vw,40px)] mt-[26px] max-w-[42ch] text-[clamp(16px,1.25vw,19px)] leading-[1.7] text-[rgba(226,240,248,0.78)]">
+                  {contact.intro}
+                </p>
+              </>
+            ) : null}
 
             {/* Le courriel reste écrit en clair : certains préfèrent copier une
                 adresse plutôt que remplir un formulaire. */}
-            <dl className="m-0 flex w-full flex-col gap-[18px] border-t border-[rgba(226,240,248,0.2)] pt-[26px]">
+            <dl className={`m-0 flex w-full flex-col gap-[18px] ${
+              titre ? "border-t border-[rgba(226,240,248,0.2)] pt-[26px]" : ""
+            }`}>
               <div>
                 <dt className="m-0 mb-1 font-sans text-[11px] uppercase tracking-[0.18em] text-mist">
                   E-mail

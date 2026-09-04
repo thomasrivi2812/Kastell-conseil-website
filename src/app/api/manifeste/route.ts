@@ -9,10 +9,10 @@ import { getContent } from "@/cms/content";
  * l'adresse est journalisée et le document est servi quand même — une
  * intégration manquante ne doit pas priver un visiteur du document.
  *
- * Le fichier lui-même reste servi depuis public/ : l'adresse une fois connue,
- * l'URL est publique. C'est le compromis habituel de ce type de formulaire, et
- * il est assumé — le but est de qualifier des contacts, pas de protéger un
- * document par ailleurs diffusé publiquement.
+ * Le fichier lui-même est servi par /api/manifeste/fichier, sans contrôle :
+ * l'adresse une fois connue, elle est publique. C'est le compromis habituel de
+ * ce type de formulaire, et il est assumé — le but est de qualifier des
+ * contacts, pas de protéger un document par ailleurs diffusé publiquement.
  */
 
 /* Volontairement permissif : rejeter les adresses valides coûte plus cher que
@@ -71,10 +71,12 @@ export async function POST(request: Request) {
   }
 
   const { manifesto } = await getContent();
-  const url = manifesto.download.fileUrl;
-  if (!url) {
+  if (!manifesto.download.fileUrl) {
     return NextResponse.json({ message: "Document indisponible." }, { status: 404 });
   }
+  /* On rend l'adresse du relais, jamais celle du CMS : de même origine, elle
+     permet au navigateur d'honorer le téléchargement. */
+  const url = "/api/manifeste/fichier";
 
   const webhook = process.env.MANIFESTE_WEBHOOK_URL;
   if (webhook) {

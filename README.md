@@ -30,7 +30,7 @@ sortie `.next`.
 ## Structure
 
 ```
-src/app/            routes (/ et /offres) + layout et styles globaux
+src/app/            routes (/, /offres, /contact) + layout et styles globaux
 src/components/     Header, Footer, Reveal, modale de téléchargement
 src/components/sections/   sections de la page d'accueil
 src/content/site.ts textes de repli : tout le rédactionnel du site
@@ -160,6 +160,17 @@ Pour poser une vraie couverture : téléverser l'image dans WordPress (À propos
 « Manifeste — couverture »), ou renseigner `manifesto.coverUrl`.
 Format conseillé : portrait, environ 1000 × 1414 px.
 
+### Page de contact
+
+Le formulaire vit sur `/contact`, pas en bas de la page d'accueil. En fin d'une
+page déjà longue, il demandait un effort au moment où le visiteur en a le moins.
+L'accueil et la page Offres se terminent sur une invitation courte —
+`ContactBande` — qui mène à la page et laisse l'adresse en clair pour qui
+préfère écrire directement.
+
+`Contact` accepte `titre={false}` : sur la page dédiée, le `<h1>` porte déjà le
+propos, et le répéter créerait deux titres pour une même chose.
+
 ### Formulaire de contact
 
 `POST /api/contact` valide la saisie, exige le consentement, écarte les robots
@@ -219,12 +230,18 @@ Sans cette variable d'environnement, l'adresse est seulement journalisée et le
 document est servi quand même : une intégration absente ne prive jamais un
 visiteur du document, et le relais en panne non plus.
 
-**Ce que ce formulaire ne fait pas.** Le PDF est servi depuis `public/` : une
-fois l'URL connue, elle est publique et partageable. C'est le compromis habituel
-de ce type de formulaire, et il est assumé — l'objectif est de qualifier des
-contacts, pas de protéger un document par ailleurs diffusé. Pour un vrai
-verrou, il faudrait sortir le fichier de `public/` et le servir derrière un
-jeton signé à durée limitée.
+Le fichier est servi par `/api/manifeste/fichier`, jamais par l'adresse du CMS.
+Deux raisons : l'attribut `download` est **ignoré dès que le fichier vient d'un
+autre domaine** — le PDF s'ouvrirait alors dans un onglet au lieu de descendre
+dans les téléchargements — et l'adresse du back-office n'a pas à s'afficher dans
+la barre d'adresse. Le relais ajoute un `Content-Disposition: attachment`, que
+le navigateur honore sans discuter.
+
+**Ce que ce formulaire ne fait pas.** Le relais ne contrôle rien : une fois son
+adresse connue, elle est publique et partageable. C'est le compromis habituel de
+ce type de formulaire, et il est assumé — l'objectif est de qualifier des
+contacts, pas de protéger un document par ailleurs diffusé. Pour un vrai verrou,
+il faudrait un jeton signé à durée limitée.
 
 La limitation de débit (5 demandes par minute et par IP) vit en mémoire de
 l'instance : sur une plateforme sans état elle ne survit pas au recyclage. C'est

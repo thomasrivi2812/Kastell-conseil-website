@@ -1,7 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { APropos } from "@/components/sections/APropos";
-import { Contact } from "@/components/sections/Contact";
+import { ContactBande } from "@/components/sections/ContactBande";
 import { Hero } from "@/components/sections/Hero";
 import { Manifeste } from "@/components/sections/Manifeste";
 import { Vision } from "@/components/sections/Vision";
@@ -34,7 +34,7 @@ export default function Home() {
         <References />
         {site.showNews ? <News /> : null}
         <Manifeste />
-        <Contact />
+        <ContactBande />
       </main>
       <Footer />
     </div>

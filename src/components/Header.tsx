@@ -174,7 +174,7 @@ export function Header() {
               {item.label}
             </Link>
           ))}
-          <Link href="/#contact" className="nav-cta">
+          <Link href="/contact" className="nav-cta">
             Échanger avec nous
           </Link>
         </nav>
@@ -209,7 +209,7 @@ export function Header() {
               {item.label}
             </Link>
           ))}
-          <Link href="/#contact" className="menu-cta" onClick={fermer}>
+          <Link href="/contact" className="menu-cta" onClick={fermer}>
             Échanger avec nous
             <span aria-hidden>→</span>
           </Link>

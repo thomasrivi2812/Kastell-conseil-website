@@ -36,7 +36,7 @@ export async function Footer() {
                 {item.label}
               </Link>
             ))}
-            <Link href="/#contact" className={linkClass}>
+            <Link href="/contact" className={linkClass}>
               Contact
             </Link>
           </div>

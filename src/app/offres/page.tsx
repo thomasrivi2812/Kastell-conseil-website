@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { Contact } from "@/components/sections/Contact";
+import { ContactBande } from "@/components/sections/ContactBande";
 import { Reveal } from "@/components/Reveal";
 import { site } from "@/content/site";
 import { getContent } from "@/cms/content";
@@ -121,7 +121,7 @@ export default async function OffresPage() {
           </div>
         </section>
 
-        <Contact />
+        <ContactBande />
       </main>
       <Footer />
     </div>

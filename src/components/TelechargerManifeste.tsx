@@ -52,6 +52,15 @@ export function TelechargerManifeste({ textes }: { textes: Textes }) {
     dialogue.current?.showModal();
   };
 
+  /*
+   * Clic sur le fond : <dialog> reçoit l'événement pour tout ce qui l'entoure,
+   * la cible étant alors la boîte elle-même et non l'un de ses enfants. C'est
+   * la seule façon de distinguer le fond du contenu sans ajouter d'élément.
+   */
+  const surClic = (evenement: React.MouseEvent<HTMLDialogElement>) => {
+    if (evenement.target === dialogue.current) dialogue.current?.close();
+  };
+
   const envoyer = async (evenement: React.FormEvent<HTMLFormElement>) => {
     evenement.preventDefault();
     const donnees = new FormData(evenement.currentTarget);
@@ -75,6 +84,9 @@ export function TelechargerManifeste({ textes }: { textes: Textes }) {
       setMessage(textes.success);
 
       if (resultat.url) {
+        /* L'adresse rendue est celle du relais du site : de même origine, elle
+           permet au navigateur d'honorer `download` et de ranger le fichier
+           dans les téléchargements au lieu de l'ouvrir. */
         const lien = document.createElement("a");
         lien.href = resultat.url;
         lien.download = "";
@@ -99,6 +111,7 @@ export function TelechargerManifeste({ textes }: { textes: Textes }) {
         ref={dialogue}
         aria-labelledby={idTitre}
         aria-describedby={idDescription}
+        onClick={surClic}
         className="modale"
       >
         <form method="dialog" className="modale-fermer-zone">

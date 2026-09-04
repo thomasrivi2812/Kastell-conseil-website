@@ -302,6 +302,29 @@
     min-height: 128px;
   }
 
+  /*
+   * Le sélecteur natif impose son propre habillage — deux flèches empilées sur
+   * macOS, un dégradé gris sur Windows — qui ne ressemble à aucun autre champ
+   * du formulaire. On le neutralise et on dessine le chevron, en gardant la
+   * réserve à droite pour qu'il ne chevauche jamais un intitulé long.
+   */
+  .formulaire select {
+    appearance: none;
+    padding-right: 44px;
+    background-image: linear-gradient(45deg, transparent 50%, #35752b 50%),
+      linear-gradient(135deg, #35752b 50%, transparent 50%);
+    background-position:
+      calc(100% - 22px) calc(50% + 2px),
+      calc(100% - 16px) calc(50% + 2px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+
+  .formulaire select:hover {
+    border-color: rgba(25, 41, 36, 0.45);
+  }
+
   .formulaire input:focus,
   .formulaire select:focus,
   .formulaire textarea:focus {

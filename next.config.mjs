@@ -22,6 +22,7 @@ const nextConfig = {
   // l'exécution et refuserait un document pourtant bien servi par le CDN.
   outputFileTracingIncludes: {
     "/api/manifeste": ["./public/documents/**"],
+    "/api/manifeste/fichier": ["./public/documents/**"],
   },
   images: {
     // Visuels servis par la médiathèque WordPress. L'hôte est déduit de la même
