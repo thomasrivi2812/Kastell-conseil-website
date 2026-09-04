@@ -24,12 +24,16 @@ export default function Page() {
   return (
     <div className="w-full overflow-x-clip">
       <Header />
-      <main id="contenu">
-        <section className="shell pb-[clamp(30px,4vw,52px)] pt-[clamp(44px,7vw,92px)]">
+      {/* Page d'une seule teinte : l'en-tête clair et la bande sombre du
+          formulaire se coupaient en deux au milieu de l'écran. */}
+      <main id="contenu" className="band-dark">
+        <section className="shell pb-[clamp(28px,3.5vw,44px)] pt-[clamp(44px,7vw,92px)]">
           <Reveal className="max-w-[60ch]">
-            <p className="eyebrow mb-[clamp(16px,2vw,24px)]">{contact.page.eyebrow}</p>
-            <h1 className="h1">{contact.page.title}</h1>
-            <p className="body-lg mt-[clamp(20px,2.6vw,30px)]">{contact.page.intro}</p>
+            <p className="eyebrow-dark mb-[clamp(16px,2vw,24px)] text-[13px] font-medium tracking-[0.22em]">
+              {contact.page.eyebrow}
+            </p>
+            <h1 className="h1 text-white">{contact.page.title}</h1>
+            <p className="body-dark mt-[clamp(20px,2.6vw,30px)]">{contact.page.intro}</p>
           </Reveal>
         </section>
 

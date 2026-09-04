@@ -175,8 +175,21 @@ propos, et le répéter créerait deux titres pour une même chose.
 
 `POST /api/contact` valide la saisie, exige le consentement, écarte les robots
 par un champ leurre et limite le débit à quatre demandes par minute et par IP,
-puis relaie vers `CONTACT_WEBHOOK_URL` — Brevo, Zapier, Make, n8n, tout service
-acceptant un POST JSON. Charge utile :
+puis **envoie un courriel** au cabinet.
+
+L'adresse du visiteur est placée en **champ de réponse** : le cabinet répond
+depuis sa boîte sans rien recopier. C'est le détail qui compte à l'usage. Un
+accusé de réception part au visiteur dans la foulée, au mieux — son échec ne
+doit pas faire croire à une demande perdue, elle est déjà partie.
+
+Deux services sont reconnus, choisis par la clé présente : `BREVO_API_KEY`
+(français, hébergement européen) ou `RESEND_API_KEY`. Les prendre tous les deux
+évite de figer le choix dans le code. `MAIL_EXPEDITEUR` doit appartenir à un
+domaine **authentifié** chez le service, sinon l'envoi est refusé : un serveur
+ne peut pas envoyer un courriel tout seul, sans quoi il part en indésirable.
+
+À défaut de clé, `CONTACT_WEBHOOK_URL` prend le relais pour qui préfère un
+scénario Zapier ou Make. Charge utile :
 
 ```json
 { "nom": "…", "email": "…", "organisation": "…", "telephone": "…",
@@ -554,7 +567,7 @@ attendent le contenu réel :
 | Titre de la tribune et nom du média | `publications` dans `src/content/site.ts` |
 | Couverture du manifeste RIT | `manifesto.coverUrl`, ou l'image « Manifeste — couverture » dans WordPress — voir ci-dessous |
 | PDF du manifeste RIT | `public/documents/manifeste-rit.pdf`, ou le fichier téléversé dans WordPress — voir ci-dessous |
-| Destination des demandes de contact | variable `CONTACT_WEBHOOK_URL` — **indispensable avant la mise en ligne** |
+| Envoi des courriels de contact | `BREVO_API_KEY` ou `RESEND_API_KEY`, plus `MAIL_EXPEDITEUR` — **indispensable avant la mise en ligne** |
 | Destination des adresses e-mail collectées | variable `MANIFESTE_WEBHOOK_URL` — voir ci-dessous |
 | Logos des médias (presse) | `public/brand/press/…` — voir ci-dessous |
 | Contenu des pages légales | `src/app/mentions-legales`, `confidentialite`, `cookies` |

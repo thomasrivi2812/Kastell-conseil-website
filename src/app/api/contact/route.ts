@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
+import { site } from "@/content/site";
+import { courrielConfigure, envoyerCourriel } from "@/lib/courriel";
 
 /**
  * Réception des demandes du formulaire de contact.
  *
- * Le message est relayé vers CONTACT_WEBHOOK_URL (Brevo, Zapier, Make, n8n :
- * tout service acceptant un POST JSON). À la différence du téléchargement du
+ * Le message part par courriel dès qu'un service d'envoi est configuré, avec
+ * l'adresse du visiteur en champ de réponse : le cabinet répond depuis sa boîte
+ * sans rien recopier. À défaut, il est relayé vers CONTACT_WEBHOOK_URL, pour
+ * qui préfère un scénario Zapier ou Make. À la différence du téléchargement du
  * manifeste, il n'y a ici aucun repli acceptable côté serveur : une demande
  * perdue est un client perdu. Si la destination n'est pas configurée, ou si le
  * relais échoue, la route le dit franchement — le formulaire propose alors au
@@ -68,11 +72,73 @@ export async function POST(request: Request) {
     return NextResponse.json({ code: "consentement" }, { status: 400 });
   }
 
+  const organisation = borne(c.organisation, 160);
+  const telephone = borne(c.telephone, 40);
+  const objet = borne(c.objet, 160);
+
+  if (courrielConfigure()) {
+    const destinataire = process.env.CONTACT_DESTINATAIRE || site.email;
+    const envoi = await envoyerCourriel({
+      destinataire,
+      sujet: objet ? `Nouvelle demande — ${objet}` : "Nouvelle demande de contact",
+      /* L'adresse du visiteur en réponse : c'est ce qui permet de répondre
+         d'un clic depuis la boîte, sans recopier quoi que ce soit. */
+      repondreA: { email, nom },
+      /* Les champs absents valent null et disparaissent ; les chaînes vides
+         sont des séparations voulues et doivent survivre au filtre. */
+      texte: [
+        `Nom : ${nom}`,
+        organisation ? `Organisation : ${organisation}` : null,
+        `E-mail : ${email}`,
+        telephone ? `Téléphone : ${telephone}` : null,
+        objet ? `Sujet : ${objet}` : null,
+        "",
+        message,
+        "",
+        "—",
+        "Envoyé depuis le formulaire de contact du site.",
+      ]
+        .filter((ligne) => ligne !== null)
+        .join("\n"),
+    });
+
+    if (envoi.etat === "echec") {
+      console.error("[contact] envoi impossible", envoi.detail);
+      return NextResponse.json({ code: "relais" }, { status: 502 });
+    }
+
+    /* Accusé de réception, au mieux : son échec ne doit pas faire croire au
+       visiteur que sa demande s'est perdue, elle est déjà partie. */
+    if (envoi.etat === "envoye") {
+      const accuse = await envoyerCourriel({
+        destinataire: email,
+        sujet: `Votre message à ${site.name}`,
+        texte: [
+          `Bonjour ${nom},`,
+          "",
+          "Votre message est bien arrivé. Nous revenons vers vous sous un jour ouvré.",
+          "",
+          "Pour mémoire, voici ce que vous nous avez écrit :",
+          "",
+          message,
+          "",
+          "—",
+          site.name,
+          site.email,
+        ].join("\n"),
+      });
+      if (accuse.etat === "echec") {
+        console.error("[contact] accusé de réception non envoyé", accuse.detail);
+      }
+      return NextResponse.json({ code: "ok" });
+    }
+  }
+
   const webhook = process.env.CONTACT_WEBHOOK_URL;
   if (!webhook) {
     /* 501 et non 500 : ce n'est pas une panne, c'est une configuration
        absente. La distinction guide le message affiché au visiteur. */
-    console.warn("[contact] CONTACT_WEBHOOK_URL absente, demande non relayée");
+    console.warn("[contact] aucun service d'envoi ni webhook, demande non relayée");
     return NextResponse.json({ code: "non-configure" }, { status: 501 });
   }
 
@@ -83,9 +149,9 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         nom,
         email,
-        organisation: borne(c.organisation, 160),
-        telephone: borne(c.telephone, 40),
-        objet: borne(c.objet, 160),
+        organisation,
+        telephone,
+        objet,
         message,
         date: new Date().toISOString(),
         source: "Formulaire de contact du site",

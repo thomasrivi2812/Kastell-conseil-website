@@ -12,7 +12,13 @@ export async function Contact({ titre = true }: { titre?: boolean } = {}) {
 
   return (
     <section id="contact" className="band-dark">
-      <div className="shell py-[clamp(60px,9vw,130px)]">
+      {/* Sur la page dédiée, l'en-tête est juste au-dessus : la réserve
+          habituelle du haut y creuserait un vide de plus de cent pixels. */}
+      <div
+        className={`shell pb-[clamp(60px,9vw,130px)] ${
+          titre ? "pt-[clamp(60px,9vw,130px)]" : "pt-[clamp(4px,1vw,16px)]"
+        }`}
+      >
         <div className="grid items-start gap-[clamp(38px,5vw,80px)] [grid-template-columns:minmax(300px,0.9fr)_minmax(340px,1.1fr)] max-[900px]:[grid-template-columns:1fr]">
           <Reveal className="flex flex-col items-start">
             {/* Sur la page dédiée, le titre est déjà porté par le <h1> : le
