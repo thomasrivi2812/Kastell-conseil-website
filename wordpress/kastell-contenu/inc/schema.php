@@ -175,10 +175,11 @@ function kastell_collections() {
 			'titre_champ' => 'date',
 			'titre_label' => 'Date affichée (ex. 12 août 2026)',
 			'aide'        => 'Les posts LinkedIn mis en avant sur l’accueil, dans la bande « Sur LinkedIn ». Le titre de la fiche est la date telle qu’elle s’affichera : écrivez-la en toutes lettres.',
-			'colonnes'    => array( 'extrait' => 'Extrait' ),
+			'colonnes'    => array( 'extrait' => 'Extrait', 'visuel' => 'Visuel' ),
 			'champs'      => array(
 				'extrait' => array( 'paragraphe', 'Extrait du post', 'Les premières lignes du post, telles qu’elles s’afficheront sur la carte.' ),
 				'lien'    => array( 'texte', 'Lien vers le post LinkedIn', 'Sur LinkedIn : bouton « … » du post → « Copier le lien du post ».' ),
+				'visuel'  => array( 'image', 'Visuel du post', 'Facultatif. L’image du post, affichée sur la carte. Format paysage, environ 1200 x 750 px. Sans image, un aplat est affiché à sa place.' ),
 			),
 		),
 		'k_presse' => array(

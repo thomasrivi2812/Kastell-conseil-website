@@ -245,8 +245,15 @@ function assembler(d: Donnees) {
         date: (post.date as string) ?? "",
         excerpt: (post.extrait as string) ?? "",
         href: (post.lien as string) ?? "#",
+        image: visuel(post.visuel),
       })),
-      fichier.posts as readonly unknown[] as { date: string; excerpt: string; href: string }[],
+      fichier.posts.map((post) => ({
+        date: post.date,
+        excerpt: post.excerpt,
+        href: post.href,
+        /* Le dépôt ne porte pas de visuel : la carte retombe sur son aplat. */
+        image: null as string | null,
+      })),
     ),
     contact: {
       ...fichier.contact,

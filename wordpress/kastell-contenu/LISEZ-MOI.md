@@ -143,6 +143,10 @@ dépôt — pas d'erreur, juste l'ancien texte qui persiste.
 rend exactement ce qu'affiche le site. Rien de plus sensible que la page
 d'accueil elle-même.
 
+**Une actualité peut porter son visuel.** Le champ « Visuel du post » remplace
+l'aplat gris de la carte. Sans image, la carte reste une carte : elle ne se
+replie pas et garde sa hauteur.
+
 **Un lien de publication peut rester sur le site.** Le champ « …ou vers une
 section du site » l'emporte sur l'adresse extérieure saisie au-dessus : c'est un
 choix explicite, là où le champ d'adresse peut n'avoir jamais été vidé. Le site

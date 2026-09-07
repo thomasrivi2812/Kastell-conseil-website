@@ -7,6 +7,28 @@ const hoteWordPress = process.env.WORDPRESS_API_URL
   ? new URL(process.env.WORDPRESS_API_URL)
   : null;
 
+/**
+ * Hôtes supplémentaires pour les visuels, séparés par des virgules.
+ *
+ * Certains hébergements servent la médiathèque depuis un autre domaine qu'eux —
+ * un CDN, un sous-domaine. L'optimiseur refuse alors l'image sans rien dire au
+ * journal : le visiteur voit une vignette cassée. Cette variable permet de les
+ * déclarer sans repasser par le code.
+ */
+const hotesMedias = (process.env.MEDIA_HOSTS ?? "")
+  .split(",")
+  .map((h) => h.trim())
+  .filter(Boolean)
+  .map((h) => {
+    const avecProtocole = h.includes("://") ? h : `https://${h}`;
+    const u = new URL(avecProtocole);
+    return {
+      protocol: u.protocol.replace(":", ""),
+      hostname: u.hostname,
+      ...(u.port ? { port: u.port } : {}),
+    };
+  });
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -27,9 +49,18 @@ const nextConfig = {
   images: {
     // Visuels servis par la médiathèque WordPress. L'hôte est déduit de la même
     // variable que l'API : une seule valeur à renseigner, pas deux à accorder.
-    remotePatterns: hoteWordPress
-      ? [{ protocol: hoteWordPress.protocol.replace(":", ""), hostname: hoteWordPress.hostname }]
-      : [],
+    remotePatterns: [
+      ...(hoteWordPress
+        ? [
+            {
+              protocol: hoteWordPress.protocol.replace(":", ""),
+              hostname: hoteWordPress.hostname,
+              ...(hoteWordPress.port ? { port: hoteWordPress.port } : {}),
+            },
+          ]
+        : []),
+      ...hotesMedias,
+    ],
     // Next 16 rejette toute qualité non déclarée. 55 sert aux visuels de fond :
     // masqués et à faible opacité, la compression y est invisible.
     qualities: [55, 75],

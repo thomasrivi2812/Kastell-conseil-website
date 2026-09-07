@@ -85,9 +85,24 @@ export async function News() {
                 {post.excerpt}
               </p>
 
-              <span className="flex aspect-[16/10] items-end rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand p-3 font-mono text-[11px] text-muted">
-                {news.previewLabel}
-              </span>
+              {/* Le visuel du post quand il existe, l'aplat sinon : une carte
+                  sans image reste une carte, elle ne se replie pas. */}
+              {post.image ? (
+                <span className="relative block aspect-[16/10] overflow-hidden rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand">
+                  <Image
+                    src={post.image}
+                    alt=""
+                    aria-hidden
+                    fill
+                    sizes="(max-width: 700px) 100vw, (max-width: 1100px) 45vw, 30vw"
+                    className="object-cover"
+                  />
+                </span>
+              ) : (
+                <span className="flex aspect-[16/10] items-end rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand p-3 font-mono text-[11px] text-muted">
+                  {news.previewLabel}
+                </span>
+              )}
 
               {lien ? (
                 <span className="mt-[22px] font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-forest">

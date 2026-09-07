@@ -210,6 +210,20 @@ c'est parti.
 La liste des sujets est alimentée par les intitulés des offres : un visiteur qui
 vient de les lire retrouve les mêmes mots, et la demande arrive qualifiée.
 
+### Visuels de la médiathèque
+
+`remotePatterns` est déduit de `WORDPRESS_API_URL` : un seul réglage, pas deux à
+tenir en accord. Certains hébergements servent pourtant la médiathèque depuis un
+autre domaine — un CDN, un sous-domaine. `MEDIA_HOSTS` permet alors de les
+déclarer, séparés par des virgules, sans repasser par le code. Sans cela
+l'optimiseur refuse l'image et le visiteur voit une vignette cassée, sans
+qu'aucune erreur n'apparaisse dans les journaux du site.
+
+En développement, l'optimiseur refuse de toute façon les hôtes locaux
+(`dangerouslyAllowLocalIP`, faux par défaut depuis Next 16) : une image servie
+depuis `localhost` renvoie 400 même correctement déclarée. C'est une garde de
+l'outil, pas un défaut de configuration.
+
 ### Publications : lien externe ou section du site
 
 Une publication porte deux champs de destination. « …ou vers une section du
