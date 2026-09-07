@@ -2,7 +2,8 @@ import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { site } from "@/content/site";
 import { getContent } from "@/cms/content";
-import { estUtile } from "@/lib/lien";
+import Link from "next/link";
+import { estInterne, estUtile } from "@/lib/lien";
 
 export async function APropos() {
   const { about, founder, press, publications } = await getContent();
@@ -154,19 +155,34 @@ export async function APropos() {
                       ))}
                     </ol>
                   ) : null}
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="press-link hit-area inline-block font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-[rgba(226,240,248,0.9)] hover:text-white"
-                  >
-                    {item.cta}
-                    {" "}
-                    <span className="inline-block" aria-hidden>
-                      ↗
-                    </span>
-                    <span className="sr-only"> (nouvelle fenêtre)</span>
-                  </a>
+                  {/* Une section du site reste dans l'onglet : ouvrir une
+                      fenêtre pour descendre plus bas dans la page n'aurait
+                      aucun sens, et la flèche doit dire où l'on va. */}
+                  {estInterne(item.href) ? (
+                    <Link
+                      href={item.href}
+                      className="press-link hit-area inline-block font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-[rgba(226,240,248,0.9)] hover:text-white"
+                    >
+                      {item.cta}{" "}
+                      <span className="inline-block" aria-hidden>
+                        ↓
+                      </span>
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="press-link hit-area inline-block font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-[rgba(226,240,248,0.9)] hover:text-white"
+                    >
+                      {item.cta}
+                      {" "}
+                      <span className="inline-block" aria-hidden>
+                        ↗
+                      </span>
+                      <span className="sr-only"> (nouvelle fenêtre)</span>
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>

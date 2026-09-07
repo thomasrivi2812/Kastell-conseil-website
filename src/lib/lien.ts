@@ -11,3 +11,15 @@ export function estUtile(href: string | null | undefined): boolean {
   const propre = href.trim();
   return propre !== "" && propre !== "#" && propre !== "/#";
 }
+
+/**
+ * Le lien reste-t-il sur le site ?
+ *
+ * Une ancre ou un chemin s'ouvrent dans le même onglet et passent par la
+ * navigation interne ; une adresse extérieure s'ouvre à côté. Confondre les
+ * deux donne soit un onglet de trop pour aller à la section d'en dessous, soit
+ * un site quitté sans prévenir.
+ */
+export function estInterne(href: string): boolean {
+  return href.startsWith("/") || href.startsWith("#");
+}

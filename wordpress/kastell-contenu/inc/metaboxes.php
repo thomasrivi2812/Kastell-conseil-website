@@ -4,6 +4,9 @@
  *
  * Un seul moteur générique, piloté par le modèle déclaré dans schema.php :
  * ajouter un champ là-bas suffit à le voir apparaître ici, sans code de plus.
+ *
+ * Un champ se déclare array( genre, intitulé, aide?, options? ), le quatrième
+ * élément ne servant qu'aux listes de choix.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -74,6 +77,19 @@ function kastell_rendre_metabox( $post ) {
 				);
 				break;
 
+			case 'liste':
+				printf( '<select id="%s" name="%s" class="widefat">', esc_attr( $id ), esc_attr( $nom ) );
+				foreach ( $def[3] ?? array() as $valeur_option => $libelle ) {
+					printf(
+						'<option value="%s"%s>%s</option>',
+						esc_attr( $valeur_option ),
+						selected( $valeur, $valeur_option, false ),
+						esc_html( $libelle )
+					);
+				}
+				echo '</select>';
+				break;
+
 			case 'image':
 			case 'fichier':
 				printf(
@@ -140,6 +156,9 @@ function kastell_enregistrer_champs( $post_id ) {
 			case 'paragraphe':
 			case 'lignes':
 				$valeur = sanitize_textarea_field( $brut );
+				break;
+			case 'liste':
+				$valeur = array_key_exists( $brut, $def[3] ?? array() ) ? $brut : '';
 				break;
 			case 'image':
 			case 'fichier':

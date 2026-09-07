@@ -210,6 +210,18 @@ c'est parti.
 La liste des sujets est alimentée par les intitulés des offres : un visiteur qui
 vient de les lire retrouve les mêmes mots, et la demande arrive qualifiée.
 
+### Publications : lien externe ou section du site
+
+Une publication porte deux champs de destination. « …ou vers une section du
+site » l'emporte sur l'adresse extérieure : c'est un choix explicite, là où le
+champ d'adresse peut n'avoir jamais été vidé.
+
+`estInterne()` (`src/lib/lien.ts`) décide du rendu. Une ancre ou un chemin
+s'ouvrent dans le même onglet, par la navigation interne, avec une flèche vers
+le bas ; une adresse extérieure s'ouvre à côté, flèche oblique et mention pour
+les lecteurs d'écran. Confondre les deux donne soit un onglet de trop pour aller
+à la section d'en dessous, soit un site quitté sans prévenir.
+
 ### Liens non renseignés
 
 Les URL encore inconnues sont notées `#` dans le contenu. `estUtile()`

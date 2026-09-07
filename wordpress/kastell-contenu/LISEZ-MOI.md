@@ -143,6 +143,16 @@ dépôt — pas d'erreur, juste l'ancien texte qui persiste.
 rend exactement ce qu'affiche le site. Rien de plus sensible que la page
 d'accueil elle-même.
 
+**Un lien de publication peut rester sur le site.** Le champ « …ou vers une
+section du site » l'emporte sur l'adresse extérieure saisie au-dessus : c'est un
+choix explicite, là où le champ d'adresse peut n'avoir jamais été vidé. Le site
+ouvre alors le lien dans le même onglet, avec une flèche vers le bas — ouvrir
+une fenêtre pour descendre plus bas dans la page n'aurait aucun sens.
+
+**Les listes de choix n'acceptent que leurs valeurs.** À l'enregistrement, une
+valeur absente des options est remise à vide : une liste ne doit jamais servir
+de champ libre par une requête forgée.
+
 **Le secret ne se réaffiche jamais.** Le champ du formulaire reste vide et ne
 remplace la valeur enregistrée que s'il est rempli. Le réafficher le mettrait
 dans le HTML de la page à chaque visite sans rien apporter : personne n'a besoin

@@ -208,7 +208,21 @@ function kastell_collections() {
 			'champs'      => array(
 				'categorie' => array( 'texte', 'Catégorie', 'Tribune, Manifeste…' ),
 				'contexte'  => array( 'paragraphe', 'Contexte' ),
-				'lien'      => array( 'texte', 'Lien' ),
+				'lien'      => array( 'texte', 'Lien vers une adresse extérieure' ),
+				'destination' => array(
+					'liste',
+					'…ou vers une section du site',
+					'Si vous choisissez ici, le champ ci-dessus est ignoré.',
+					array(
+						''            => '— Utiliser l’adresse ci-dessus —',
+						'/#manifeste' => 'Le manifeste (bas de l’accueil)',
+						'/#vision'    => 'Notre vision',
+						'/#apropos'   => 'À propos',
+						'/#references' => 'Références',
+						'/offres'     => 'Les offres',
+						'/contact'    => 'Contact',
+					),
+				),
 				'cta'       => array( 'texte', 'Libellé du lien' ),
 				'objectifs' => array( 'lignes', 'Objectifs', 'Facultatif : un objectif par ligne.' ),
 			),

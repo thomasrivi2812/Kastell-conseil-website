@@ -174,7 +174,9 @@ function assembler(d: Donnees) {
         label: (item.categorie as string) ?? "",
         title: (item.titre as string) ?? "",
         context: (item.contexte as string) ?? "",
-        href: (item.lien as string) ?? "#",
+        /* Une section choisie l'emporte : c'est un choix explicite, là où le
+           champ d'adresse peut n'avoir jamais été vidé. */
+        href: ((item.destination as string) || (item.lien as string) || "#"),
         cta: (item.cta as string) ?? "En savoir plus",
         objectives: (item.objectifs as string[]) ?? undefined,
       })),

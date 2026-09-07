@@ -238,6 +238,9 @@ export const publications = [
   },
 ] as const;
 
+/* Le champ `destination` d'une publication, renseigné dans le CMS, renvoie vers
+   une section du site plutôt que vers une adresse extérieure. */
+
 /**
  * Le manifeste du RIT occupe sa propre bande en fin de page : le texte est trop
  * long pour la colonne « Nos publications », et le document mérite d'être
