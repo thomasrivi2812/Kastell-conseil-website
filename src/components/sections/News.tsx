@@ -92,18 +92,29 @@ export async function News() {
               {/* Le visuel du post quand il existe, l'aplat sinon : une carte
                   sans image reste une carte, elle ne se replie pas. */}
               {post.image ? (
-                <span className="relative block aspect-[4/3] overflow-hidden rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand">
-                  <Image
+                /* Le visuel garde ses proportions : une une de magazine est
+                   verticale, une coupure de presse presque carrée, et les
+                   enfermer dans un cadre commun les cernait d'un aplat. La
+                   bande qui les accueille n'a ni fond ni bordure — elle ne
+                   sert qu'à plafonner la hauteur et à réserver la place, pour
+                   que le chargement ne pousse rien. Seul un filet suit le
+                   contour du visuel, sans quoi une coupure de presse à fond
+                   blanc se fondrait dans la carte, blanche elle aussi.
+                   Balise native : le format du fichier téléversé dans
+                   WordPress n'est pas connu au rendu. */
+                <span className="news-visuel flex aspect-[4/3] items-start justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={post.image}
                     alt=""
                     aria-hidden
-                    fill
-                    sizes="(max-width: 700px) 100vw, (max-width: 1100px) 45vw, 30vw"
-                    className="object-contain p-2"
+                    loading="lazy"
+                    decoding="async"
+                    className="max-h-full w-auto max-w-full rounded-[10px] border border-[rgba(25,41,36,0.12)] object-contain"
                   />
                 </span>
               ) : (
-                <span className="flex aspect-[4/3] items-end rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand p-3 font-mono text-[11px] text-muted">
+                <span className="news-visuel flex aspect-[4/3] items-end rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand p-3 font-mono text-[11px] text-muted">
                   {news.previewLabel}
                 </span>
               )}
