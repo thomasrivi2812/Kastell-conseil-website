@@ -112,18 +112,23 @@ export async function APropos() {
                 className="press-link flex h-full flex-col gap-[14px] text-[15px] leading-[1.5] text-[rgba(226,240,248,0.82)] hover:text-white"
               >
                 {article.logoUrl ? (
-                  <span className="press-logo relative block h-[42px] w-[116px] shrink-0 overflow-hidden rounded-[8px] bg-bone">
-                    <Image
+                  /* Hauteur imposée, largeur libre : les logos de presse vont
+                     du bandeau très large au carré, et un cadre unique
+                     réduisait les seconds à une vignette perdue dans du blanc.
+                     Balise native parce que la taille réelle du fichier,
+                     téléversé dans WordPress, n'est pas connue au rendu. */
+                  <span className="press-logo flex h-[64px] w-fit min-w-[64px] max-w-[168px] shrink-0 self-start items-center justify-center overflow-hidden rounded-[8px] bg-bone px-3.5 py-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src={article.logoUrl}
                       alt={article.outlet}
-                      fill
-                      sizes="116px"
-                      unoptimized
-                      className="object-contain px-2.5 py-2"
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-auto max-w-full object-contain"
                     />
                   </span>
                 ) : (
-                  <span className="flex h-[42px] w-[116px] shrink-0 items-center justify-center rounded-[8px] border border-[rgba(115,193,103,0.35)] bg-[rgba(115,193,103,0.12)] px-2 text-center font-sans text-[11px] uppercase leading-[1.2] tracking-[0.06em] text-accent">
+                  <span className="flex h-[64px] w-fit min-w-[64px] max-w-[168px] shrink-0 self-start items-center justify-center rounded-[8px] border border-[rgba(115,193,103,0.35)] bg-[rgba(115,193,103,0.12)] px-3 text-center font-sans text-[11px] uppercase leading-[1.2] tracking-[0.06em] text-accent">
                     {article.outlet}
                   </span>
                 )}

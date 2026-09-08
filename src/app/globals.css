@@ -1344,3 +1344,27 @@
     overflow: visible;
   }
 }
+
+/*
+ * Cartes LinkedIn alignées bande par bande. La longueur des extraits varie
+ * d'un post à l'autre : sans grille imbriquée, le visuel et le lien de chaque
+ * carte se plaçaient à une hauteur différente. Hors @layer — même raison que
+ * ci-dessus. La règle est conditionnée : là où subgrid manque, les cartes
+ * restent en colonne flex, simplement moins régulières.
+ */
+.news-card {
+  display: flex;
+  flex-direction: column;
+}
+
+@supports (grid-template-rows: subgrid) {
+  .news-grille {
+    align-items: stretch;
+  }
+
+  .news-card {
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+  }
+}

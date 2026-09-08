@@ -34,9 +34,13 @@ export async function News() {
           ) : null}
         </Reveal>
 
+        {/* Grille imbriquée : sans elle, chaque carte plaçait son visuel et
+            son lien à une hauteur différente, au gré de la longueur du texte.
+            Les quatre bandes — auteur, texte, visuel, lien — sont désormais
+            alignées d'une carte à l'autre. */}
         <Reveal
           index={1}
-          className="grid gap-[clamp(18px,2vw,28px)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))]"
+          className="news-grille grid gap-[clamp(18px,2vw,28px)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))]"
         >
           {/* La date ne fait pas une clé : deux posts publiés le même jour la
               partagent, et React confondrait alors les deux cartes. */}
@@ -51,7 +55,7 @@ export async function News() {
               {...(lien
                 ? { href: lien, target: "_blank", rel: "noopener noreferrer" }
                 : {})}
-              className={`news-card flex flex-col rounded-[14px] border border-[rgba(25,41,36,0.14)] bg-white p-[clamp(20px,2.2vw,26px)] ${
+              className={`news-card rounded-[14px] border border-[rgba(25,41,36,0.14)] bg-white p-[clamp(20px,2.2vw,26px)] ${
                 lien ? "hover:border-sage" : ""
               }`}
             >
@@ -88,18 +92,18 @@ export async function News() {
               {/* Le visuel du post quand il existe, l'aplat sinon : une carte
                   sans image reste une carte, elle ne se replie pas. */}
               {post.image ? (
-                <span className="relative block aspect-[16/10] overflow-hidden rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand">
+                <span className="relative block aspect-[4/3] overflow-hidden rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand">
                   <Image
                     src={post.image}
                     alt=""
                     aria-hidden
                     fill
                     sizes="(max-width: 700px) 100vw, (max-width: 1100px) 45vw, 30vw"
-                    className="object-cover"
+                    className="object-contain p-2"
                   />
                 </span>
               ) : (
-                <span className="flex aspect-[16/10] items-end rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand p-3 font-mono text-[11px] text-muted">
+                <span className="flex aspect-[4/3] items-end rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand p-3 font-mono text-[11px] text-muted">
                   {news.previewLabel}
                 </span>
               )}
