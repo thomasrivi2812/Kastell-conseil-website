@@ -1365,7 +1365,7 @@
  * unique la carte est bien plus large qu'en trois colonnes, et un plafond en
  * unités d'écran aurait rapetissé les visuels là où il y a le plus de place. */
 .news-visuel img {
-  max-height: 85cqw;
+  max-height: 66cqw;
 }
 
 @supports (grid-template-rows: subgrid) {

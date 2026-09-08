@@ -55,11 +55,11 @@ export async function News() {
               {...(lien
                 ? { href: lien, target: "_blank", rel: "noopener noreferrer" }
                 : {})}
-              className={`news-card rounded-[14px] border border-[rgba(25,41,36,0.14)] bg-white p-[clamp(20px,2.2vw,26px)] ${
+              className={`news-card rounded-[14px] border border-[rgba(25,41,36,0.14)] bg-white p-[clamp(18px,2vw,23px)] ${
                 lien ? "hover:border-sage" : ""
               }`}
             >
-              <div className="mb-5 flex items-center gap-3">
+              <div className="mb-[17px] flex items-center gap-3">
                 <Image
                   src={founder.photoUrl ?? founder.photo}
                   alt=""
@@ -85,7 +85,7 @@ export async function News() {
                 </span>
               </div>
 
-              <p className="m-0 mb-5 text-[16px] leading-[1.6] text-graphite">
+              <p className="m-0 mb-[17px] text-[16px] leading-[1.55] text-graphite">
                 {post.excerpt}
               </p>
 
@@ -123,7 +123,7 @@ export async function News() {
                 )}
 
                 {lien ? (
-                  <span className="mt-[22px] block font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-forest">
+                  <span className="mt-[17px] block font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-forest">
                     {news.postCta} <span aria-hidden>→</span>
                     <span className="sr-only"> (nouvelle fenêtre)</span>
                   </span>
