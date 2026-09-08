@@ -154,7 +154,7 @@ function kastell_collections() {
 			'titre_label' => 'Nom du client',
 			'aide'        => 'Les logos de la bande « Références » sur l’accueil. Sans logo, le nom s’affiche en toutes lettres.',
 			'colonnes'    => array( 'logo' => 'Logo' ),
-			'champs'      => array( 'logo' => array( 'image', 'Logo' ) ),
+			'champs'      => array( 'logo' => array( 'image', 'Logo', 'SVG de préférence — c’est le format que remettent les agences, et il reste net sur tous les écrans. PNG à fond transparent sinon.' ) ),
 		),
 		'k_temoignage' => array(
 			'titre'       => 'Témoignages',
@@ -194,7 +194,7 @@ function kastell_collections() {
 			'champs'      => array(
 				'media' => array( 'texte', 'Nom du média', 'Ex. Ouest-France. Affiché si aucun logo n’est fourni.' ),
 				'lien'  => array( 'texte', 'Lien vers l’article' ),
-				'logo'  => array( 'image', 'Logo du média', 'Facultatif. Fond transparent de préférence ; il s’affiche sur une pastille claire.' ),
+				'logo'  => array( 'image', 'Logo du média', 'Facultatif. SVG ou PNG à fond transparent ; il s’affiche sur une pastille claire.' ),
 			),
 		),
 		'k_publication' => array(

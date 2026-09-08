@@ -195,7 +195,7 @@ function kastell_assets( $hook ) {
 		. '.kastell-champ .description{display:block;margin-top:5px}'
 		. '.kastell-media{display:flex;gap:8px;align-items:center}'
 		. '.kastell-media input{flex:1}'
-		. '.kastell-apercu{display:block;max-width:220px;height:auto;margin-top:10px;border:1px solid #dcdcde}'
+		. '.kastell-apercu{display:block;max-width:220px;max-height:120px;width:auto;height:auto;margin-top:10px;border:1px solid #dcdcde}'
 	);
 	wp_add_inline_script(
 		'media-editor',
