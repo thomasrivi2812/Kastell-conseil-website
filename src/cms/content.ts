@@ -222,10 +222,14 @@ function assembler(d: Donnees) {
       (a.clients as Doc[] | undefined)?.map((c) => ({
         name: (c.nom as string) ?? "",
         logoUrl: logo((c.nom as string) ?? "", c.logo, "brand"),
+        /* Le cran de marge est réglé fiche par fiche ; sans réglage, la
+           marge normale. */
+        logoSize: ((c.taille as string) || "normale") as string,
       })),
       fichier.clients.map((c) => ({
         name: c.name,
         logoUrl: findPublicAsset(c.file),
+        logoSize: "normale",
       })),
     ),
     testimonials: ou(

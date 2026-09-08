@@ -153,8 +153,20 @@ function kastell_collections() {
 			'titre_champ' => 'nom',
 			'titre_label' => 'Nom du client',
 			'aide'        => 'Les logos de la bande « Références » sur l’accueil. Sans logo, le nom s’affiche en toutes lettres.',
-			'colonnes'    => array( 'logo' => 'Logo' ),
-			'champs'      => array( 'logo' => array( 'image', 'Logo', 'SVG de préférence — c’est le format que remettent les agences, et il reste net sur tous les écrans. PNG à fond transparent sinon.' ) ),
+			'colonnes'    => array( 'logo' => 'Logo', 'taille' => 'Taille' ),
+			'champs'      => array(
+				'logo'   => array( 'image', 'Logo', 'SVG de préférence — c’est le format que remettent les agences, et il reste net sur tous les écrans. PNG à fond transparent sinon.' ),
+				'taille' => array(
+					'liste',
+					'Taille dans la bande',
+					'À monter d’un cran si le logo paraît petit à côté des autres : certains fichiers embarquent une marge vide autour du dessin, et il s’y perd.',
+					array(
+						'normale'     => 'Normale',
+						'grande'      => 'Grande',
+						'tres-grande' => 'Très grande',
+					),
+				),
+			),
 		),
 		'k_temoignage' => array(
 			'titre'       => 'Témoignages',

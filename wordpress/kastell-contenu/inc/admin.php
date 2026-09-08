@@ -442,6 +442,15 @@ function kastell_colonne_contenu( $colonne, $post_id ) {
 		return;
 	}
 
+	/* Une liste stocke un code ; c'est l'intitulé lu dans le formulaire qui
+	   doit s'afficher, sans quoi la colonne parle une autre langue que la
+	   fiche. */
+	if ( 'liste' === $genre ) {
+		$options = $def['champs'][ $cle ][3] ?? array();
+		echo esc_html( $options[ $valeur ] ?? $valeur );
+		return;
+	}
+
 	echo esc_html( wp_trim_words( $valeur, 14, '…' ) );
 }
 add_action( 'manage_posts_custom_column', 'kastell_colonne_contenu', 10, 2 );

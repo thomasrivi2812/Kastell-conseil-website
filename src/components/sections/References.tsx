@@ -4,6 +4,13 @@ import { Reveal } from "@/components/Reveal";
 import { site } from "@/content/site";
 import { getContent } from "@/cms/content";
 
+/** Trois crans de marge, du plus aéré au plus serré. */
+const MARGES: Record<string, string> = {
+  normale: "px-5 py-3",
+  grande: "px-3.5 py-2",
+  "tres-grande": "px-2 py-1",
+};
+
 export async function References() {
   const { clients: logos, references, testimonials } = await getContent();
   return (
@@ -15,23 +22,31 @@ export async function References() {
         </h2>
       </Reveal>
 
+      {/* Rangée souple plutôt que grille : une grille laisse le reliquat
+          collé à gauche — six logos sur cinq colonnes, et le sixième reste
+          seul dans le coin. Ici la dernière rangée se centre d'elle-même,
+          quel que soit le nombre de clients. */}
       <Reveal
         index={1}
-        className="grid gap-[clamp(12px,1.4vw,20px)] [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]"
+        className="flex flex-wrap justify-center gap-[clamp(12px,1.4vw,20px)]"
       >
         {logos.map((client) => (
           <div
             key={client.name}
-            className="client-tile relative flex aspect-[5/2] items-center justify-center overflow-hidden rounded-[12px] border border-[rgba(25,41,36,0.16)] bg-bone"
+            className="client-tile relative flex aspect-[11/5] w-full max-w-[176px] grow basis-[clamp(148px,12.2vw,176px)] items-center justify-center overflow-hidden rounded-[12px] border border-[rgba(25,41,36,0.16)] bg-bone"
           >
             {client.logoUrl ? (
               <Image
                 src={client.logoUrl}
                 alt={client.name}
                 fill
-                sizes="220px"
+                sizes="240px"
                 unoptimized
-                className="client-logo object-contain px-5 py-3"
+                /* La marge autour du logo est réglable client par client :
+                   certains fichiers embarquent déjà une marge vide, et le
+                   dessin s'y perd sans qu'on puisse retoucher le fichier
+                   depuis l'administration. */
+                className={`client-logo object-contain ${MARGES[client.logoSize] ?? MARGES.normale}`}
               />
             ) : (
               <span className="px-2 text-center font-mono text-[11px] text-muted">
