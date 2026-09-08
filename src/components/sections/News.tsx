@@ -89,42 +89,46 @@ export async function News() {
                 {post.excerpt}
               </p>
 
-              {/* Le visuel du post quand il existe, l'aplat sinon : une carte
-                  sans image reste une carte, elle ne se replie pas. */}
-              {post.image ? (
-                /* Le visuel garde ses proportions : une une de magazine est
-                   verticale, une coupure de presse presque carrée, et les
-                   enfermer dans un cadre commun les cernait d'un aplat. La
-                   bande qui les accueille n'a ni fond ni bordure — elle ne
-                   sert qu'à plafonner la hauteur et à réserver la place, pour
-                   que le chargement ne pousse rien. Seul un filet suit le
-                   contour du visuel, sans quoi une coupure de presse à fond
-                   blanc se fondrait dans la carte, blanche elle aussi.
-                   Balise native : le format du fichier téléversé dans
-                   WordPress n'est pas connu au rendu. */
-                <span className="news-visuel flex aspect-[4/3] items-start justify-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={post.image}
-                    alt=""
-                    aria-hidden
-                    loading="lazy"
-                    decoding="async"
-                    className="max-h-full w-auto max-w-full rounded-[10px] border border-[rgba(25,41,36,0.12)] object-contain"
-                  />
-                </span>
-              ) : (
-                <span className="news-visuel flex aspect-[4/3] items-end rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand p-3 font-mono text-[11px] text-muted">
-                  {news.previewLabel}
-                </span>
-              )}
+              {/* Visuel et lien voyagent ensemble dans la même rangée : le
+                  lien colle au bas du visuel au lieu d'être renvoyé en pied de
+                  carte, et le jeu qui reste — les visuels n'ont pas tous la
+                  même hauteur — se range sous le lien, là où il ne troue rien. */}
+              <div className="news-bas">
+                {/* Le visuel du post quand il existe, l'aplat sinon : une carte
+                    sans image reste une carte, elle ne se replie pas. */}
+                {post.image ? (
+                  /* Aucune bande d'accueil : c'est le visuel qui donne sa
+                     hauteur, si bien qu'aucun format ne peut creuser un vide
+                     sous lui. Une une de magazine est verticale, une coupure
+                     de presse presque carrée : seul un plafond les empêche de
+                     dévorer la carte. Le filet, lui, détache une coupure à
+                     fond blanc de la carte, blanche elle aussi.
+                     Balise native : le format du fichier téléversé dans
+                     WordPress n'est pas connu au rendu. */
+                  <span className="news-visuel flex justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={post.image}
+                      alt=""
+                      aria-hidden
+                      loading="lazy"
+                      decoding="async"
+                      className="block w-auto max-w-full rounded-[10px] border border-[rgba(25,41,36,0.12)]"
+                    />
+                  </span>
+                ) : (
+                  <span className="news-visuel flex aspect-[4/3] items-end rounded-[9px] border border-[rgba(25,41,36,0.1)] bg-sand p-3 font-mono text-[11px] text-muted">
+                    {news.previewLabel}
+                  </span>
+                )}
 
-              {lien ? (
-                <span className="mt-[22px] font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-forest">
-                  {news.postCta} <span aria-hidden>→</span>
-                  <span className="sr-only"> (nouvelle fenêtre)</span>
-                </span>
-              ) : null}
+                {lien ? (
+                  <span className="mt-[22px] block font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-forest">
+                    {news.postCta} <span aria-hidden>→</span>
+                    <span className="sr-only"> (nouvelle fenêtre)</span>
+                  </span>
+                ) : null}
+              </div>
             </Boite>
             );
           })}

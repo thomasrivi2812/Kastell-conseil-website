@@ -1357,6 +1357,17 @@
   flex-direction: column;
 }
 
+.news-bas {
+  container-type: inline-size;
+}
+
+/* Le plafond du visuel se mesure sur la carte, pas sur la fenêtre : en colonne
+ * unique la carte est bien plus large qu'en trois colonnes, et un plafond en
+ * unités d'écran aurait rapetissé les visuels là où il y a le plus de place. */
+.news-visuel img {
+  max-height: 85cqw;
+}
+
 @supports (grid-template-rows: subgrid) {
   .news-grille {
     align-items: stretch;
@@ -1364,7 +1375,12 @@
 
   .news-card {
     display: grid;
-    grid-row: span 4;
+    grid-row: span 3;
     grid-template-rows: subgrid;
+  }
+
+  /* Le jeu se range ici, sous le lien, et non entre le visuel et lui. */
+  .news-bas {
+    align-self: start;
   }
 }
