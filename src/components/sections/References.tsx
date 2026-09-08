@@ -13,6 +13,7 @@ const MARGES: Record<string, string> = {
 
 export async function References() {
   const { clients: logos, references, testimonials } = await getContent();
+  const seul = testimonials.length === 1;
   return (
     <section id="references" className="shell band-refs">
       <Reveal>
@@ -57,10 +58,18 @@ export async function References() {
         ))}
       </Reveal>
 
-      {site.showTestimonials ? (
+      {/* L'emplacement libre de la maquette ne s'affiche plus dès qu'un vrai
+          témoignage existe : « emplacement disponible » n'est pas une phrase
+          qu'un visiteur doit lire. Sans aucun témoignage, le bloc entier
+          disparaît plutôt que d'annoncer son propre vide. */}
+      {site.showTestimonials && testimonials.length > 0 ? (
         <Reveal
           index={2}
-          className="mt-[clamp(40px,5vw,64px)] grid gap-[clamp(28px,3vw,44px)] [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
+          className={`mt-[clamp(40px,5vw,64px)] ${
+            seul
+              ? ""
+              : "grid gap-[clamp(28px,3vw,44px)] [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
+          }`}
         >
           {testimonials.map((item) => (
             <CitationDepliable
@@ -69,13 +78,10 @@ export async function References() {
               auteur={item.author}
               lire={references.temoignageLire}
               reduire={references.temoignageReduire}
+              seuil={seul ? 400 : 180}
+              seule={seul}
             />
           ))}
-          <div className="border-t border-[rgba(25,41,36,0.2)] pt-6">
-            <p className="placeholder-note text-[12px] leading-[1.7]">
-              {references.freeSlot}
-            </p>
-          </div>
         </Reveal>
       ) : null}
     </section>

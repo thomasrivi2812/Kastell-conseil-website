@@ -314,7 +314,6 @@ export const references = {
   title: "Ils nous confient leurs enjeux publics",
   temoignageLire: "Lire le témoignage complet",
   temoignageReduire: "Réduire",
-  freeSlot: "emplacement disponible — cas client ou témoignage à venir",
 } as const;
 
 export const news = {
