@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ListeDepliable } from "@/components/ListeDepliable";
 import { Reveal } from "@/components/Reveal";
 import { site } from "@/content/site";
 import { getContent } from "@/cms/content";
@@ -13,7 +14,10 @@ export async function APropos() {
     <section id="apropos" className="band-dark">
       <div className="shell band-lg">
         <div className="grid items-start gap-[clamp(32px,5vw,80px)] [grid-template-columns:minmax(220px,0.72fr)_minmax(280px,1.28fr)] max-[820px]:[grid-template-columns:1fr]">
-          <div className="apropos-colonne flex flex-col">
+          {/* Solidaire du défilement : la biographie est bien plus haute que le
+              portrait et sa citation, qui laissaient sinon un creux de plusieurs
+              centaines de pixels. */}
+          <div className="apropos-colonne flex flex-col min-[821px]:sticky min-[821px]:top-[calc(var(--header-h,75px)+40px)] min-[821px]:self-start">
             <Reveal
               as="figure"
               className="relative m-0 flex min-h-[clamp(300px,30vw,430px)] items-end overflow-hidden border border-[rgba(226,240,248,0.14)] bg-[rgba(226,240,248,0.06)] p-6 [background-image:repeating-linear-gradient(135deg,rgba(226,240,248,0.06)_0_2px,transparent_2px_12px)]"
@@ -86,107 +90,113 @@ export async function APropos() {
           </Reveal>
         </div>
 
-        {/* Presse et publications sur toute la largeur : l'ordre de lecture
-            reste correct une fois la grille repliée en une colonne. */}
-        <div className="mt-[clamp(48px,6vw,80px)] grid gap-[clamp(36px,5vw,80px)] [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
-          <Reveal index={2} className="border-t border-[rgba(226,240,248,0.2)] pt-[22px]">
-            <p className="eyebrow-dark mb-[18px] text-[12px] font-medium tracking-[0.22em]">
-              {about.pressHeading}
-            </p>
-            <ul className="m-0 flex list-none flex-col gap-[14px] p-0">
-              {press.map((article) => (
-                <li key={article.href}>
+        {/* Deux bandes pleine largeur plutôt que deux colonnes côte à côte :
+            les listes n'ont pas le même nombre d'entrées, et les mettre en
+            regard laissait un vide sous la plus courte. */}
+        <div className="mt-[clamp(48px,6vw,80px)] border-t border-[rgba(226,240,248,0.2)] pt-[22px]">
+          <p className="eyebrow-dark mb-[20px] text-[12px] font-medium tracking-[0.22em]">
+            {about.pressHeading}
+          </p>
+          <ListeDepliable
+            seuil={3}
+            plus={about.pressPlus}
+            moins={about.pressMoins}
+            className="grid gap-[clamp(16px,2vw,26px)] [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]"
+          >
+            {press.map((article) => (
+              <a
+                key={article.href}
+                href={article.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="press-link flex h-full flex-col gap-[14px] text-[15px] leading-[1.5] text-[rgba(226,240,248,0.82)] hover:text-white"
+              >
+                {article.logoUrl ? (
+                  <span className="press-logo relative block h-[42px] w-[116px] shrink-0 overflow-hidden rounded-[8px] bg-bone">
+                    <Image
+                      src={article.logoUrl}
+                      alt={article.outlet}
+                      fill
+                      sizes="116px"
+                      unoptimized
+                      className="object-contain px-2.5 py-2"
+                    />
+                  </span>
+                ) : (
+                  <span className="flex h-[42px] w-[116px] shrink-0 items-center justify-center rounded-[8px] border border-[rgba(115,193,103,0.35)] bg-[rgba(115,193,103,0.12)] px-2 text-center font-sans text-[11px] uppercase leading-[1.2] tracking-[0.06em] text-accent">
+                    {article.outlet}
+                  </span>
+                )}
+                <span>
+                  {article.title}{" "}
+                  <span className="inline-block" aria-hidden>
+                    ↗
+                  </span>
+                  <span className="sr-only"> (nouvelle fenêtre)</span>
+                </span>
+              </a>
+            ))}
+          </ListeDepliable>
+        </div>
+
+        <div className="mt-[clamp(40px,5vw,64px)] border-t border-[rgba(226,240,248,0.2)] pt-[22px]">
+          <p className="eyebrow-dark mb-[20px] text-[12px] font-medium tracking-[0.22em]">
+            {about.publicationsHeading}
+          </p>
+          <ListeDepliable
+            seuil={3}
+            plus={about.publicationsPlus}
+            moins={about.publicationsMoins}
+            className="grid gap-[clamp(22px,3vw,40px)] [grid-template-columns:repeat(auto-fit,minmax(300px,1fr))]"
+          >
+            {publications.map((item) => (
+              <div key={item.href} className="flex h-full flex-col items-start">
+                <p className="m-0 mb-1.5 font-sans text-[11px] uppercase tracking-[0.18em] text-frost">
+                  {item.label}
+                </p>
+                <p className="m-0 mb-1.5 font-serif text-[clamp(19px,1.7vw,24px)] leading-[1.25] text-white">
+                  {item.title}
+                </p>
+                <p className="m-0 mb-2.5 max-w-[46ch] text-[15px] leading-[1.6] text-[rgba(226,240,248,0.72)]">
+                  {item.context}
+                </p>
+                {item.objectives?.length ? (
+                  <ol className="m-0 mb-2.5 flex max-w-[46ch] list-decimal flex-col gap-1.5 pl-[18px] text-[15px] leading-[1.55] text-[rgba(226,240,248,0.72)] marker:text-frost">
+                    {item.objectives.map((objectif) => (
+                      <li key={objectif}>{objectif}</li>
+                    ))}
+                  </ol>
+                ) : null}
+                {/* Une section du site reste dans l'onglet : ouvrir une fenêtre
+                    pour descendre plus bas dans la page n'aurait aucun sens, et
+                    la flèche doit dire où l'on va. */}
+                {estInterne(item.href) ? (
+                  <Link
+                    href={item.href}
+                    className="press-link hit-area mt-auto inline-block pt-1 font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-[rgba(226,240,248,0.9)] hover:text-white"
+                  >
+                    {item.cta}{" "}
+                    <span className="inline-block" aria-hidden>
+                      ↓
+                    </span>
+                  </Link>
+                ) : (
                   <a
-                    href={article.href}
+                    href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="press-link flex items-center gap-[14px] text-[15px] leading-[1.5] text-[rgba(226,240,248,0.82)] hover:text-white"
+                    className="press-link hit-area mt-auto inline-block pt-1 font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-[rgba(226,240,248,0.9)] hover:text-white"
                   >
-                    {article.logoUrl ? (
-                      <span className="press-logo relative block h-[42px] w-[116px] shrink-0 overflow-hidden rounded-[8px] bg-bone">
-                        <Image
-                          src={article.logoUrl}
-                          alt={article.outlet}
-                          fill
-                          sizes="116px"
-                          unoptimized
-                          className="object-contain px-2.5 py-2"
-                        />
-                      </span>
-                    ) : (
-                      <span className="flex h-[42px] w-[116px] shrink-0 items-center justify-center rounded-[8px] border border-[rgba(115,193,103,0.35)] bg-[rgba(115,193,103,0.12)] px-2 text-center font-sans text-[11px] uppercase leading-[1.2] tracking-[0.06em] text-accent">
-                        {article.outlet}
-                      </span>
-                    )}
-                    <span>
-                      {article.title}
-                      {" "}
-                      <span className="inline-block" aria-hidden>
-                        ↗
-                      </span>
-                      <span className="sr-only"> (nouvelle fenêtre)</span>
+                    {item.cta}{" "}
+                    <span className="inline-block" aria-hidden>
+                      ↗
                     </span>
+                    <span className="sr-only"> (nouvelle fenêtre)</span>
                   </a>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-
-          <Reveal index={3} className="border-t border-[rgba(226,240,248,0.2)] pt-[22px]">
-            <p className="eyebrow-dark mb-[18px] text-[12px] font-medium tracking-[0.22em]">
-              {about.publicationsHeading}
-            </p>
-            <ul className="m-0 flex list-none flex-col gap-[22px] p-0">
-              {publications.map((item) => (
-                <li key={item.href}>
-                  <p className="m-0 mb-1.5 font-sans text-[11px] uppercase tracking-[0.18em] text-frost">
-                    {item.label}
-                  </p>
-                  <p className="m-0 mb-1.5 font-serif text-[clamp(19px,1.7vw,24px)] leading-[1.25] text-white">
-                    {item.title}
-                  </p>
-                  <p className="m-0 mb-2.5 max-w-[46ch] text-[15px] leading-[1.6] text-[rgba(226,240,248,0.72)]">
-                    {item.context}
-                  </p>
-                  {item.objectives?.length ? (
-                    <ol className="m-0 mb-2.5 flex max-w-[46ch] list-decimal flex-col gap-1.5 pl-[18px] text-[15px] leading-[1.55] text-[rgba(226,240,248,0.72)] marker:text-frost">
-                      {item.objectives.map((objectif) => (
-                        <li key={objectif}>{objectif}</li>
-                      ))}
-                    </ol>
-                  ) : null}
-                  {/* Une section du site reste dans l'onglet : ouvrir une
-                      fenêtre pour descendre plus bas dans la page n'aurait
-                      aucun sens, et la flèche doit dire où l'on va. */}
-                  {estInterne(item.href) ? (
-                    <Link
-                      href={item.href}
-                      className="press-link hit-area inline-block font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-[rgba(226,240,248,0.9)] hover:text-white"
-                    >
-                      {item.cta}{" "}
-                      <span className="inline-block" aria-hidden>
-                        ↓
-                      </span>
-                    </Link>
-                  ) : (
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="press-link hit-area inline-block font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-[rgba(226,240,248,0.9)] hover:text-white"
-                    >
-                      {item.cta}
-                      {" "}
-                      <span className="inline-block" aria-hidden>
-                        ↗
-                      </span>
-                      <span className="sr-only"> (nouvelle fenêtre)</span>
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+                )}
+              </div>
+            ))}
+          </ListeDepliable>
         </div>
       </div>
     </section>

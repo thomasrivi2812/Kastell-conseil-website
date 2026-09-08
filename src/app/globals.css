@@ -227,6 +227,42 @@
     color: #192924;
   }
 
+  /* ---- listes dépliables et citations écrêtées ---- */
+  .au-dela {
+    display: none;
+  }
+
+  .pill-depliable {
+    border: 1px solid rgba(226, 240, 248, 0.4);
+    padding: 12px 24px;
+    color: #faf9f6;
+  }
+
+  .pill-depliable:hover {
+    background: rgba(226, 240, 248, 0.1);
+    border-color: #ffffff;
+  }
+
+  /* Quatre lignes : de quoi juger du propos sans que la carte s'étire. */
+  .citation.est-ecretee {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+
+  .citation-lien {
+    font-family: var(--font-sans), "Instrument Sans", sans-serif;
+    font-size: 14px;
+    color: #35752b;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .citation-lien:hover {
+    color: #192924;
+  }
+
   /* ---- formulaire de contact ---- */
   /*
    * Posé sur la bande vert foncé : la carte est claire, pour que le formulaire
@@ -1285,5 +1321,26 @@
 @media (max-width: 560px) {
   .formulaire {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/*
+ * Sans JavaScript, les boutons de dépliage ne feraient rien : le contenu
+ * au-delà du seuil, et la fin des citations, resteraient inaccessibles. On les
+ * rétablit — mieux vaut une page longue qu'une page amputée.
+ */
+@media (scripting: none) {
+  .au-dela {
+    display: revert;
+  }
+
+  .pill-depliable,
+  .citation-lien {
+    display: none;
+  }
+
+  .citation.est-ecretee {
+    display: block;
+    overflow: visible;
   }
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CitationDepliable } from "@/components/CitationDepliable";
 import { Reveal } from "@/components/Reveal";
 import { site } from "@/content/site";
 import { getContent } from "@/cms/content";
@@ -47,17 +48,13 @@ export async function References() {
           className="mt-[clamp(40px,5vw,64px)] grid gap-[clamp(28px,3vw,44px)] [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
         >
           {testimonials.map((item) => (
-            <div
+            <CitationDepliable
               key={item.quote}
-              className="border-t border-[rgba(25,41,36,0.2)] pt-6"
-            >
-              <p className="m-0 mb-[18px] font-serif text-[clamp(18px,1.5vw,22px)] italic leading-[1.5] text-forest">
-                {item.quote}
-              </p>
-              <p className="m-0 font-sans text-[14px] uppercase tracking-[0.14em] text-sage">
-                {item.author}
-              </p>
-            </div>
+              citation={item.quote}
+              auteur={item.author}
+              lire={references.temoignageLire}
+              reduire={references.temoignageReduire}
+            />
           ))}
           <div className="border-t border-[rgba(25,41,36,0.2)] pt-6">
             <p className="placeholder-note text-[12px] leading-[1.7]">

@@ -301,6 +301,10 @@ export const manifesto = {
 export const about = {
   eyebrow: "Présidente fondatrice",
   pressHeading: "Dans la presse",
+  pressPlus: "Voir toutes les retombées",
+  pressMoins: "Réduire",
+  publicationsPlus: "Voir toutes les publications",
+  publicationsMoins: "Réduire",
   publicationsHeading: "Nos publications",
   portraitPlaceholder: ["portrait — présidente fondatrice", "(photo professionnelle, format 4:5)"],
 } as const;
@@ -308,6 +312,8 @@ export const about = {
 export const references = {
   eyebrow: "Références",
   title: "Ils nous confient leurs enjeux publics",
+  temoignageLire: "Lire le témoignage complet",
+  temoignageReduire: "Réduire",
   freeSlot: "emplacement disponible — cas client ou témoignage à venir",
 } as const;
 
