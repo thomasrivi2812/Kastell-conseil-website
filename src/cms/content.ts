@@ -67,6 +67,8 @@ function assembler(d: Donnees) {
     cta: string;
     /** Liste numérotée facultative, utilisée par le manifeste du RIT. */
     objectives?: readonly string[];
+    /** Photo de l'article, couverture du média, capture du post. */
+    image?: string | null;
   };
   const offresListe: Offre[] | undefined = (o.liste as Doc[] | undefined)?.map((item, i) => ({
     index: String(i + 1).padStart(2, "0"),
@@ -179,6 +181,7 @@ function assembler(d: Donnees) {
         href: ((item.destination as string) || (item.lien as string) || "#"),
         cta: (item.cta as string) ?? "En savoir plus",
         objectives: (item.objectifs as string[]) ?? undefined,
+        image: visuel(item.visuel),
       })),
       fichier.publications as readonly Publication[] as Publication[],
     ),

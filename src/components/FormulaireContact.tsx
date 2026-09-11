@@ -41,10 +41,13 @@ export function FormulaireContact({
   textes,
   sujets,
   email,
+  sujetInitial = "",
 }: {
   textes: Textes;
   sujets: readonly string[];
   email: string;
+  /** Sujet pré-choisi, quand le visiteur arrive depuis une offre. */
+  sujetInitial?: string;
 }) {
   const [etat, setEtat] = useState<Etat>("repos");
   const [message, setMessage] = useState("");
@@ -161,7 +164,7 @@ export function FormulaireContact({
 
         <p className="formulaire-champ formulaire-large">
           <label htmlFor="contact-objet">{textes.objet}</label>
-          <select id="contact-objet" name="objet" defaultValue="">
+          <select id="contact-objet" name="objet" defaultValue={sujetInitial}>
             <option value="">{textes.objetDefaut}</option>
             {sujets.map((sujet) => (
               <option key={sujet} value={sujet}>

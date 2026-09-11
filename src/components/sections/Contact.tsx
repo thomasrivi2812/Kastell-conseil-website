@@ -3,12 +3,18 @@ import { Reveal } from "@/components/Reveal";
 import { getContent } from "@/cms/content";
 import { estUtile } from "@/lib/lien";
 
-export async function Contact({ titre = true }: { titre?: boolean } = {}) {
+export async function Contact({
+  titre = true,
+  objet = "",
+}: { titre?: boolean; objet?: string } = {}) {
   const { contact, site, offers } = await getContent();
   const linkedin = estUtile(site.linkedin) ? site.linkedin : null;
   /* Les intitulés d'offres alimentent la liste des sujets : un visiteur qui
      vient de les lire retrouve les mêmes mots, et la demande arrive qualifiée. */
   const sujets = offers.map((offre) => offre.title);
+  /* Un objet venu de l'adresse n'est retenu que s'il correspond à un sujet
+     réel : le champ est une liste fermée, pas une zone de saisie. */
+  const sujetInitial = sujets.includes(objet) ? objet : "";
 
   return (
     <section id="contact" className="band-dark">
@@ -78,7 +84,12 @@ export async function Contact({ titre = true }: { titre?: boolean } = {}) {
           </Reveal>
 
           <Reveal index={1} className="w-full">
-            <FormulaireContact textes={contact.form} sujets={sujets} email={site.email} />
+            <FormulaireContact
+              textes={contact.form}
+              sujets={sujets}
+              email={site.email}
+              sujetInitial={sujetInitial}
+            />
           </Reveal>
         </div>
       </div>

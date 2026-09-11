@@ -64,8 +64,7 @@ export const offersSection = {
   backLabel: "Retour",
   backCta: "Revenir à l'accueil",
   /** Libellé et préfixe d'objet du courriel de prise de rendez-vous. */
-  diagnosticCta: "Prendre rendez-vous pour un pré-diagnostic",
-  diagnosticSubject: "Pré-diagnostic",
+  offreCta: "En savoir plus",
   bulletsHeading: "Ce que Kastell fait pour vous",
 } as const;
 

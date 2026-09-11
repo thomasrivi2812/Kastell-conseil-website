@@ -4,7 +4,6 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ContactBande } from "@/components/sections/ContactBande";
 import { Reveal } from "@/components/Reveal";
-import { site } from "@/content/site";
 import { getContent } from "@/cms/content";
 
 /**
@@ -63,14 +62,17 @@ export default async function OffresPage() {
                 <div className="max-w-[60ch]">
                   <p className="body-lg">{offer.summary}</p>
 
-                  <a
-                    href={`mailto:${site.email}?subject=${encodeURIComponent(
-                      `${offersSection.diagnosticSubject} — ${offer.title}`,
-                    )}`}
+                  {/* Un lien « mailto » ne fait rien chez qui n'a pas de
+                      logiciel de messagerie configuré — c'est-à-dire chez la
+                      plupart des visiteurs sur navigateur. Le bouton mène
+                      désormais au formulaire, en emportant l'offre lue : la
+                      demande arrive déjà qualifiée. */}
+                  <Link
+                    href={`/contact?objet=${encodeURIComponent(offer.title)}#contact`}
                     className="pill pill-outline mt-[clamp(22px,2.6vw,30px)]"
                   >
-                    {offersSection.diagnosticCta} <span aria-hidden>→</span>
-                  </a>
+                    {offersSection.offreCta} <span aria-hidden>→</span>
+                  </Link>
 
                   {offer.bullets && offer.bullets.length > 0 ? (
                     <div className="mt-[clamp(28px,3.4vw,40px)] border-t border-accent-line pt-[22px]">

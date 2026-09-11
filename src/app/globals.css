@@ -1384,3 +1384,21 @@
     align-self: start;
   }
 }
+
+/*
+ * Visuel d'une publication : hauteur plafonnée sur la largeur de la carte, et
+ * non sur celle de la fenêtre — une carte sur trois en grand écran est plus
+ * étroite qu'une carte unique en mobile. Le conteneur de requête est posé sur
+ * la carte, qui n'est pas une grille imbriquée : il l'aurait désolidarisée de
+ * la grille, comme cela s'est produit pour les cartes LinkedIn.
+ */
+.publication {
+  container-type: inline-size;
+}
+
+/* Deux plafonds, et le plus bas gagne : la mesure sur la carte suit les
+ * colonnes, mais une publication seule occupe toute la largeur de la bande —
+ * son visuel atteignait alors 911 px de haut. */
+.publication-visuel img {
+  max-height: min(78cqw, 300px);
+}

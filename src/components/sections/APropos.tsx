@@ -155,7 +155,10 @@ export async function APropos() {
             className="grid gap-[clamp(22px,3vw,40px)] [grid-template-columns:repeat(auto-fit,minmax(300px,1fr))]"
           >
             {publications.map((item) => (
-              <div key={item.href} className="flex h-full flex-col items-start">
+              <div
+                key={item.href}
+                className="publication flex h-full flex-col items-start"
+              >
                 <p className="m-0 mb-1.5 font-sans text-[11px] uppercase tracking-[0.18em] text-frost">
                   {item.label}
                 </p>
@@ -172,6 +175,26 @@ export async function APropos() {
                     ))}
                   </ol>
                 ) : null}
+                {/* Le visuel, quand il existe : la photo de l'article paru en
+                    presse écrite, la couverture du média. Il garde ses
+                    proportions — un journal photographié n'a pas le format
+                    d'une couverture — et son plafond se mesure sur la carte.
+                    Balise native : le format du fichier téléversé dans
+                    WordPress n'est pas connu au rendu. */}
+                {item.image ? (
+                  <span className="publication-visuel mb-3.5 flex">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={item.image}
+                      alt=""
+                      aria-hidden
+                      loading="lazy"
+                      decoding="async"
+                      className="block w-auto max-w-full rounded-[10px] border border-[rgba(226,240,248,0.18)]"
+                    />
+                  </span>
+                ) : null}
+
                 {/* Une section du site reste dans l'onglet : ouvrir une fenêtre
                     pour descendre plus bas dans la page n'aurait aucun sens, et
                     la flèche doit dire où l'on va. */}

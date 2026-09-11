@@ -217,10 +217,15 @@ function kastell_collections() {
 			'titre_champ' => 'titre',
 			'titre_label' => 'Titre de la publication',
 			'aide'        => 'Tribunes et prises de parole, affichées dans « Nos publications » sur l’accueil.',
-			'colonnes'    => array( 'categorie' => 'Catégorie' ),
+			'colonnes'    => array( 'categorie' => 'Catégorie', 'visuel' => 'Visuel' ),
 			'champs'      => array(
 				'categorie' => array( 'texte', 'Catégorie', 'Tribune, Manifeste…' ),
 				'contexte'  => array( 'paragraphe', 'Contexte' ),
+				'visuel'    => array(
+					'image',
+					'Visuel',
+					'Facultatif. La photo de l’article, la couverture du média, la capture du post. Elle s’affiche à ses propres proportions sous le texte.',
+				),
 				'lien'      => array( 'texte', 'Lien vers une adresse extérieure' ),
 				'destination' => array(
 					'liste',

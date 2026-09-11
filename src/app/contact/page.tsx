@@ -20,7 +20,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
+/* La page lit l'objet passé dans l'adresse : un visiteur venu d'une offre
+   retrouve cette offre déjà choisie dans la liste des sujets. Le choix est
+   fait côté serveur, pour que le champ soit juste dès le premier affichage
+   plutôt que rectifié après coup. */
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ objet?: string | string[] }>;
+}) {
+  const { objet } = await searchParams;
   return (
     <div className="w-full overflow-x-clip">
       <Header />
@@ -37,7 +46,7 @@ export default function Page() {
           </Reveal>
         </section>
 
-        <Contact titre={false} />
+        <Contact titre={false} objet={typeof objet === "string" ? objet : ""} />
       </main>
       <Footer />
     </div>
