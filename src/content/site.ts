@@ -252,7 +252,7 @@ export const manifesto = {
   eyebrow: "Manifeste",
   title: "Réseau Influence & Territoires",
   intro:
-    "La décision publique reste très concentrée à Paris, créant une déconnexion avec les territoires où se déroule l'essentiel de l'activité économique et sociale — plus de 80 % des emplois privés. Plutôt que d'opposer Paris et les régions, le Réseau Influence & Territoires, collectif apartisan de consultants et de cabinets implantés en région, entend fluidifier le dialogue entre le niveau national et les réalités de terrain.",
+    "La décision publique reste très concentrée à Paris, créant une déconnexion avec les territoires où se déroule l'essentiel de l'activité économique et sociale. Plutôt que d'opposer Paris et les régions, le Réseau Influence & Territoires, collectif apartisan de consultants et de cabinets implantés en région, entend fluidifier le dialogue entre le niveau national et les réalités de terrain, pour rendre l'action publique plus efficace.",
   objectivesHeading: "Quatre objectifs",
   objectives: [
     "Valoriser l'expertise des professionnels des affaires publiques basés en territoires.",
@@ -333,13 +333,13 @@ export const contact = {
   bande: {
     title: "Un premier échange ?",
     intro:
-      "Trente minutes suffisent souvent à y voir clair sur un dossier. Écrivez-nous, Léa de Lamotte vous répond elle-même.",
-    cta: "Me contacter",
+      "Trente minutes suffisent souvent à y voir clair sur un dossier. Écrivez-nous, nous vous répondrons sous 48h.",
+    cta: "Nous contacter",
   },
   /** En-tête de la page dédiée. */
   page: {
     eyebrow: "Contact",
-    title: "Me contacter",
+    title: "Nous contacter",
     intro:
       "Décrivez votre situation en quelques lignes : nous revenons vers vous sous un jour ouvré pour convenir d'un premier échange.",
   },
