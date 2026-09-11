@@ -66,6 +66,12 @@ const nextConfig = {
         : []),
       ...hotesMedias,
     ],
+    // AVIF d'abord, WebP en repli. Next négocie avec l'en-tête « Accept » du
+    // navigateur : celui qui ne comprend pas l'AVIF reçoit le WebP, celui qui
+    // ne comprend ni l'un ni l'autre reçoit le fichier d'origine. Aucun
+    // visiteur n'est laissé de côté, et le rendu est identique — vérifié pixel
+    // à pixel sur le portrait et les deux logotypes.
+    formats: ["image/avif", "image/webp"],
     // Next 16 rejette toute qualité non déclarée. 55 sert aux visuels de fond :
     // masqués et à faible opacité, la compression y est invisible.
     qualities: [55, 75],

@@ -183,3 +183,77 @@ se faire côté client sans rien perdre du comportement.
 
 Chaque phase est mesurée avant et après. Ce qui ne produit pas de gain mesuré
 n'est pas retenu.
+
+---
+
+# Phase 2 — visuels
+
+## Ce qui a été fait
+
+**AVIF ajouté aux formats servis.** Next négocie avec l'en-tête `Accept` du
+navigateur : celui qui comprend l'AVIF le reçoit, sinon il reçoit le WebP,
+sinon le fichier d'origine. Aucun visiteur n'est laissé de côté.
+
+**Un seul des deux logotypes de l'en-tête est préchargé.** L'en-tête porte deux
+faces qui se croisent en fondu : la marque seule tant que le héros est à
+l'écran, le mot-symbole complet ensuite — donc d'emblée sur toute page autre que
+l'accueil. Les deux étaient préchargées en priorité haute, dont une invisible.
+Elle reste dans le document, le fondu en a besoin, mais elle ne dispute plus la
+bande passante à la feuille de style pendant la seconde qui compte.
+
+## Poids des images, avant et après
+
+Octets transférés, page parcourue de haut en bas, profil mobile 390 px à deux
+pixels par point et bureau 1440 px.
+
+| Page | Avant | Après | Gain |
+|---|---|---|---|
+| Accueil, mobile | 192,6 ko | **119,4 ko** | −38 % |
+| Accueil, bureau | 140,2 ko | **93,7 ko** | −33 % |
+| Offres, bureau | 21,3 ko | **14,7 ko** | −31 % |
+| Contact, bureau | 21,3 ko | **14,7 ko** | −31 % |
+
+Fichier par fichier, à largeur identique :
+
+| Visuel | WebP | AVIF | Gain |
+|---|---|---|---|
+| Portrait, 828 px | 102,1 ko | 52,8 ko | −48 % |
+| Portrait, 640 px | 70,9 ko | 32,7 ko | −54 % |
+| Mot-symbole, 640 px | 22,4 ko | 11,5 ko | −49 % |
+| Mot-symbole, 384 px | 12,0 ko | 5,7 ko | −52 % |
+| Logotype clair, 384 px | 12,7 ko | 7,5 ko | −40 % |
+| Marque, 96 px | 3,2 ko | 1,9 ko | −41 % |
+
+## Le rendu est-il le même ?
+
+Question légitime : l'AVIF compresse plus fort, et à qualité égale il s'écarte
+davantage de l'original que le WebP. Mesuré fichier par fichier, l'écart moyen
+à l'original passe de 0,7–1,2 à 0,9–2,4 sur une échelle de 0 à 255.
+
+Mais un fichier n'est jamais regardé à sa taille de téléchargement : le
+logotype du pied de page est servi en 384 px et affiché sur 149. **La seule
+comparaison qui compte est celle de la page rendue**, faite en chargeant deux
+fois la même page et en ne changeant que l'en-tête `Accept` :
+
+| Vue | Écart moyen | Écart max | Pixels à plus de 20 |
+|---|---|---|---|
+| Accueil, mobile | 0,006 | 29 | 0,000 % |
+| Accueil, bureau | 0,052 | 38 | 0,003 % |
+| Accueil, bureau ×2 | 0,048 | 51 | 0,002 % |
+
+Les écarts se concentrent dans le portrait — une photographie, où un pixel qui
+diffère de 30 sur 255 est invisible. Sur le mot-symbole du héros, 851 pixels
+diffèrent sur plus d'un million, tous sur le contour des lettres.
+
+## Ce qui a été mesuré puis écarté
+
+**Resserrer `deviceSizes` et `imageSizes`.** L'idée était de raccourcir les
+listes `srcset`. Mesuré en supprimant *tous* les `srcset` de la page : 425
+octets compressés gagnés sur l'accueil, 148 sur contact. Un resserrement
+partiel en gagnerait moins de la moitié, au prix d'un risque réel — un écran à
+forte densité recevrait une image plus large que nécessaire. **Non retenu.**
+
+`photoorga.png` (6,3 Mo) et `fondatrice.png` (1,1 Mo) sont dans `public/` ;
+seule la seconde est utilisée, et via l'optimiseur, donc jamais servie telle
+quelle. La première n'est référencée nulle part. Aucune des deux ne pèse sur ce
+qu'un visiteur télécharge : signalées, pas supprimées.
