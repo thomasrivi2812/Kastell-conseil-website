@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { legal, nav } from "@/content/site";
 import { getContent } from "@/cms/content";
-import { entite } from "@/lib/seo";
 import { estUtile } from "@/lib/lien";
 
 /* « self-start » : dans une colonne flex, un lien s'étire sur toute la largeur
@@ -65,18 +64,11 @@ export async function Footer() {
             <a href={`mailto:${site.email}`} className={linkClass}>
               {site.email}
             </a>
-            {/* Même NAP qu'à la page Contact et dans les données structurées. */}
-            <address className="m-0 not-italic text-[15px] leading-[1.7]">
-              {entite.adresse.rue}
-              <br />
-              {entite.adresse.codePostal} {entite.adresse.ville}
-            </address>
-            <a
-              href={`tel:${entite.telephone}`}
-              className={linkClass}
-            >
-              {entite.telephoneAffiche}
-            </a>
+            {/* Ville seule ici, à la demande du cabinet : l'adresse complète
+                et le téléphone restent sur la page Contact, dans les mentions
+                légales et dans les données structurées, où un moteur les
+                cherche. Le pied de page n'a pas à les exposer à chaque page. */}
+            <p className="m-0 text-[15px]">{site.city}</p>
           </div>
         </div>
 

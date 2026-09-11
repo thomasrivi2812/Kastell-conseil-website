@@ -172,8 +172,10 @@ trois formulations voisines le laissent choisir, et il choisit souvent mal.
 
 ## 4. NAP
 
-Nom, adresse, téléphone — identiques au pied de page, à la page Contact et dans
-les données structurées. Vérifié aux trois endroits.
+Nom, adresse, téléphone — identiques sur la page Contact, dans les mentions
+légales et dans les données structurées. Le pied de page ne porte que la ville,
+à la demande du cabinet : c'est une page de contact qu'un visiteur cherche pour
+une adresse, et un moteur lit le NAP dans les données structurées.
 
 ```
 Kastell Conseil
@@ -190,5 +192,4 @@ Google Business Profile, les annuaires et LinkedIn.
 
 > **À noter.** Le numéro publié est un mobile, et les mentions légales donnent
 > une seconde adresse (`lea.delamotte@kastell-conseil.fr`). Le NAP retient
-> l'adresse générale ; si Léa préfère que le téléphone ne figure pas sur le
-> site, il suffit de le dire — il disparaîtra des trois endroits d'un coup.
+> l'adresse générale.
