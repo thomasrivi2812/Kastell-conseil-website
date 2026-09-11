@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 
 type Textes = {
   heading: string;
@@ -41,14 +41,11 @@ export function FormulaireContact({
   textes,
   sujets,
   email,
-  sujetInitial = "",
   niveauTitre = 3,
 }: {
   textes: Textes;
   sujets: readonly string[];
   email: string;
-  /** Sujet pré-choisi, quand le visiteur arrive depuis une offre. */
-  sujetInitial?: string;
   /**
    * Rang du titre du formulaire dans le plan de la page.
    *
@@ -59,6 +56,29 @@ export function FormulaireContact({
    */
   niveauTitre?: 2 | 3;
 }) {
+  /*
+   * Sujet pré-choisi quand le visiteur arrive depuis une offre.
+   *
+   * Lu ici plutôt que côté serveur : le lire à la construction faisait basculer
+   * toute la page en rendu à la demande, et elle cessait d'être servie depuis
+   * le cache de bordure. Le champ se remplit une image après l'affichage, ce
+   * qui ne se voit pas, et la page reste statique.
+   *
+   * L'adresse est une source extérieure à React : elle se lit avec le mécanisme
+   * prévu pour cela, qui sert une valeur vide au rendu serveur puis la vraie
+   * au client, sans discordance d'hydratation ni mise à jour d'état depuis un
+   * effet. Elle ne change jamais sans navigation, d'où l'abonnement vide.
+   */
+  const objetUrl = useSyncExternalStore(
+    () => () => {},
+    () => new URLSearchParams(window.location.search).get("objet") ?? "",
+    () => "",
+  );
+  /* Le choix du visiteur l'emporte dès qu'il en fait un. Seul un sujet
+     correspondant à une offre réelle est retenu : la liste est fermée. */
+  const [choisi, setChoisi] = useState<string | null>(null);
+  const objet = choisi ?? (sujets.includes(objetUrl) ? objetUrl : "");
+
   const [etat, setEtat] = useState<Etat>("repos");
   const [message, setMessage] = useState("");
   const [replier, setReplier] = useState("");
@@ -178,7 +198,12 @@ export function FormulaireContact({
 
         <p className="formulaire-champ formulaire-large">
           <label htmlFor="contact-objet">{textes.objet}</label>
-          <select id="contact-objet" name="objet" defaultValue={sujetInitial}>
+          <select
+            id="contact-objet"
+            name="objet"
+            value={objet}
+            onChange={(e) => setChoisi(e.target.value)}
+          >
             <option value="">{textes.objetDefaut}</option>
             {sujets.map((sujet) => (
               <option key={sujet} value={sujet}>

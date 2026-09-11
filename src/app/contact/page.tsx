@@ -27,16 +27,15 @@ export const metadata: Metadata = {
   },
 };
 
-/* La page lit l'objet passé dans l'adresse : un visiteur venu d'une offre
-   retrouve cette offre déjà choisie dans la liste des sujets. Le choix est
-   fait côté serveur, pour que le champ soit juste dès le premier affichage
-   plutôt que rectifié après coup. */
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ objet?: string | string[] }>;
-}) {
-  const { objet } = await searchParams;
+/*
+ * Lire searchParams côté serveur faisait basculer cette page en rendu à la
+ * demande : elle était la seule du site à ne pas être servie depuis le cache
+ * de bordure, pour un confort — le sujet pré-choisi — qui ne vaut pas ce prix.
+ * Le paramètre est désormais lu par le formulaire lui-même, après affichage.
+ * Le champ se remplit une image après, ce qui ne se voit pas, et la page
+ * redevient statique.
+ */
+export default function Page() {
   return (
     <div className="w-full overflow-x-clip">
       <DonneesStructurees
@@ -52,7 +51,7 @@ export default async function Page({
           formulaire se coupaient en deux au milieu de l'écran. */}
       <main id="contenu" className="band-dark">
         <section className="shell pb-[clamp(28px,3.5vw,44px)] pt-[clamp(44px,7vw,92px)]">
-          <Reveal className="max-w-[60ch]">
+          <Reveal immediat className="max-w-[60ch]">
             <FilDAriane
               sombre
               etapes={[
@@ -68,7 +67,7 @@ export default async function Page({
           </Reveal>
         </section>
 
-        <Contact titre={false} objet={typeof objet === "string" ? objet : ""} />
+        <Contact titre={false} />
       </main>
       <Footer />
     </div>

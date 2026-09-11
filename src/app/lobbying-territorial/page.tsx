@@ -63,7 +63,7 @@ export default function Page() {
       <Header />
       <main id="contenu">
         <section className="shell pb-[clamp(40px,6vw,72px)] pt-[clamp(56px,9vw,120px)]">
-          <Reveal className="flex max-w-[min(900px,92%)] flex-col items-start">
+          <Reveal immediat className="flex max-w-[min(900px,92%)] flex-col items-start">
             <FilDAriane
               etapes={[
                 { nom: "Accueil", chemin: "/" },
@@ -88,7 +88,7 @@ export default function Page() {
             className={`hairline-top ${i % 2 === 1 ? "bg-accent-tint" : ""}`}
           >
             <div className="shell band-md">
-              <Reveal index={i} className="max-w-[68ch]">
+              <Reveal immediat={i === 0} index={i} className="max-w-[68ch]">
                 <h2 className="h2 mb-[clamp(16px,2vw,22px)] max-w-[22ch]">
                   {section.titre}
                 </h2>

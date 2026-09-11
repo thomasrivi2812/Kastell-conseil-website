@@ -27,7 +27,7 @@ export async function Hero() {
 
       <div className="shell relative w-full py-[clamp(72px,11vw,150px)]">
         <div className="flex max-w-[min(900px,92%)] translate-y-[clamp(14px,2.6vw,48px)] flex-col items-start">
-          <Reveal>
+          <Reveal immediat>
             {/* Le mot-symbole porte le nom et la baseline : la ligne de texte
                 qui les répétait a été retirée. Le H1 reste la promesse. */}
             <Image
@@ -50,7 +50,7 @@ export async function Hero() {
               {phraseEntite}
             </p>
           </Reveal>
-          <Reveal className="reveal-hero-cta mt-[clamp(30px,4vw,48px)]">
+          <Reveal immediat className="reveal-hero-cta mt-[clamp(30px,4vw,48px)]">
             <Link href="/offres" className="pill pill-solid">
               {hero.cta} <span aria-hidden>→</span>
             </Link>

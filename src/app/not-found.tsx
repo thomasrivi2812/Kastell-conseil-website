@@ -28,7 +28,7 @@ export default function NotFound() {
       <Header />
       <main id="contenu">
         <section className="shell pb-[clamp(48px,7vw,88px)] pt-[clamp(56px,9vw,120px)]">
-          <Reveal className="max-w-[60ch]">
+          <Reveal immediat className="max-w-[60ch]">
             <p className="eyebrow-tight mb-[clamp(18px,2.5vw,28px)]">Erreur 404</p>
             <h1 className="h1">Cette page n&apos;existe pas.</h1>
             <p className="body-lg mt-[clamp(22px,3vw,32px)]">

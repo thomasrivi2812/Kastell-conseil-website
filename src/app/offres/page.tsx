@@ -55,7 +55,7 @@ export default async function OffresPage() {
       <Header />
       <main id="contenu">
         <section className="shell pb-[clamp(40px,6vw,72px)] pt-[clamp(56px,9vw,120px)]">
-          <Reveal className="flex max-w-[min(900px,92%)] flex-col items-start">
+          <Reveal immediat className="flex max-w-[min(900px,92%)] flex-col items-start">
             <FilDAriane
               etapes={[
                 { nom: "Accueil", chemin: "/" },
@@ -93,7 +93,11 @@ export default async function OffresPage() {
             }`}
           >
             <div className="shell band-md">
+              {/* La première offre entre dans le premier écran en téléphone :
+                  son résumé y devenait l'élément de plus grande peinture, et
+                  attendait l'hydratation. Mesuré à 2,25 s. */}
               <Reveal
+                immediat={i === 0}
                 index={i}
                 className="grid-auto items-start gap-[clamp(32px,6vw,90px)]"
               >

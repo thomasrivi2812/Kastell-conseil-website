@@ -4,18 +4,12 @@ import { getContent } from "@/cms/content";
 import { entite } from "@/lib/seo";
 import { estUtile } from "@/lib/lien";
 
-export async function Contact({
-  titre = true,
-  objet = "",
-}: { titre?: boolean; objet?: string } = {}) {
+export async function Contact({ titre = true }: { titre?: boolean } = {}) {
   const { contact, site, offers } = await getContent();
   const linkedin = estUtile(site.linkedin) ? site.linkedin : null;
   /* Les intitulés d'offres alimentent la liste des sujets : un visiteur qui
      vient de les lire retrouve les mêmes mots, et la demande arrive qualifiée. */
   const sujets = offers.map((offre) => offre.title);
-  /* Un objet venu de l'adresse n'est retenu que s'il correspond à un sujet
-     réel : le champ est une liste fermée, pas une zone de saisie. */
-  const sujetInitial = sujets.includes(objet) ? objet : "";
 
   return (
     <section id="contact" className="band-dark">
@@ -27,7 +21,7 @@ export async function Contact({
         }`}
       >
         <div className="grid items-start gap-[clamp(38px,5vw,80px)] [grid-template-columns:minmax(300px,0.9fr)_minmax(340px,1.1fr)] max-[900px]:[grid-template-columns:1fr]">
-          <Reveal className="flex flex-col items-start">
+          <Reveal immediat={!titre} className="flex flex-col items-start">
             {/* Sur la page dédiée, le titre est déjà porté par le <h1> : le
                 répéter ici créerait deux titres pour un même propos. */}
             {titre ? (
@@ -111,7 +105,6 @@ export async function Contact({
               textes={contact.form}
               sujets={sujets}
               email={site.email}
-              sujetInitial={sujetInitial}
               niveauTitre={titre ? 3 : 2}
             />
           </Reveal>

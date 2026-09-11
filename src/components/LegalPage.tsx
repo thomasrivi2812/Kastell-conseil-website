@@ -30,7 +30,7 @@ export function LegalPage({
       <Header />
       <main id="contenu">
         <section className="shell pb-[clamp(40px,6vw,72px)] pt-[clamp(48px,8vw,104px)]">
-          <Reveal className="max-w-[70ch]">
+          <Reveal immediat className="max-w-[70ch]">
             <FilDAriane
               etapes={[
                 { nom: "Accueil", chemin: "/" },
