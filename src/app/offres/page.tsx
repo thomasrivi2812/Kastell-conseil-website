@@ -74,6 +74,13 @@ export default async function OffresPage() {
             <p className="body-lg mt-[clamp(24px,3vw,36px)] max-w-[56ch]">
 {offersSection.pageIntro}
             </p>
+            <p className="body-lg mt-[clamp(16px,2vw,22px)] max-w-[56ch]">
+              Ces six terrains relèvent d&apos;une même pratique :{" "}
+              <Link href="/lobbying-territorial" className="press-link text-sage underline decoration-accent-line underline-offset-[3px] hover:text-forest">
+                le lobbying territorial
+              </Link>
+              , dont nous détaillons la définition et la méthode.
+            </p>
           </Reveal>
         </section>
 

@@ -62,7 +62,7 @@ export const phraseEntite =
  * au-delà de 60 et 155 environ.
  */
 export const TITRE_ACCUEIL =
-  "Cabinet KASTELL - Ancrage territorial, influence nationale.";
+  "Kastell Conseil - Ancrage territorial, influence nationale.";
 
 export const DESCRIPTION_ACCUEIL =
   "L'interface entre les entreprises ancrées dans les territoires et les lieux de décisions.";

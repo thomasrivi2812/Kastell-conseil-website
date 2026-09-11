@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { legal, nav } from "@/content/site";
 import { getContent } from "@/cms/content";
+import { entite } from "@/lib/seo";
 import { estUtile } from "@/lib/lien";
 
 /* « self-start » : dans une colonne flex, un lien s'étire sur toute la largeur
@@ -39,6 +40,12 @@ export async function Footer() {
                 {item.label}
               </Link>
             ))}
+            {/* Page de référence, hors barre de navigation pour ne pas la
+                charger, mais accessible depuis chaque page : une page sans
+                lien entrant ne se classe pas. */}
+            <Link href="/lobbying-territorial" className={linkClass}>
+              Lobbying territorial
+            </Link>
             <Link href="/contact" className={linkClass}>
               Contact
             </Link>
@@ -58,7 +65,18 @@ export async function Footer() {
             <a href={`mailto:${site.email}`} className={linkClass}>
               {site.email}
             </a>
-            <p className="m-0 text-[15px]">{site.city}</p>
+            {/* Même NAP qu'à la page Contact et dans les données structurées. */}
+            <address className="m-0 not-italic text-[15px] leading-[1.7]">
+              {entite.adresse.rue}
+              <br />
+              {entite.adresse.codePostal} {entite.adresse.ville}
+            </address>
+            <a
+              href={`tel:${entite.telephone}`}
+              className={linkClass}
+            >
+              {entite.telephoneAffiche}
+            </a>
           </div>
         </div>
 

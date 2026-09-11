@@ -29,6 +29,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: urlSite, lastModified: modifie, changeFrequency: "weekly", priority: 1 },
     { url: `${urlSite}/offres`, lastModified: modifie, changeFrequency: "monthly", priority: 0.9 },
+    {
+      url: `${urlSite}/lobbying-territorial`,
+      lastModified: modifie,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
     { url: `${urlSite}/contact`, lastModified: modifie, changeFrequency: "yearly", priority: 0.7 },
   ];
 }

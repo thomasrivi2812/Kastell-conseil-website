@@ -1,6 +1,7 @@
 import { FormulaireContact } from "@/components/FormulaireContact";
 import { Reveal } from "@/components/Reveal";
 import { getContent } from "@/cms/content";
+import { entite } from "@/lib/seo";
 import { estUtile } from "@/lib/lien";
 
 export async function Contact({
@@ -61,9 +62,31 @@ export async function Contact({
               </div>
               <div>
                 <dt className="m-0 mb-1 font-sans text-[11px] uppercase tracking-[0.18em] text-mist">
+                  Téléphone
+                </dt>
+                <dd className="m-0">
+                  <a
+                    href={`tel:${entite.telephone}`}
+                    className="press-link hit-area text-[17px] text-[rgba(226,240,248,0.9)] hover:text-white"
+                  >
+                    {entite.telephoneAffiche}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="m-0 mb-1 font-sans text-[11px] uppercase tracking-[0.18em] text-mist">
                   Bureau
                 </dt>
-                <dd className="m-0 text-[17px] text-[rgba(226,240,248,0.78)]">{site.city}</dd>
+                {/* Nom, adresse, téléphone : exactement les mêmes valeurs qu'au
+                    pied de page et dans les données structurées. Une seule
+                    divergence entre ces trois endroits et le référencement
+                    local tient l'établissement pour incertain. */}
+                <dd className="m-0 text-[17px] text-[rgba(226,240,248,0.78)]">
+                  <span className="block">{entite.adresse.rue}</span>
+                  <span className="block">
+                    {entite.adresse.codePostal} {entite.adresse.ville}
+                  </span>
+                </dd>
               </div>
             </dl>
 
