@@ -9,6 +9,13 @@ import { OffresPreview } from "@/components/sections/OffresPreview";
 import { News } from "@/components/sections/News";
 import { References } from "@/components/sections/References";
 import { site } from "@/content/site";
+import type { Metadata } from "next";
+
+/* Titre et description viennent de la racine ; seule la canonique est propre
+   à cette page. */
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 /**
  * Période de revalidation déclarée sur la page elle-même, et pas seulement

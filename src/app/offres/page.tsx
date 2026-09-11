@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { ContactBande } from "@/components/sections/ContactBande";
 import { Reveal } from "@/components/Reveal";
 import { getContent } from "@/cms/content";
+import { IMAGE_OG } from "@/lib/seo";
 
 /**
  * Période de revalidation déclarée sur la page elle-même, et pas seulement
@@ -19,9 +20,17 @@ import { getContent } from "@/cms/content";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Offres",
+  title: "Lobbying territorial et affaires publiques",
   description:
-    "Affaires publiques, représentation d'intérêts, communication d'influence et transition écologique : les quatre terrains d'intervention de Kastell Conseil.",
+    "Lobbying territorial, représentation d'intérêts, aides publiques, communication d'influence : les six terrains d'intervention de Kastell Conseil.",
+  alternates: { canonical: "/offres" },
+  openGraph: {
+    title: "Lobbying territorial et affaires publiques | Kastell Conseil",
+    description:
+      "Les six terrains d'intervention du cabinet, de la représentation d'intérêts à la communication de crise.",
+    url: "/offres",
+    images: [IMAGE_OG],
+  },
 };
 
 export default async function OffresPage() {

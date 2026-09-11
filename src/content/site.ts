@@ -1,7 +1,13 @@
+import { urlSite } from "@/lib/seo";
+
 export const site = {
   name: "Kastell Conseil",
-  /** Domaine de production — sert aussi à robots.txt, au sitemap et à l'OpenGraph. */
-  url: "https://kastell-conseils.fr",
+  /**
+   * Adresse canonique, définie une seule fois dans la configuration de
+   * référencement : le sitemap, robots.txt, les balises canoniques et
+   * l'Open Graph y puisent tous la même valeur.
+   */
+  url: urlSite,
   tagline: "Ancrage territorial, influence nationale",
   /** Fiche du cabinet au répertoire des représentants d'intérêts. */
   hatvp: "https://www.hatvp.fr/fiche-organisation/?organisation=989630819",

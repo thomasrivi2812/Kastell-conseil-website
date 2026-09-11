@@ -5,6 +5,7 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Mentions légales",
   description: `Mentions légales du site ${site.name}.`,
+  alternates: { canonical: "/mentions-legales" },
   robots: { index: false },
 };
 

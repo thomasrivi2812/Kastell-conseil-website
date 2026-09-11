@@ -5,6 +5,7 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description: `Traitement des données personnelles sur le site ${site.name}.`,
+  alternates: { canonical: "/confidentialite" },
   robots: { index: false },
 };
 

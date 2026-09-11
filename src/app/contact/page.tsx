@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Contact } from "@/components/sections/Contact";
 import { Reveal } from "@/components/Reveal";
 import { contact, site } from "@/content/site";
+import { IMAGE_OG } from "@/lib/seo";
 
 /* Voir src/app/page.tsx : une page construite sans le CMS ne comporte aucune
    requête, donc aucune période de revalidation, et resterait figée. */
@@ -11,12 +12,15 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: contact.page.title,
-  description: contact.page.intro,
+  description:
+    "Écrivez au cabinet Kastell Conseil : affaires publiques et lobbying territorial à Lamballe, Rennes et dans toute la Bretagne. Réponse sous 48 h.",
   alternates: { canonical: "/contact" },
   openGraph: {
-    title: `${contact.page.title} — ${site.name}`,
-    description: contact.page.intro,
+    title: `${contact.page.title} | ${site.name}`,
+    description:
+      "Affaires publiques et lobbying territorial à Lamballe, Rennes et dans toute la Bretagne.",
     url: "/contact",
+    images: [IMAGE_OG],
   },
 };
 
