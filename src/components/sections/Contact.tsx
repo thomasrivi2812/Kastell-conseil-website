@@ -89,6 +89,7 @@ export async function Contact({
               sujets={sujets}
               email={site.email}
               sujetInitial={sujetInitial}
+              niveauTitre={titre ? 3 : 2}
             />
           </Reveal>
         </div>

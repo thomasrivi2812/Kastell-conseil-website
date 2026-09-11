@@ -96,6 +96,16 @@
     inset: -6px -4px;
   }
 
+  /*
+   * La navigation d'en-tête, elle, a de la place : 20 px séparent deux
+   * intitulés et l'en-tête fait 75 px de haut. Sa zone de clic peut donc
+   * grandir sans empiéter sur la voisine — ce que la colonne du pied de page
+   * ne permet pas.
+   */
+  .nav-link.hit-area::after {
+    inset: -12px -6px;
+  }
+
   /* ---- layout ---- */
   .shell {
     max-width: 1280px;
@@ -199,7 +209,8 @@
   .manifeste-couv-sous {
     margin: 0;
     font-family: var(--font-sans), "Instrument Sans", sans-serif;
-    font-size: 3.3cqw;
+    /* Plancher : la carte rétrécit avec la fenêtre, pas l'œil du lecteur. */
+    font-size: max(3.3cqw, 10.5px);
     line-height: 1.45;
     color: rgba(226, 240, 248, 0.75);
   }
@@ -221,7 +232,7 @@
     border: 1.5px solid #192924;
     border-radius: 4px;
     font-family: var(--font-sans), "Instrument Sans", sans-serif;
-    font-size: 4.2cqw;
+    font-size: max(4.2cqw, 11px);
     font-weight: 700;
     letter-spacing: 0.12em;
     color: #192924;
@@ -304,7 +315,7 @@
 
   .formulaire-champ label {
     font-family: var(--font-sans), "Instrument Sans", sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -371,7 +382,10 @@
   .formulaire-consentement {
     display: flex;
     gap: 12px;
-    margin: 4px 0 0;
+    /* Le rembourrage grandit la zone de clic sans déplacer le texte : sur une
+       seule ligne, le libellé ne faisait que 22 px de haut. */
+    margin: -6px 0 0;
+    padding: 10px 0;
     font-size: 14px;
     line-height: 1.55;
     color: #2f3835;
@@ -380,9 +394,9 @@
 
   .formulaire-consentement input {
     flex: none;
-    width: 18px;
-    height: 18px;
-    margin-top: 2px;
+    width: 21px;
+    height: 21px;
+    margin-top: 1px;
     padding: 0;
     accent-color: #192924;
   }
@@ -873,7 +887,9 @@
     color: #192924;
     border: 1px solid rgba(25, 41, 36, 0.35);
     border-radius: 999px;
-    padding: 8px 18px;
+    /* 33 px de haut pour l'appel à l'action principal de l'en-tête, c'était
+       moins que les intitulés voisins. */
+    padding: 11px 18px;
     white-space: nowrap;
   }
 

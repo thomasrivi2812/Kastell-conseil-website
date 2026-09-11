@@ -8,7 +8,7 @@ export async function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[min(82vh,860px)] items-center overflow-hidden"
+      className="relative flex min-h-[min(64vh,860px)] items-center overflow-hidden min-[560px]:min-h-[min(74vh,860px)] min-[900px]:min-h-[min(82vh,860px)]"
     >
       {/* Illustration : le motif cartographique. Il remplace le filigrane du
           symbole K, redondant depuis que le mot-symbole occupe le héros. Calé à

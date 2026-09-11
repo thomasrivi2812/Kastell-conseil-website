@@ -32,7 +32,7 @@ export async function Footer() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-[18px] min-[860px]:gap-3">
+          <div className="flex flex-col gap-[26px] min-[860px]:gap-[18px]">
             <p className={headingClass}>{footer.navHeading}</p>
             {nav.map((item) => (
               <Link key={item.href} href={item.href} className={linkClass}>
@@ -44,7 +44,7 @@ export async function Footer() {
             </Link>
           </div>
 
-          <div className="flex flex-col gap-[18px] min-[860px]:gap-3">
+          <div className="flex flex-col gap-[26px] min-[860px]:gap-[18px]">
             <p className={headingClass}>{footer.infoHeading}</p>
             {legal.filter((item) => estUtile(item.href)).map((item) => (
               <a key={item.label} href={item.href} className={linkClass}>
@@ -53,7 +53,7 @@ export async function Footer() {
             ))}
           </div>
 
-          <div className="flex flex-col gap-[18px] min-[860px]:gap-3">
+          <div className="flex flex-col gap-[26px] min-[860px]:gap-[18px]">
             <p className={headingClass}>{footer.contactHeading}</p>
             <a href={`mailto:${site.email}`} className={linkClass}>
               {site.email}

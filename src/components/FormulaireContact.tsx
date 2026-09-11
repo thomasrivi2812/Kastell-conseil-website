@@ -42,12 +42,22 @@ export function FormulaireContact({
   sujets,
   email,
   sujetInitial = "",
+  niveauTitre = 3,
 }: {
   textes: Textes;
   sujets: readonly string[];
   email: string;
   /** Sujet pré-choisi, quand le visiteur arrive depuis une offre. */
   sujetInitial?: string;
+  /**
+   * Rang du titre du formulaire dans le plan de la page.
+   *
+   * Sur l'accueil, la section porte déjà un <h2> et le formulaire vient donc
+   * en dessous. Sur la page dédiée, ce <h2> n'existe pas — le titre passait
+   * alors directement du <h1> au <h3>, ce qui laisse un trou dans le plan
+   * qu'annonce un lecteur d'écran.
+   */
+  niveauTitre?: 2 | 3;
 }) {
   const [etat, setEtat] = useState<Etat>("repos");
   const [message, setMessage] = useState("");
@@ -125,7 +135,11 @@ export function FormulaireContact({
 
   return (
     <div className="formulaire-carte">
-      <h3 className="formulaire-titre">{textes.heading}</h3>
+      {niveauTitre === 2 ? (
+        <h2 className="formulaire-titre">{textes.heading}</h2>
+      ) : (
+        <h3 className="formulaire-titre">{textes.heading}</h3>
+      )}
 
       <form ref={formulaire} onSubmit={envoyer} className="formulaire">
         <p className="formulaire-champ">
