@@ -1,7 +1,13 @@
+import { urlSite } from "@/lib/seo";
+
 export const site = {
   name: "Kastell Conseil",
-  /** Domaine de production — sert aussi à robots.txt, au sitemap et à l'OpenGraph. */
-  url: "https://kastell-conseils.fr",
+  /**
+   * Adresse canonique, définie une seule fois dans la configuration de
+   * référencement : le sitemap, robots.txt, les balises canoniques et
+   * l'Open Graph y puisent tous la même valeur.
+   */
+  url: urlSite,
   tagline: "Ancrage territorial, influence nationale",
   /** Fiche du cabinet au répertoire des représentants d'intérêts. */
   hatvp: "https://www.hatvp.fr/fiche-organisation/?organisation=989630819",
@@ -46,6 +52,76 @@ export const vision = {
     { value: "10 ans", label: "d'expérience institutionnelle" },
     { value: "Lamballe", label: "Paris · Bruxelles" },
   ],
+} as const;
+
+/**
+ * Page pilier « lobbying territorial ».
+ *
+ * Le mot-clé principal du cabinet n'apparaissait nulle part sur le site. Cette
+ * page lui donne une adresse propre, où le terme est défini, la méthode
+ * exposée et les questions courantes traitées.
+ *
+ * Tout ce qui suit est tiré de ce que le cabinet dit déjà ailleurs — la
+ * section Vision, les six offres, le manifeste — reformulé pour répondre
+ * directement à une question. Aucun chiffre, aucun client, aucun délai n'a été
+ * ajouté : ce qui manque est signalé au cabinet plutôt qu'inventé.
+ */
+export const lobbying = {
+  eyebrow: "Page de référence",
+  title: "Le lobbying territorial",
+  /** Réponse directe sous le titre : c'est elle qu'un moteur cite. */
+  chapo:
+    "Le lobbying territorial consiste à défendre les intérêts d'une entreprise ou d'une organisation auprès des décideurs publics depuis son territoire d'implantation, plutôt que depuis les seuls centres de décision nationaux.",
+  misAJour: "2026-09-11",
+  sections: [
+    {
+      titre: "Qu'est-ce que le lobbying territorial ?",
+      reponse:
+        "C'est la représentation d'intérêts exercée au plus près du terrain : auprès des collectivités, des services déconcentrés de l'État et des parlementaires d'un territoire, en articulation avec le niveau national.",
+      paragraphes: [
+        "La représentation d'intérêts est une activité encadrée. En France, elle est inscrite au répertoire tenu par la Haute Autorité pour la transparence de la vie publique, qui rend publiques les actions menées auprès des responsables publics. Le lobbying territorial ne déroge pas à ce cadre : il en applique les règles à l'échelle régionale.",
+        "Ce qui le distingue n'est donc pas la méthode, mais le point de départ. Un dossier industriel breton se comprend d'abord en Bretagne — auprès de ceux qui en mesurent les effets sur l'emploi, le foncier ou l'eau — avant de se plaider à Paris.",
+      ],
+    },
+    {
+      titre: "Pourquoi il ne se pratique plus seulement à Paris",
+      reponse:
+        "Parce que les centres de décision se sont diversifiés : régions, métropoles et agences publiques arbitrent aujourd'hui une part croissante de ce qui conditionne l'activité des entreprises.",
+      paragraphes: [
+        "L'économie française se construit dans les territoires, et les décisions qui en dessinent l'avenir se prenaient longtemps ailleurs. Influencer la décision publique signifiait être à Paris ou à Bruxelles, héritage d'un modèle centralisé.",
+        "À mesure que la décision se déconcentre, l'influence doit se rapprocher du terrain. C'est la raison d'être d'un cabinet installé en Bretagne plutôt qu'une antenne régionale d'un cabinet parisien : la connaissance du territoire ne se délègue pas.",
+      ],
+    },
+  ],
+  faq: [
+    {
+      question: "Le lobbying territorial est-il légal ?",
+      reponse:
+        "Oui. La représentation d'intérêts est une activité encadrée par la loi. Kastell Conseil est inscrit au répertoire des représentants d'intérêts tenu par la Haute Autorité pour la transparence de la vie publique (HATVP), qui rend publiques les actions menées auprès des responsables publics.",
+    },
+    {
+      question: "Quelle différence avec le lobbying classique ?",
+      reponse:
+        "La méthode est la même ; le point de départ change. Le lobbying territorial part du territoire où se trouve l'entreprise et remonte vers le niveau national, au lieu de partir de Paris pour redescendre. Il suppose de connaître les acteurs locaux — collectivités, services de l'État, parlementaires du territoire — autant que les circuits nationaux.",
+    },
+    {
+      question: "Sur quels territoires Kastell Conseil intervient-il ?",
+      reponse:
+        "Le cabinet est installé à Lamballe-Armor, dans les Côtes-d'Armor, et intervient dans toute la Bretagne — Rennes, Saint-Brieuc, Brest, Vannes — ainsi qu'à Paris et Bruxelles lorsque le dossier l'exige.",
+    },
+    {
+      question: "Faut-il être une grande entreprise pour y recourir ?",
+      reponse:
+        "Non. Les PME et ETI sont souvent les plus exposées à une décision publique et les moins outillées pour la suivre. Un cabinet installé en région leur donne accès à un accompagnement qui restait jusqu'ici réservé aux grands groupes parisiens.",
+    },
+    {
+      question: "Comment se déroule un premier échange ?",
+      reponse:
+        "Un entretien de trente minutes suffit le plus souvent à cerner l'enjeu et à dire si une intervention a du sens. Il se demande par le formulaire de contact du site ou par courriel, et il est sans engagement.",
+    },
+  ],
+  ctaOffres: "Voir les six terrains d'intervention",
+  ctaContact: "Parler de votre dossier",
 } as const;
 
 export const nav = [

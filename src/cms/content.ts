@@ -28,6 +28,8 @@ const ou = <T,>(cms: T | null | undefined, repli: T): T => {
 
 type Doc = Record<string, unknown>;
 type Donnees = {
+  /** Date ISO de la fiche modifiée le plus récemment, toutes rubriques confondues. */
+  maj?: string;
   parametres?: Doc;
   accueil?: Doc;
   offres?: Doc;
@@ -104,6 +106,9 @@ function assembler(d: Donnees) {
   }));
 
   return {
+    /* Date de la dernière modification côté WordPress, quand elle est connue :
+       c'est elle que le plan du site annonce aux moteurs. */
+    maj: typeof d.maj === "string" && d.maj ? d.maj : null,
     site: {
       ...fichier.site,
       name: ou(p.nom as string, fichier.site.name),

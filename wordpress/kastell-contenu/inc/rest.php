@@ -94,9 +94,43 @@ function kastell_reponse_contenu() {
 		}
 	}
 
+	/* Date de dernière modification, toutes rubriques confondues : le plan du
+	   site l'annonce aux moteurs, qui savent alors s'ils ont déjà lu cette
+	   version. Sans elle, chaque relecture repart de zéro. */
+	$enveloppe['maj'] = kastell_derniere_modification();
+
 	$reponse = rest_ensure_response( $enveloppe );
 	/* Le cache est piloté par le site (revalidation à la publication) ; on évite
 	   qu'un cache intermédiaire serve une version périmée après un webhook. */
 	$reponse->header( 'Cache-Control', 'no-store, max-age=0' );
 	return $reponse;
+}
+
+/**
+ * Date de la modification la plus récente parmi tous les contenus Kastell.
+ *
+ * Renvoie null tant qu'aucune fiche n'existe : le site retombe alors sur sa
+ * propre date de construction plutôt que d'annoncer une date inventée.
+ */
+function kastell_derniere_modification() {
+	$types = array_merge( array_keys( kastell_singletons() ), array_keys( kastell_collections() ) );
+	if ( ! $types ) {
+		return null;
+	}
+
+	$fiches = get_posts(
+		array(
+			'post_type'        => $types,
+			'post_status'      => 'publish',
+			'numberposts'      => 1,
+			'orderby'          => 'modified',
+			'order'            => 'DESC',
+			'suppress_filters' => false,
+		)
+	);
+
+	if ( empty( $fiches ) ) {
+		return null;
+	}
+	return gmdate( 'c', strtotime( $fiches[0]->post_modified_gmt . ' UTC' ) );
 }

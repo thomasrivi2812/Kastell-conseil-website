@@ -9,6 +9,15 @@ import { OffresPreview } from "@/components/sections/OffresPreview";
 import { News } from "@/components/sections/News";
 import { References } from "@/components/sections/References";
 import { site } from "@/content/site";
+import type { Metadata } from "next";
+import { DonneesStructurees } from "@/components/DonneesStructurees";
+import { organisation, personneFondatrice, siteWeb } from "@/lib/schema";
+
+/* Titre et description viennent de la racine ; seule la canonique est propre
+   à cette page. */
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 /**
  * Période de revalidation déclarée sur la page elle-même, et pas seulement
@@ -25,6 +34,10 @@ export const revalidate = 60;
 export default function Home() {
   return (
     <div className="w-full overflow-x-clip">
+      {/* L'identité du cabinet, en clair pour les machines. */}
+      <DonneesStructurees
+        noeuds={[organisation(), siteWeb(), personneFondatrice()]}
+      />
       <Header />
       <main id="contenu">
         <Hero />

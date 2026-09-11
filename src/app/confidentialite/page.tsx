@@ -5,6 +5,7 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description: `Traitement des données personnelles sur le site ${site.name}.`,
+  alternates: { canonical: "/confidentialite" },
   robots: { index: false },
 };
 
@@ -21,6 +22,7 @@ export default function Page() {
   return (
     <LegalPage
       title="Politique de confidentialité"
+      chemin="/confidentialite"
       intro="Cette page décrit les données personnelles traitées à l'occasion de votre visite et les droits dont vous disposez."
       blocks={[
         {

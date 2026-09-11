@@ -39,6 +39,12 @@ export async function Footer() {
                 {item.label}
               </Link>
             ))}
+            {/* Page de référence, hors barre de navigation pour ne pas la
+                charger, mais accessible depuis chaque page : une page sans
+                lien entrant ne se classe pas. */}
+            <Link href="/lobbying-territorial" className={linkClass}>
+              Lobbying territorial
+            </Link>
             <Link href="/contact" className={linkClass}>
               Contact
             </Link>
@@ -58,6 +64,10 @@ export async function Footer() {
             <a href={`mailto:${site.email}`} className={linkClass}>
               {site.email}
             </a>
+            {/* Ville seule ici, à la demande du cabinet : l'adresse complète
+                et le téléphone restent sur la page Contact, dans les mentions
+                légales et dans les données structurées, où un moteur les
+                cherche. Le pied de page n'a pas à les exposer à chaque page. */}
             <p className="m-0 text-[15px]">{site.city}</p>
           </div>
         </div>

@@ -37,7 +37,14 @@ export async function Vision() {
         <div className="grid gap-x-[clamp(32px,6vw,88px)] gap-y-[clamp(34px,4vw,48px)] [grid-template-columns:minmax(280px,0.82fr)_minmax(340px,1.18fr)] max-[900px]:[grid-template-columns:1fr]">
           {/* Solidaire du défilement : plutôt que de laisser un blanc sous le
               titre, la colonne accompagne la lecture du texte. */}
-          <Reveal className="min-[900px]:sticky min-[900px]:top-[calc(var(--header-h,75px)+44px)] min-[900px]:self-start">
+          {/* Sur téléphone, le héros ne remplit pas l'écran : le haut de cette
+              section est visible sans défiler, et son titre devient l'élément
+              de plus grande peinture. Mesuré : il attendait l'hydratation et
+              reportait le LCP de l'accueil à 3,29 s. */}
+          <Reveal
+            immediat
+            className="min-[900px]:sticky min-[900px]:top-[calc(var(--header-h,75px)+44px)] min-[900px]:self-start"
+          >
             <p className="eyebrow mb-[22px]">{vision.eyebrow}</p>
             <h2 className="h2 h2-pretty max-w-[20ch]">{vision.title}</h2>
 

@@ -140,13 +140,18 @@ export function Header() {
             width: pastHero ? WORDMARK_W : MARK_W,
           }}
         >
+          {/* Des deux faces, une seule est visible au premier rendu : la marque
+              sur l'accueil, le mot-symbole partout ailleurs. Seule celle-là est
+              préchargée. L'autre reste dans le document — le fondu croisé en a
+              besoin — mais elle n'a plus à disputer la bande passante au texte
+              et à la feuille de style pendant la seconde qui compte. */}
           <Image
             src="/brand/kastell-mark.png"
             alt=""
             aria-hidden
             width={2500}
             height={2407}
-            priority
+            priority={isHome}
             sizes="40px"
             className="logo-swap-face aspect-[2500/2407] h-full w-auto"
             style={{ opacity: pastHero ? 0 : 1 }}
@@ -157,7 +162,7 @@ export function Header() {
             aria-hidden
             width={2500}
             height={737}
-            priority
+            priority={!isHome}
             sizes="129px"
             className="logo-swap-face aspect-[2500/737] h-full w-auto"
             style={{ opacity: pastHero ? 1 : 0 }}
