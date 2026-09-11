@@ -4,8 +4,11 @@ import { legal, nav } from "@/content/site";
 import { getContent } from "@/cms/content";
 import { estUtile } from "@/lib/lien";
 
+/* « self-start » : dans une colonne flex, un lien s'étire sur toute la largeur
+   de la colonne, et le trait de survol — qui épouse la boîte du lien — courait
+   donc bien au-delà du mot. La boîte se resserre sur le texte. */
 const linkClass =
-  "footer-link hit-area text-[15px] text-[rgba(226,240,248,0.82)] hover:text-white";
+  "footer-link hit-area self-start text-[15px] text-[rgba(226,240,248,0.82)] hover:text-white";
 const headingClass =
   "m-0 mb-1 font-sans text-[13px] uppercase tracking-[0.18em] text-mist";
 
