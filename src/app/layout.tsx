@@ -11,15 +11,36 @@ import {
 } from "@/lib/seo";
 import "./globals.css";
 
+/*
+ * Sous-ensemble « latin » seul, sans « latin-ext ».
+ *
+ * Les deux étaient demandés, et next/font préchargeait donc six fichiers au
+ * lieu de trois — 27,5 ko sur 87,6, réclamés en priorité haute avant même la
+ * feuille de style. Or `latin-ext` couvre les lettres d'Europe centrale et du
+ * vietnamien : relevé sur les sept pages du site, pas un seul caractère
+ * affiché n'en relève. Ces trois fichiers étaient téléchargés pour rien, et
+ * retardaient la feuille de style sur une connexion mobile.
+ *
+ * « latin » couvre tout le français, y compris œ, Œ, æ, Æ, les guillemets et
+ * l'apostrophe typographique — vérifié caractère par caractère.
+ *
+ * Rien n'est perdu pour autant : les fichiers « latin-ext » restent déclarés
+ * dans la feuille de style, avec leur plage de caractères. Si un contenu vient
+ * un jour à porter un nom en alphabet latin étendu — Łódź, Škoda —, le
+ * navigateur va chercher le fichier à ce moment-là et le rend dans la bonne
+ * police. Vérifié en insérant ces mots dans la page : le quatrième fichier est
+ * bien demandé. La seule chose qui change est qu'on ne le télécharge plus
+ * d'avance, sur toutes les pages, pour rien.
+ */
 const sans = Instrument_Sans({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-sans",
   display: "swap",
 });
 
 const serif = Instrument_Serif({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   weight: "400",
   style: ["normal", "italic"],
   variable: "--font-serif",

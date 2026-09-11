@@ -257,3 +257,108 @@ forte densité recevrait une image plus large que nécessaire. **Non retenu.**
 seule la seconde est utilisée, et via l'optimiseur, donc jamais servie telle
 quelle. La première n'est référencée nulle part. Aucune des deux ne pèse sur ce
 qu'un visiteur télécharge : signalées, pas supprimées.
+
+---
+
+# Phase 4 — polices
+
+Prise avant la phase 3 : les mesures de la phase 2 ont montré que c'était là
+que se jouait le premier rendu, et non dans le JavaScript.
+
+## Le constat
+
+Six fichiers de police étaient préchargés sur chaque page, 87,6 ko réclamés en
+priorité haute avant même la feuille de style. Sur une connexion mobile à
+1,6 Mbit/s, cela représente près d'une demi-seconde de bande passante prise à ce
+qui, lui, est nécessaire pour peindre la page.
+
+Ces six fichiers sont trois polices × deux sous-ensembles de caractères :
+
+| Sous-ensemble | Fichiers | Poids |
+|---|---|---|
+| `latin` | sans, serif, serif italique | 60,1 ko |
+| `latin-ext` | sans, serif, serif italique | **27,5 ko** |
+
+`latin-ext` couvre les lettres d'Europe centrale et du vietnamien. Les sept
+pages du site ont été parcourues et leurs **102 caractères distincts** relevés
+un à un : **aucun** n'en relève. Ces 27,5 ko étaient téléchargés pour rien, sur
+chaque page, avant tout le reste.
+
+Le français tient entier dans `latin`, œ et Œ compris — ils sont à U+0152-0153,
+explicitement dans la plage. Seules les flèches → et ↗ n'y sont pas, mais elles
+ne sont dans `latin-ext` non plus : elles étaient déjà rendues par la police du
+système, et le restent.
+
+## Ce qui a été fait
+
+`subsets: ["latin"]` au lieu de `["latin", "latin-ext"]`.
+
+**Rien n'est perdu.** Next continue de déclarer les fichiers `latin-ext` dans la
+feuille de style avec leur plage de caractères ; il cesse seulement de les
+précharger. Le jour où un contenu portera un nom en alphabet latin étendu, le
+navigateur ira chercher le fichier à ce moment-là. Vérifié en insérant
+« Łódź Škoda Ğ » dans une page servie : le quatrième fichier est bien demandé.
+
+Contrôle de non-régression : 493 nœuds de texte parcourus sur six pages,
+**zéro** rendu par une police de repli.
+
+## Mesures
+
+Profil mobile, réseau à 1,6 Mbit/s, processeur ralenti ×4, médiane de neuf
+passages.
+
+| Page | LCP avant phase 4 | LCP après | FCP après |
+|---|---|---|---|
+| Offres | 2,11 s | **1,06 s** | 0,92 s |
+| Contact | ~1,0 s | **1,03 s** | 0,89 s |
+| Accueil | 2,17 s | 2,17 s | 1,19 s |
+
+Le gain sur Offres est net, mais le chiffre le plus parlant est ailleurs : la
+mesure **cesse d'osciller**. Avant, le LCP d'Offres tombait tantôt à 1,04 s
+tantôt à 2,15 s, d'un passage à l'autre, sur le même code — 8 passages sur 9 du
+côté lent. Après, les neuf passages tiennent entre 1,02 et 1,09 s.
+
+C'était une course : selon que la feuille de style arrivait avant ou après le
+premier rendu, le texte du haut de page était peint tout de suite ou une
+seconde plus tard. Désencombrer la fenêtre critique a tranché la course du bon
+côté, définitivement.
+
+## Poids transféré, référence → maintenant
+
+| Route | Avant | Maintenant | Gain |
+|---|---|---|---|
+| `/` | 330,7 ko | **288,2 ko** | −13 % |
+| `/offres` | 287,6 ko | **260,8 ko** | −9 % |
+| `/lobbying-territorial` | 278,1 ko | **246,7 ko** | −11 % |
+| `/contact` | 287,5 ko | **252,2 ko** | −12 % |
+| `/mentions-legales` | 276,4 ko | **244,9 ko** | −11 % |
+
+## Ce qui a été mesuré puis écarté
+
+**Ne plus précharger l'illustration du héros.** Le motif cartographique est
+décoratif, tramé à 0,22 d'opacité en petit écran, et ses 13,7 ko passaient
+devant la feuille de style. L'hypothèse était bonne ; la mesure ne l'a pas
+suivie : LCP de l'accueil à 2,17 s avec le préchargement, 2,17 s sans.
+**Non retenu.**
+
+## L'accueil, et ce qu'il reste à comprendre
+
+L'accueil ne bouge pas : 2,17 s, sur les neuf passages. Son élément de plus
+grande peinture est le titre de la section « Notre vision », qui affleure en bas
+de l'écran à 722 px sur les 844 d'un téléphone.
+
+Trois pistes ont été écartées par la mesure, ce qui vaut d'être noté :
+
+- **Ce n'est pas le fondu d'apparition.** Ramené de 900 ms à 1 ms dans une
+  construction d'essai, le LCP de l'accueil reste à 2,21 s. Le travail de la
+  phase 1 est donc intact, et l'animation n'est pas en cause.
+- **Ce n'est pas le format des images.** Même page, même serveur, seul
+  l'en-tête `Accept` change : AVIF et WebP donnent le même résultat.
+- **Ce n'est pas un décalage de mise en page.** Aucun décalage relevé sur
+  l'accueil, et le titre est à 722 px du premier rendu à la fin.
+
+En instrumentant image par image, le titre est **entièrement opaque à 1,29 s**
+— et le navigateur n'enregistre sa peinture qu'à 2,30 s. Une seconde pendant
+laquelle l'élément est visible sans être compté. Ce délai coïncide avec
+l'hydratation, qui occupe le fil principal au même moment. C'est la piste de la
+phase 3.
