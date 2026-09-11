@@ -8,6 +8,15 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
+/**
+ * Texte repris du site précédent, à une correction près, signalée au client.
+ *
+ * Les « données de navigation » — adresse IP, pages consultées, durée de
+ * visite, navigateur — et le consentement aux cookies décrivaient une mesure
+ * d'audience que ce site ne pratique pas. Annoncer une collecte qui n'a pas
+ * lieu est aussi inexact que d'en taire une : la rubrique dit désormais ce que
+ * le site fait réellement de l'adresse IP, c'est-à-dire l'oublier aussitôt.
+ */
 export default function Page() {
   return (
     <LegalPage
@@ -15,47 +24,86 @@ export default function Page() {
       intro="Cette page décrit les données personnelles traitées à l'occasion de votre visite et les droits dont vous disposez."
       blocks={[
         {
-          heading: "Responsable de traitement",
+          heading: "Introduction",
           body: [
-            `${site.name}, [ adresse ]. Contact : ${site.email}.`,
-            "[ Le cas échéant, coordonnées du délégué à la protection des données. ]",
+            "KASTELL, cabinet de conseil en affaires publiques pour les entreprises engagées dans la transition écologique, s'engage à protéger la vie privée et les données personnelles de ses clients, partenaires et visiteurs du site internet. Cette politique de confidentialité explique comment nous collectons, utilisons, partageons et protégeons les données personnelles que vous nous confiez.",
           ],
         },
         {
-          heading: "Données collectées",
+          heading: "Données personnelles collectées",
           body: [
-            "Le formulaire de contact recueille votre nom, votre adresse e-mail et votre message, ainsi que, si vous les renseignez, votre organisation, votre téléphone et le sujet de votre demande. Aucun autre élément n'est collecté à cette occasion.",
-            "La prise de contact par courriel ou via LinkedIn reste possible : les données que vous transmettez alors se limitent à celles que vous choisissez de communiquer.",
-            "Le téléchargement du manifeste du Réseau Influence & Territoires suppose de renseigner une adresse e-mail. Seule cette adresse est enregistrée, accompagnée de la date de la demande. Aucun autre élément n'est collecté à cette occasion, et aucun compte n'est créé.",
-            "[ Compléter si des mesures d'audience sont ajoutées ultérieurement. ]",
+            "Nous pouvons collecter les données suivantes :",
+            [
+              "Données d'identification : nom, prénom, adresse e-mail, numéro de téléphone, fonction, nom de l'entreprise.",
+              "Données de contact : messages envoyés via les formulaires de contact.",
+            ],
+            "Ce site ne mesure pas son audience : il ne dépose aucun cookie, n'enregistre ni les pages consultées, ni la durée de votre visite, ni votre navigateur. Votre adresse IP est lue le temps de l'envoi d'un formulaire, pour limiter les envois automatisés, et n'est pas conservée.",
           ],
         },
         {
-          heading: "Finalité et base légale",
+          heading: "Finalités de la collecte",
           body: [
-            "Les données reçues par le formulaire ou par courriel servent uniquement à répondre à votre demande et, le cas échéant, à assurer le suivi de la relation commerciale. La base légale est l'intérêt légitime du cabinet à répondre aux sollicitations qui lui sont adressées.",
-            "L'adresse communiquée lors du téléchargement du manifeste sert à vous adresser le document puis, si vous y avez consenti, les publications du cabinet et du réseau. La base légale est votre consentement, que vous pouvez retirer à tout moment : chaque envoi comporte un lien de désinscription, et une demande adressée à l'adresse ci-dessous produit le même effet.",
+            "Les données sont collectées pour :",
+            [
+              "Répondre à vos demandes d'information ou de contact.",
+              "Vous fournir nos services de conseil.",
+              "Améliorer notre site web et nos services.",
+              "Respecter nos obligations légales.",
+            ],
           ],
         },
         {
-          heading: "Destinataires",
+          heading: "Base légale du traitement",
           body: [
-            "Les demandes adressées par le formulaire, comme les adresses recueillies lors du téléchargement du manifeste, sont traitées par le cabinet et, le cas échéant, par son prestataire de messagerie, agissant comme sous-traitant. Elles ne sont ni revendues ni cédées à des tiers.",
-            "[ Nommer le prestataire d'envoi retenu et son pays d'hébergement. ]",
+            "Le traitement de vos données repose sur :",
+            [
+              "Votre consentement, lorsque vous remplissez un formulaire.",
+              "L'exécution d'un contrat ou de mesures précontractuelles.",
+              "Le respect d'une obligation légale.",
+            ],
+          ],
+        },
+        {
+          heading: "Destinataires des données",
+          body: [
+            "Vos données sont destinées :",
+            [
+              "Aux services internes de KASTELL.",
+              "À nos sous-traitants (hébergeur, outils de communication, etc.) sous contrat de confidentialité.",
+              "Aux autorités compétentes, si la loi l'exige.",
+            ],
           ],
         },
         {
           heading: "Durée de conservation",
           body: [
-            "[ Durée retenue pour les échanges, par exemple trois ans à compter du dernier contact. ]",
-            "Les adresses recueillies lors du téléchargement sont conservées jusqu'au retrait du consentement, et au plus [ durée retenue ] après le dernier contact.",
+            "Les données sont conservées pour la durée nécessaire à la réalisation des finalités pour lesquelles elles ont été collectées, dans le respect des obligations légales.",
           ],
         },
         {
           heading: "Vos droits",
           body: [
-            `Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation et d'opposition. Pour l'exercer, écrivez à ${site.email}.`,
-            "Vous pouvez également introduire une réclamation auprès de la CNIL (www.cnil.fr).",
+            "Conformément au RGPD, vous disposez des droits suivants :",
+            [
+              "Droit d'accès, de rectification, d'effacement.",
+              "Droit à la limitation du traitement.",
+              "Droit à la portabilité des données.",
+              "Droit d'opposition.",
+              "Droit de retirer votre consentement à tout moment.",
+            ],
+            "Pour exercer ces droits, contactez-nous à l'adresse suivante : lea.delamotte@kastell-conseil.fr",
+          ],
+        },
+        {
+          heading: "Sécurité des données",
+          body: [
+            "Nous mettons en œuvre des mesures techniques et organisationnelles pour protéger vos données contre toute perte, altération ou accès non autorisé.",
+          ],
+        },
+        {
+          heading: "Modification de la politique de confidentialité",
+          body: [
+            "Cette politique peut être mise à jour. Nous vous invitons à la consulter régulièrement.",
           ],
         },
       ]}
