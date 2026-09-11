@@ -32,7 +32,7 @@ export default function Page() {
         {
           heading: "Représentation d'intérêts",
           body: [
-            "Kastell Conseil est inscrit au répertoire des représentants d'intérêts tenu par la Haute Autorité pour la transparence de la vie publique (HATVP) sous le numéro [ numéro ].",
+            "Kastell Conseil est inscrit au répertoire des représentants d'intérêts tenu par la Haute Autorité pour la transparence de la vie publique (HATVP). La fiche du cabinet est consultable sur hatvp.fr.",
           ],
         },
         {

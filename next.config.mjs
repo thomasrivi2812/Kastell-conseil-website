@@ -37,6 +37,11 @@ const nextConfig = {
     // déjà partagés.
     return [
       { source: "/missions", destination: "/offres", permanent: true },
+      // Le site ne dépose aucun traceur — mesuré : ni cookie, ni stockage
+      // local, ni requête vers un tiers. La page de politique de cookies n'a
+      // donc plus d'objet ; le lien déjà partagé mène à la page qui traite
+      // désormais du sujet plutôt qu'à une erreur.
+      { source: "/cookies", destination: "/confidentialite", permanent: true },
     ];
   },
   // Le dossier public/ n'est pas embarqué par défaut dans les fonctions

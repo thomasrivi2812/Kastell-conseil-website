@@ -3,8 +3,8 @@ export const site = {
   /** Domaine de production — sert aussi à robots.txt, au sitemap et à l'OpenGraph. */
   url: "https://kastell-conseils.fr",
   tagline: "Ancrage territorial, influence nationale",
-  /** Profil HATVP de Léa — à renseigner, lié depuis le pied de page. */
-  hatvp: "",
+  /** Fiche du cabinet au répertoire des représentants d'intérêts. */
+  hatvp: "https://www.hatvp.fr/fiche-organisation/?organisation=989630819",
   /** Domaine au pluriel depuis le changement de nom de domaine. */
   email: "contact@kastell-conseils.fr",
   city: "Lamballe, Bretagne",
@@ -419,6 +419,5 @@ export const posts = [
 export const legal = [
   { label: "Mentions légales", href: "/mentions-legales" },
   { label: "Politique de confidentialité", href: "/confidentialite" },
-  { label: "Politique de cookies", href: "/cookies" },
   { label: "LinkedIn", href: site.linkedin },
 ] as const;
