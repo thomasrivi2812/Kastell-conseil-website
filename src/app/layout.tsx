@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { BandeauApercu } from "@/components/BandeauApercu";
-import { entite, estProduction, urlSite, verifications } from "@/lib/seo";
+import {
+  DESCRIPTION_ACCUEIL,
+  TITRE_ACCUEIL,
+  entite,
+  estProduction,
+  urlSite,
+  verifications,
+} from "@/lib/seo";
 import "./globals.css";
 
 const sans = Instrument_Sans({
@@ -32,15 +39,13 @@ const serif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(urlSite),
   title: {
-    default: "Kastell Conseil — Cabinet d'affaires publiques en Bretagne",
+    default: TITRE_ACCUEIL,
     template: "%s | Kastell Conseil",
   },
-  description:
-    "Cabinet de conseil en affaires publiques et lobbying territorial, basé à Lamballe et intervenant à Rennes et dans toute la Bretagne.",
+  description: DESCRIPTION_ACCUEIL,
   openGraph: {
-    title: "Kastell Conseil — Cabinet d'affaires publiques en Bretagne",
-    description:
-      "Cabinet de conseil en affaires publiques et lobbying territorial, basé à Lamballe et intervenant à Rennes et dans toute la Bretagne.",
+    title: TITRE_ACCUEIL,
+    description: DESCRIPTION_ACCUEIL,
     url: "/",
     siteName: entite.nom,
     locale: "fr_FR",

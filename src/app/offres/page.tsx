@@ -6,6 +6,9 @@ import { ContactBande } from "@/components/sections/ContactBande";
 import { Reveal } from "@/components/Reveal";
 import { getContent } from "@/cms/content";
 import { IMAGE_OG } from "@/lib/seo";
+import { DonneesStructurees } from "@/components/DonneesStructurees";
+import { filDAriane, service } from "@/lib/schema";
+import { FilDAriane } from "@/components/FilDAriane";
 
 /**
  * Période de revalidation déclarée sur la page elle-même, et pas seulement
@@ -37,11 +40,36 @@ export default async function OffresPage() {
   const { offers, offersSection } = await getContent();
   return (
     <div className="w-full overflow-x-clip">
+      {/* Chaque offre est décrite comme une prestation distincte, rattachée au
+          même cabinet : c'est ce qui permet à un moteur de répondre « qui fait
+          du lobbying territorial en Bretagne ? » par une offre précise. */}
+      <DonneesStructurees
+        noeuds={[
+          ...offers.map((offre) => service(offre.title, offre.summary, offre.slug)),
+          filDAriane([
+            { nom: "Accueil", chemin: "/" },
+            { nom: offersSection.pageTitle, chemin: "/offres" },
+          ]),
+        ]}
+      />
       <Header />
       <main id="contenu">
         <section className="shell pb-[clamp(40px,6vw,72px)] pt-[clamp(56px,9vw,120px)]">
           <Reveal className="flex max-w-[min(900px,92%)] flex-col items-start">
-            <p className="eyebrow-tight mb-[clamp(20px,3vw,32px)]">{offersSection.eyebrow}</p>
+            <FilDAriane
+              etapes={[
+                { nom: "Accueil", chemin: "/" },
+                { nom: "Offres", chemin: "/offres" },
+              ]}
+            />
+            {/* Le fil d'Ariane se termine déjà par « Offres » : répéter le
+                même mot juste en dessous n'apprend rien et se voit. L'intitulé
+                reparaît dès que l'éditeur en choisit un autre. */}
+            {offersSection.eyebrow.trim().toLowerCase() === "offres" ? null : (
+              <p className="eyebrow-tight mb-[clamp(20px,3vw,32px)]">
+                {offersSection.eyebrow}
+              </p>
+            )}
             <h1 className="h1">{offersSection.pageTitle}</h1>
             <p className="body-lg mt-[clamp(24px,3vw,36px)] max-w-[56ch]">
 {offersSection.pageIntro}

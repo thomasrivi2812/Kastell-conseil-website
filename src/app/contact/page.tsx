@@ -5,6 +5,9 @@ import { Contact } from "@/components/sections/Contact";
 import { Reveal } from "@/components/Reveal";
 import { contact, site } from "@/content/site";
 import { IMAGE_OG } from "@/lib/seo";
+import { DonneesStructurees } from "@/components/DonneesStructurees";
+import { filDAriane } from "@/lib/schema";
+import { FilDAriane } from "@/components/FilDAriane";
 
 /* Voir src/app/page.tsx : une page construite sans le CMS ne comporte aucune
    requête, donc aucune période de revalidation, et resterait figée. */
@@ -36,12 +39,27 @@ export default async function Page({
   const { objet } = await searchParams;
   return (
     <div className="w-full overflow-x-clip">
+      <DonneesStructurees
+        noeuds={[
+          filDAriane([
+            { nom: "Accueil", chemin: "/" },
+            { nom: contact.page.title, chemin: "/contact" },
+          ]),
+        ]}
+      />
       <Header />
       {/* Page d'une seule teinte : l'en-tête clair et la bande sombre du
           formulaire se coupaient en deux au milieu de l'écran. */}
       <main id="contenu" className="band-dark">
         <section className="shell pb-[clamp(28px,3.5vw,44px)] pt-[clamp(44px,7vw,92px)]">
           <Reveal className="max-w-[60ch]">
+            <FilDAriane
+              sombre
+              etapes={[
+                { nom: "Accueil", chemin: "/" },
+                { nom: contact.page.title, chemin: "/contact" },
+              ]}
+            />
             <p className="eyebrow-dark mb-[clamp(16px,2vw,24px)] text-[13px] font-medium tracking-[0.22em]">
               {contact.page.eyebrow}
             </p>

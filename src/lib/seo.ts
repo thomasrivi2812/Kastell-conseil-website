@@ -54,6 +54,19 @@ export const hotesRediriges = [
 export const phraseEntite =
   "Kastell Conseil est un cabinet de conseil en affaires publiques et lobbying territorial basé en Bretagne, à Lamballe, et intervenant à Rennes et dans toute la région.";
 
+/**
+ * Titre et description de l'accueil, tels qu'ils s'affichent dans les résultats
+ * de recherche. Formulation arrêtée par le cabinet.
+ *
+ * Le titre tient en 58 caractères, la description en 88 : Google tronque
+ * au-delà de 60 et 155 environ.
+ */
+export const TITRE_ACCUEIL =
+  "Cabinet KASTELL - Ancrage territorial, influence nationale.";
+
+export const DESCRIPTION_ACCUEIL =
+  "L'interface entre les entreprises ancrées dans les territoires et les lieux de décisions.";
+
 export const entite = {
   /** Nom d'usage, celui qui sert de marque. */
   nom: "Kastell Conseil",

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FilDAriane } from "@/components/FilDAriane";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Reveal } from "@/components/Reveal";
@@ -14,10 +15,13 @@ export type LegalBlock = { heading: string; body: LegalLine[] };
  */
 export function LegalPage({
   title,
+  chemin,
   intro,
   blocks,
 }: {
   title: string;
+  /** Adresse de la page, pour le fil d'Ariane. */
+  chemin: string;
   intro: string;
   blocks: LegalBlock[];
 }) {
@@ -27,6 +31,12 @@ export function LegalPage({
       <main id="contenu">
         <section className="shell pb-[clamp(40px,6vw,72px)] pt-[clamp(48px,8vw,104px)]">
           <Reveal className="max-w-[70ch]">
+            <FilDAriane
+              etapes={[
+                { nom: "Accueil", chemin: "/" },
+                { nom: title, chemin },
+              ]}
+            />
             <p className="eyebrow-tight mb-[clamp(18px,2.5vw,28px)]">
               Informations
             </p>

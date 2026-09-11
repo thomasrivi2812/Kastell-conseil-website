@@ -26,6 +26,7 @@ export default function Page() {
   return (
     <LegalPage
       title="Mentions légales"
+      chemin="/mentions-legales"
       intro="Informations relatives à l'éditeur, à l'hébergeur et aux conditions d'utilisation du site."
       blocks={[
         {

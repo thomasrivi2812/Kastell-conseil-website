@@ -22,6 +22,7 @@ export default function Page() {
   return (
     <LegalPage
       title="Politique de confidentialité"
+      chemin="/confidentialite"
       intro="Cette page décrit les données personnelles traitées à l'occasion de votre visite et les droits dont vous disposez."
       blocks={[
         {
