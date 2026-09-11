@@ -75,7 +75,7 @@ export async function GET() {
     "## Pages principales",
     "",
     `- Accueil : ${urlSite}/`,
-    `- Lobbying territorial (définition, méthode, FAQ) : ${urlSite}/lobbying-territorial`,
+    `- Lobbying territorial (définition, cadre légal, FAQ) : ${urlSite}/lobbying-territorial`,
     `- Offres : ${urlSite}/offres`,
     `- Contact : ${urlSite}/contact`,
     `- Texte intégral du site : ${urlSite}/llms-full.txt`,

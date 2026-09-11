@@ -92,34 +92,6 @@ export const lobbying = {
         "À mesure que la décision se déconcentre, l'influence doit se rapprocher du terrain. C'est la raison d'être d'un cabinet installé en Bretagne plutôt qu'une antenne régionale d'un cabinet parisien : la connaissance du territoire ne se délègue pas.",
       ],
     },
-    {
-      titre: "Notre méthode",
-      reponse:
-        "Quatre temps : comprendre les agendas politiques, identifier les interlocuteurs clés, construire les arguments, inscrire le dialogue dans la durée.",
-      paragraphes: [
-        "Chaque mission part du même point : comprendre où se prend la décision, à quel moment, et par qui. Le reste — argumentaire, interlocuteurs, calendrier — en découle.",
-        "L'approche est exigeante, transparente et conforme aux règles applicables aux représentants d'intérêts. Elle ne promet pas un résultat : elle organise une présence au bon endroit, au bon moment, avec les bons arguments.",
-      ],
-      etapes: [
-        "Comprendre les agendas politiques, législatifs et réglementaires qui concernent votre activité.",
-        "Cartographier l'environnement institutionnel et identifier les interlocuteurs qui comptent.",
-        "Construire un argumentaire qui tienne devant un décideur public, pas seulement devant un comité de direction.",
-        "Inscrire le dialogue dans la durée, parce qu'une décision publique se prépare sur des mois.",
-      ],
-    },
-    {
-      titre: "Dans quels cas y recourir",
-      reponse:
-        "Quand une règle freine votre activité, quand un projet cherche un financement public, quand un sujet local demande à être porté, ou quand une décision se prépare sans vous.",
-      paragraphes: [],
-      cas: [
-        "Lever un obstacle législatif ou réglementaire qui freine votre activité.",
-        "Obtenir des financements publics pour développer un projet.",
-        "Renforcer votre ancrage et votre dialogue avec vos parties prenantes locales.",
-        "Accroître votre visibilité sur votre territoire et au-delà.",
-        "Anticiper une décision publique qui se prépare et y prendre part.",
-      ],
-    },
   ],
   faq: [
     {

@@ -63,8 +63,6 @@ export async function GET() {
       "",
       s.reponse,
       ...(s.paragraphes.length ? ["", ...s.paragraphes] : []),
-      ...("etapes" in s && s.etapes ? ["", ...s.etapes.map((e) => `- ${e}`)] : []),
-      ...("cas" in s && s.cas ? ["", ...s.cas.map((c) => `- ${c}`)] : []),
       "",
     ]),
     "### Questions fréquentes",

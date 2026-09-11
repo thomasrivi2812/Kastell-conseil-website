@@ -19,12 +19,12 @@ const TITRE = "Lobbying territorial en Bretagne | Kastell Conseil";
 export const metadata: Metadata = {
   title: { absolute: TITRE },
   description:
-    "Qu'est-ce que le lobbying territorial ? Définition, cadre légal, méthode en quatre temps et cas d'usage, par un cabinet installé en Bretagne.",
+    "Qu'est-ce que le lobbying territorial ? Définition, cadre légal et raisons de le pratiquer depuis son territoire, par un cabinet installé en Bretagne.",
   alternates: { canonical: "/lobbying-territorial" },
   openGraph: {
     title: TITRE,
     description:
-      "Définition, cadre légal, méthode et cas d'usage du lobbying territorial, par un cabinet installé en Bretagne.",
+      "Définition, cadre légal et raisons de pratiquer le lobbying territorial depuis son territoire, par un cabinet installé en Bretagne.",
     url: "/lobbying-territorial",
     images: [IMAGE_OG],
   },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
  * Page de référence sur le mot-clé principal du cabinet.
  *
  * Sa structure sert deux lecteurs à la fois. Un visiteur y trouve une
- * définition, une méthode et des cas concrets. Un moteur — de recherche ou
+ * définition et le cadre légal de la pratique. Un moteur — de recherche ou
  * génératif — y trouve des réponses directement citables : sous chaque titre,
  * une phrase qui répond à la question posée par ce titre, avant tout
  * développement. C'est cette phrase qu'un aperçu génératif reprend.
@@ -101,26 +101,6 @@ export default function Page() {
                     {p}
                   </p>
                 ))}
-
-                {"etapes" in section && section.etapes ? (
-                  <ol className="m-0 mt-[clamp(20px,2.4vw,28px)] flex list-decimal flex-col gap-[12px] pl-[22px] marker:font-sans marker:text-sage">
-                    {section.etapes.map((etape) => (
-                      <li key={etape} className="body-lg">
-                        {etape}
-                      </li>
-                    ))}
-                  </ol>
-                ) : null}
-
-                {"cas" in section && section.cas ? (
-                  <ul className="m-0 mt-[clamp(20px,2.4vw,28px)] flex list-disc flex-col gap-[12px] pl-[22px] marker:text-sage">
-                    {section.cas.map((cas) => (
-                      <li key={cas} className="body-lg">
-                        {cas}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
               </Reveal>
             </div>
           </section>

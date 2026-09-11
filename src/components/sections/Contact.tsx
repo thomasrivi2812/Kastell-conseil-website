@@ -71,12 +71,13 @@ export async function Contact({ titre = true }: { titre?: boolean } = {}) {
                 <dt className="m-0 mb-1 font-sans text-[11px] uppercase tracking-[0.18em] text-mist">
                   Bureau
                 </dt>
-                {/* Nom, adresse, téléphone : exactement les mêmes valeurs qu'au
-                    pied de page et dans les données structurées. Une seule
-                    divergence entre ces trois endroits et le référencement
-                    local tient l'établissement pour incertain. */}
+                {/* Ville et code postal seuls, à la demande du cabinet : la rue
+                    ne figure plus ici ni au pied de page. Elle reste dans les
+                    mentions légales, où la loi l'impose, et dans les données
+                    structurées, que les moteurs lisent pour le référencement
+                    local — les deux sources doivent rester identiques au
+                    caractère près. */}
                 <dd className="m-0 text-[17px] text-[rgba(226,240,248,0.78)]">
-                  <span className="block">{entite.adresse.rue}</span>
                   <span className="block">
                     {entite.adresse.codePostal} {entite.adresse.ville}
                   </span>

@@ -43,17 +43,23 @@ est tronqué en plein milieu.
 |---|---|
 | Mot-clé principal | lobbying territorial |
 | Titre | `Lobbying territorial en Bretagne \| Kastell Conseil` *(50)* |
-| Description | `Qu'est-ce que le lobbying territorial ? Définition, cadre légal, méthode en quatre temps et cas d'usage, par un cabinet installé en Bretagne.` *(141)* |
+| Description | `Qu'est-ce que le lobbying territorial ? Définition, cadre légal et raisons de le pratiquer depuis son territoire, par un cabinet installé en Bretagne.` *(150)* |
 | H1 | Le lobbying territorial |
 
 Page de référence sur le mot-clé principal, qui n'apparaissait nulle part sur
-le site avant elle. Structure : définition, cadre légal, pourquoi hors de
-Paris, méthode en quatre temps, cas d'usage, cinq questions fréquentes.
+le site avant elle. Structure : définition et cadre légal, pourquoi la pratique
+ne se joue plus seulement à Paris, cinq questions fréquentes.
+
+Les sections « Notre méthode » et « Dans quels cas y recourir » ont été
+retirées à la demande du cabinet.
 
 Sous chaque titre de section, une phrase répond directement à la question posée
 par ce titre, avant tout développement : c'est cette phrase qu'un aperçu
-génératif reprend. Densité du mot-clé mesurée à 1,8 % sur 763 mots — dense
-parce que la page porte sur le terme, sans répétition artificielle.
+génératif reprend.
+
+> **À revérifier.** La densité du mot-clé avait été mesurée à 1,8 % sur
+> 763 mots. Deux sections ayant été retirées, la page est plus courte et ce
+> chiffre est à reprendre — voir le relevé en fin de chantier.
 
 **Tout le texte de cette page est à relire par Léa.** Il est tiré de ce que le
 cabinet dit déjà ailleurs — section Vision, six offres, manifeste — reformulé
